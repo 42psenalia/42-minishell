@@ -6,7 +6,7 @@
 /*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2024/12/13 16:45:20 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:23:12 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int	main(int ac, char **av)
 {
 	if (ac == 1)
 	{
-		lsh_loop();
+		while (1)
+		{
+			lsh_loop();
+		}
 	}
 	printf("\n");
 	return (0);
