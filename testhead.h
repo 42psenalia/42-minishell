@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testhead.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2024/12/03 15:49:57 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/02 13:25:33 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_pipseq
 {
@@ -44,5 +46,8 @@ typedef struct s_tokens
 	int			herdoc;
 	int			append;
 }					t_tokens;
+
+char	*read_line(void);
+void	lsh_loop(void);
 
 #endif

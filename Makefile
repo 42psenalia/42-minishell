@@ -4,6 +4,8 @@ CC = clang
 
 CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/
 
+READLINEFLAG = -lreadline
+
 LIBFT = -L libft -lft
 
 HEADER = minishell.h
@@ -37,7 +39,7 @@ $(NAME): $(OBJ)
 	@echo "\n"
 	@make -C libft/
 	@echo "\033[0;32mCompiling minishell..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINEFLAG) $(LIBFT)
 	@echo "\n\033[0mDone !"
 
 %.o: %.c
