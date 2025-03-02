@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/02 20:22:32 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/02 21:06:53 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac == 1)
 	{
-		printf("Welcome to the 42bash!\n");
+		printf(C"Welcome to the 42bash!\n"RST);
 		while (1)
 		{
 			lsh_loop();
