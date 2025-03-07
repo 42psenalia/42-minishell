@@ -6,58 +6,74 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/02 21:06:53 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2024/11/30 17:58:41 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "testhead.h"
+#include <stdio.h>
 
-char	*read_line(void)
+static void	detect_line(char *line, t_shell_data *data)
 {
-	char	*new_line;
+	t_commands	*commands;
+	int			progress;
 
-	new_line = readline("> ");
-	if (!new_line)
+	if (ft_strlen(line) == 0)
 	{
-		fprintf(stderr, "lsh: allocation error\n");
-		exit(EXIT_FAILURE);
+		data->exit_status = SUCCESS;
+		return ;
 	}
-	if (*new_line != '\0')
+	commands = NULL;
+	progress = parser(line, data, &commands);
+	if (progress == EINVAL || commands == NULL)
 	{
-		add_history(new_line);
+		data->exit_status = ENOENT;
+		return ;
 	}
-	printf("You entered: %s\n", new_line);
-	return (new_line);
+	else if (progress == ENOMEM)
+		exitshell(NULL, data);
+	data->exit_status = lsh_execute(&commands, data);
 }
 
-void	lsh_loop(void)
+static void	lsh_loop(t_shell_data *data)
 {
-	char	*line;
-
-	// char **args;
-	// int status;
-	// TODO: Read a line of input
-	line = read_line();
+	char		*line;
+	t_commands	*args;
+	
+	g_signal = READ_MODE;
+	line = lsh_read_line(data);
+	if (g_signal != READ_MODE)
+		data->exit_status = g_signal;
+	if (line == NULL)
+	{
+		if (errno == ENOMEM)
+			data->exit_status = ENOMEM;
+		else
+			printf("exit\n");
+		exitshell(NULL, data);
+	}
+	g_signal = EXECUTE_MODE;
+	detect_line(line, data);
+	args = ;
 	free(line);
-	// TODO: Parse the line into arguments
-	// args = lsh_split_line(line);
-	// TODO: Execute the command
-	// status = lsh_execute(args);
-	// TODO: Free the line and arguments
-	// free(args);
+	free(args);
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv, char **env)
 {
-	(void)av;
-	if (ac == 1)
+	t_shell_data	*data;
+	int				i;
+
+	data = initialize(argc, argv, env);
+	if (data == NULL)
+		return (EXIT_FAILURE);
+	if (ac >= 2)
 	{
-		printf(C"Welcome to the 42bash!\n"RST);
-		while (1)
+		i = 1;
+		while (1 < argc)
 		{
-			lsh_loop();
+			detect_line(argv[1], data);
+			i++;
 		}
 	}
-	printf("\n");
-	return (0);
+	lsh_loop(data);
 }

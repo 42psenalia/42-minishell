@@ -1,73 +1,62 @@
 NAME = minishell
 
-CC = clang
+MAKEFLAGS += --no-print-directory
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -rf
 
-READLINEFLAG = -lreadline
+OBJS_DIR = .objs
 
-LIBFT = -L libft -lft
+SRCS = main.c read_line.c
+OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
-HEADER = minishell.h
+MODULE_DIRS = parser execute builtin setup env_var
+MODULES = $(foreach dir, $(MODULE_DIRS),$(dir)/$(dir).a)
 
-BUILTINS = cd echo env exit export pwd unset
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-ENV = env get_env sort_env shlvl
+LFLAGS = -L/usr/include -lreadline -lhistory
 
-EXEC = bin builtin exec
+.PHONY: all clean fclean re $(LIBFT_DIR) $(MODULE_DIRS)
 
-MAIN = minishell redir signal
-
-PARSING = line tokens expansions
-
-TOOLS = fd free token type expansions parsing
-
-# SRC = $(addsuffix .c, $(addprefix srcs/builtins/, $(BUILTINS))) \
-# 	  $(addsuffix .c, $(addprefix srcs/env/, $(ENV))) \
-# 	  $(addsuffix .c, $(addprefix srcs/exec/, $(EXEC))) \
-# 	  $(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
-# 	  $(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
-# 	  $(addsuffix .c, $(addprefix srcs/tools/, $(TOOLS))) \
-
-SRC = main.c
-
-OBJ = $(SRC:c=o)
-
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	@echo "\n"
-	@make -C libft/
-	@echo "\033[0;32mCompiling minishell..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINEFLAG) $(LIBFT)
-	@echo "\n\033[0mDone !"
-
-%.o: %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	@${CC} ${CFLAGS} -c $< -o $@
+all: $(LIBFT_DIR) $(MODULE_DIRS) $(NAME)
 
 clean:
-	@echo "\033[0;31mCleaning libft..."
-	@make clean -C libft/
-	@echo "\nRemoving binaries..."
-	@rm -f $(OBJ)
-	@echo "\033[0m"
+	@$(MAKE) clean -C $(LIBFT_DIR)
+	@for dir in $(MODULE_DIRS); do \
+		echo "clean $$dir"; \
+		$(MAKE) clean -C $$dir; \
+	done
+	@echo "clean root directory";
+	$(RM) $(OBJS_DIR)
 
 fclean:
-	@echo "\033[0;31mCleaning libft..."
-	@make fclean -C libft/
-	@echo "\nDeleting objects..."
-	@rm -f $(OBJ)
-	@echo "\nDeleting executable..."
-	@rm -f $(NAME)
-	@echo "\033[0m"
+	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@for dir in $(MODULE_DIRS); do \
+		echo "fclean $$dir"; \
+		$(MAKE) fclean -C $$dir; \
+	done
+	@echo "fclean root directory";
+	$(RM) $(OBJS_DIR)
+	$(RM) $(NAME)
 
 re: fclean all
 
-test: all
-	./minishell
+$(LIBFT_DIR) $(MODULE_DIRS):
+	@echo "build $@"
+	@$(MAKE) -C $@
 
-norm:
-	norminette $(SRC) includes/$(HEADER)
+$(LIBFT): $(LIBFT_DIR)
+$(MODULES): $(MODULE_DIRS)
 
-.PHONY: clean fclean re test norm
+$(NAME): $(LIBFT) $(MODULES) $(OBJS)
+	@echo "link minishell"
+	$(CC) $(CFLAGS) $(OBJS) $(MODULES) $(LIBFT) $(LFLAGS) -o $(NAME)
+
+$(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR):
+	mkdir -p $@
