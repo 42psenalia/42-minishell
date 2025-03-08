@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/02 21:06:53 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/08 17:03:03 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	*read_line(void)
 {
 	char	*new_line;
 
-	new_line = readline("> ");
+	printf(C"%s> "RST, ft_getcwd());
+	
+	new_line = readline("");
 	if (!new_line)
 	{
 		fprintf(stderr, "lsh: allocation error\n");
@@ -52,7 +54,7 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac == 1)
 	{
-		printf(C"Welcome to the 42bash!\n"RST);
+		printf(Y"Welcome to the 42bash!\n"RST);
 		while (1)
 		{
 			lsh_loop();

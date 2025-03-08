@@ -6,12 +6,13 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/02 21:05:02 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/08 17:03:11 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "./libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -60,7 +61,14 @@ typedef struct s_tokens
 	int			append;
 }					t_tokens;
 
+// MAIN.C
+
 char	*read_line(void);
 void	lsh_loop(void);
+
+// UTILS.C
+
+// void Getcwd(char *buf, size_t size);
+char *ft_getcwd(void);
 
 #endif
