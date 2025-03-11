@@ -22,3 +22,26 @@ void	add_token(t_tokens **head, t_token_type type, char *value)
 		temp = temp->next;
 	temp->next = new;
 }
+
+t_token_type	get_token_type(char *str)
+{
+	if (!str)
+		return (-1);
+	if (!ft_strcmp(str, "|"))
+		return (PIPE);
+	if (!ft_strcmp(str, "<"))
+		return (REDIRIN);
+	if (!ft_strcmp(str, ">"))
+		return (REDIROUT);
+	if (!ft_strcmp(str, "<<"))
+		return (HEREDOC);
+	if (!ft_strcmp(str, ">>"))
+		return (APPEND);
+	if (!ft_strcmp(str, "$"))
+		return (DOLLAR);
+	if (!ft_strcmp(str, "'"))
+		return (SQUOTE);
+	if (!ft_strcmp(str, "\""))
+		return (DQUOTE);
+	return (WORD);
+}

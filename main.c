@@ -6,11 +6,11 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/08 17:03:03 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/11 12:45:40 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "testhead.h"
+# include "minishell.h"
 
 char	*read_line(void)
 {
@@ -32,21 +32,31 @@ char	*read_line(void)
 	return (new_line);
 }
 
+void	print_tokens(t_tokens *tokens)
+{
+	while (tokens)
+	{
+		printf("Type: %d, Value: [%s]\n", tokens->token_type, tokens->value);
+		tokens = tokens->next;
+	}
+}
+
 void	lsh_loop(void)
 {
 	char	*line;
+	t_tokens *tokens;
 
-	// char **args;
-	// int status;
 	// TODO: Read a line of input
 	line = read_line();
-	free(line);
 	// TODO: Parse the line into arguments
+	tokens = lexer(line);
+	print_tokens(tokens);
+	
 	// args = lsh_split_line(line);
 	// TODO: Execute the command
 	// status = lsh_execute(args);
 	// TODO: Free the line and arguments
-	// free(args);
+	free(line);
 }
 
 int	main(int ac, char **av)
