@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+t_ast	*create_ast_node(void)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->args = NULL;
+	node->infile = NULL;
+	node->outfile = NULL;
+	node->append = 0;
+	node->next = NULL;
+	return (node);
+}
+
 t_ast	*parse_tokens(t_tokens *tokens)
 {
 	t_ast	*head;
