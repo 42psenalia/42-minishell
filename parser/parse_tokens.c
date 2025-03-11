@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 
 void	handle_redirection(t_ast *node, t_tokens **tokens)

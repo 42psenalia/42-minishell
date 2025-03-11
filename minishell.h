@@ -119,6 +119,8 @@ char	*extract_operator(char **input);
 // --PARSER--
 
 // PARSE_TOKENS.C
+void	handle_redirection(t_ast *node, t_tokens **tokens);
+void	add_argument(t_ast *node, char *arg);
 t_ast	*create_ast_node(void);
 t_ast	*parse_tokens(t_tokens *tokens);
 
