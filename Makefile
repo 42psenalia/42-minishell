@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/11 15:41:01 by psenalia          #+#    #+#              #
+#    Updated: 2025/03/11 15:41:01 by psenalia         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 MAKEFLAGS += --no-print-directory
@@ -8,7 +20,8 @@ RM = rm -rf
 
 OBJS_DIR = .objs
 
-SRCS = main.c read_line.c
+HEADERS = shellstart.h
+SRCS = main.c readline.c shellstart.c setsig.c
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 MODULE_DIRS = parser execute builtin setup env_var
@@ -55,7 +68,7 @@ $(NAME): $(LIBFT) $(MODULES) $(OBJS)
 	@echo "link minishell"
 	$(CC) $(CFLAGS) $(OBJS) $(MODULES) $(LIBFT) $(LFLAGS) -o $(NAME)
 
-$(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
+$(OBJS_DIR)/%.o: %.c $(HEADERS) | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR):
