@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   testhead.h                                         :+:      :+:    :+:   */
+/*   minishell.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/08 17:03:11 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/10 14:02:20 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,71 @@
 #define C "\033[1;36m"
 #define RED "\033[1;31m"
 #define RST "\033[0m"
-typedef struct s_pipseq
+typedef enum e_token_type
 {
-	char			*in_file;
-	char			*out_file;
-	char			*command;
-	int				fd_in;
-	int				fd_out;
-	struct s_pipseq	*next;
-}					t_pipseq;
+	SQUOTE,
+	DQUOTE,
+	DOLLAR,
+	PIPE,
+	REDIRIN,
+	REDIROUT,
+	HEREDOC,
+	APPEND,
+	WORD
+}	t_token_type;
 
 typedef struct s_tokens
 {
-	int			squote;
-	int			dquote;
-	int			dollar;
-	int			pipe;
-	int			redir;
-	int			outfil;
-	int			herdoc;
-	int			append;
+	t_token_type	token_type;
+	char *value;
+	struct s_tokens *next;
 }					t_tokens;
 
-// MAIN.C
+typedef struct s_tokencount
+{
+	int				squote;
+	int				dquote;
+	int				dollar;
+	int				pipe;
+	int				redirin;
+	int				redirout;
+	int				heredoc;
+	int				append;
+}	t_tokencount;
 
+
+typedef struct s_pipseq
+{
+	// char			*in_file;
+	// char			*out_file;
+	// char			*command;
+	int				fd_in;
+	int				fd_out;
+	pid_t			pipid;
+	// struct s_pipseq	*prev;
+	struct s_pipseq	*next;
+}					t_pipseq;
+
+// MAIN.C
 char	*read_line(void);
 void	lsh_loop(void);
 
-// UTILS.C
 
-// void Getcwd(char *buf, size_t size);
+// --LEXER--
+
+// UTILS.C
 char *ft_getcwd(void);
+int	is_special(char c);
+int	is_space(char c);
+int ft_strcmp(const char *s1, const char *s2);
+
+// TOKEN.C
+void	add_token(t_tokens **head, t_token_type type, char *value);
+t_token_type	get_token_type(char *str);
+
+// LEXER.C
+char	*extract_quoted(char **input, char quote_type);
+t_tokens	*lexer(char *input);
+char	*extract_operator(char **input);
 
 #endif
