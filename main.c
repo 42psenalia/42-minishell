@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/11 16:10:24 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/11 17:16:14 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	lsh_loop(void)
 	// TODO: Execute the command
 	// status = lsh_execute(args);
 	// TODO: Free the line and arguments
+	free_tokens(tokens);
+    free_ast(parsed_tokens);
 	free(line);
 }
 
