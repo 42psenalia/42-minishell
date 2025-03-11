@@ -84,6 +84,16 @@ typedef struct s_pipseq
 	struct s_pipseq	*next;
 }					t_pipseq;
 
+typedef struct s_ast
+{
+	char			**args;    // Command + arguments
+	char			*infile;   // Input redirection file
+	char			*outfile;  // Output redirection file
+	int				append;    // 1 if ">>", 0 otherwise
+	struct s_ast	*next;     // Next command in a pipeline
+}	t_ast;
+
+
 // MAIN.C
 char	*read_line(void);
 void	lsh_loop(void);
@@ -105,5 +115,10 @@ t_token_type	get_token_type(char *str);
 char	*extract_quoted(char **input, char quote_type);
 t_tokens	*lexer(char *input);
 char	*extract_operator(char **input);
+
+// --PARSER--
+
+// PARSE_TOKENS.C
+t_ast	*parse_tokens(t_tokens *tokens);
 
 #endif
