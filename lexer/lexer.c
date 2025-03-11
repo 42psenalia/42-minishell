@@ -73,6 +73,7 @@ t_tokens	*lexer(char *input)
 	head = NULL;
 	while (*input)
 	{
+		word = NULL;
 		if (*input == ' ' || *input == '\t')
 			input++; // Skip whitespace
 		else if (*input == '\'' || *input == '"')
