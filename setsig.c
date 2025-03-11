@@ -3,8 +3,9 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/libft.h"
-#include "../builtin/builtin.h"
+#include "libft/libft.h"
+#include "builtin/builtin.h"
+#include "shellstart.h"
 
 static void	ft_sigint(int signal)
 {

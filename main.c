@@ -3,13 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2024/11/30 17:58:41 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/11 14:36:43 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "shellstart.h"
+#include "libft/libft.h"
+#include "builtin/builtin.h"
+#include "execution/execute.h"
+#include <errno.h>
 #include <stdio.h>
 
 static void	detect_line(char *line, t_shell_data *data)
@@ -38,7 +43,7 @@ static void	lsh_loop(t_shell_data *data)
 {
 	char		*line;
 	t_commands	*args;
-	
+
 	g_signal = READ_MODE;
 	line = lsh_read_line(data);
 	if (g_signal != READ_MODE)
