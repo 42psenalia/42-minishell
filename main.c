@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/11 12:45:40 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/11 16:10:24 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,49 @@ void	print_tokens(t_tokens *tokens)
 	}
 }
 
+void	print_ast(t_ast *node)
+{
+	int	i;
+
+	while (node)
+	{
+		printf("Command: ");
+		if (node->args)
+		{
+			i = 0;
+			while (node->args[i])
+			{
+				printf("[%s] ", node->args[i]);
+				i++;
+			}
+		}
+		else
+			printf("(None)");
+
+		if (node->infile)
+			printf("\n  Input Redirect: <%s>", node->infile);
+		if (node->outfile)
+			printf("\n  Output Redirect: >%s %s",
+				node->outfile, node->append ? "(Append)" : "");
+
+		printf("\n----------------\n");
+		node = node->next;
+	}
+}
+
 void	lsh_loop(void)
 {
 	char	*line;
 	t_tokens *tokens;
+	t_ast *parsed_tokens;
 
 	// TODO: Read a line of input
 	line = read_line();
 	// TODO: Parse the line into arguments
 	tokens = lexer(line);
 	print_tokens(tokens);
+	parsed_tokens = parse_tokens(tokens);
+	print_ast(parsed_tokens);
 	
 	// args = lsh_split_line(line);
 	// TODO: Execute the command
