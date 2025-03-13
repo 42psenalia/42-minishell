@@ -91,6 +91,8 @@ t_ast	*parse_tokens(t_tokens *tokens)
 		if (tokens->token_type == PIPE)
 		{
 			current->next = create_ast_node();
+			if (!current->next)
+                return (head); // Return the partially built AST
 			current = current->next;
 		}
 		else if (tokens->token_type == REDIRIN || tokens->token_type == REDIROUT

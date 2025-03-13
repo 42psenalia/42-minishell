@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/11 17:16:14 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/13 14:53:59 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,24 @@ void	lsh_loop(void)
 	line = read_line();
 	// TODO: Parse the line into arguments
 	tokens = lexer(line);
+	if (!tokens)
+	{
+		printf("Lexer failed!\n");
+		return ;
+	}
 	print_tokens(tokens);
+	
 	parsed_tokens = parse_tokens(tokens);
+	if (!parsed_tokens)
+	{
+		printf("Parser failed!\n");
+		return ;
+	}
 	print_ast(parsed_tokens);
 	
-	// args = lsh_split_line(line);
 	// TODO: Execute the command
 	// status = lsh_execute(args);
+	
 	// TODO: Free the line and arguments
 	free_tokens(tokens);
     free_ast(parsed_tokens);
