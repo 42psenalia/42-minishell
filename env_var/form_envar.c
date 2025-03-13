@@ -28,12 +28,17 @@ char	**formkeyvar(char *envline)
 	keyvar = malloc(2 * sizeof(char *));
 	if (keyvar == NULL)
 		return (NULL);
-	headlen = ft_strchr(envline, '=') - envline;
+	headlen = (ft_strlen(ft_strchr(envline, '=')) - ft_strlen(envline));
 	bodylen = (ft_strlen(ft_strchr(envline, '=')) + 1);
 	keyvar[0] = ft_substr(envline, 0, headlen);
 	keyvar[1] = ft_substr(envline, headlen + 1, bodylen);
 	if (keyvar[0] == NULL || keyvar[1] == NULL)
+	{
+		free(keyvar[0]);
+		free(keyvar[1]);
+		free(keyvar);
 		return (NULL);
+	}
 	return (keyvar);
 }
 
@@ -43,7 +48,7 @@ static bool	getenvline(char *envline, t_list **list)
 	t_list	*node;
 
 	key_var = formkeyvar(envline);
-	if (hey_var == NULL)
+	if (key_var == NULL)
 		return (false);
 	form_shlvl(key_var[0], &key_var[1]);
 	if (key_var[1] == NULL)
@@ -57,8 +62,8 @@ static bool	getenvline(char *envline, t_list **list)
 
 t_list	*form_envar(char **env)
 {
-	t_list  *list;
-	
+	t_list	*list;
+
 	list = NULL;
 	while (*env)
 	{
