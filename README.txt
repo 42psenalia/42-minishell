@@ -4,8 +4,7 @@ Duo team with Tansel (tbayrakt)
 The Concept & How It Is Supposed To Work:
 
 The conventional shell seems to be smart enough to execute the commands properly even though the ordering of target file/folder and command flags are unconventional.
-Therefore, our minishell is aimed to replicate the same intelligence. Although unable to cover the same number of redirect symbols, it should be enough to cover all
-criteria required by the subject.
+Therefore, our minishell is aimed to replicate the same intelligence. Although unable to cover the same number of redirect symbols, it should be enough to cover all criteria required by the subject.
 
 The way we aimed to approach are as follows:
 
