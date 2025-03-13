@@ -75,11 +75,11 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 	if (check_infiles(command->redirs) == ERROR)
 		return (ERROR);
 	do_redirs(cmd_lst, cmd, prev_fd);
-	if (is_builtin_name(command->argv[0]))
+	if (builtin_check(command->argv[0]))
 	{
 		if (ft_strcmp(command->argv[0], "exit") == 0)
 			free_cmd_lst_if_exit(cmd_lst_first, command);
-		return (execute_builtin(command, envp));
+		return (builtin_execute(command, envp));
 	}
 	return (execute(command->argv, envp->env_var_list));
 }
