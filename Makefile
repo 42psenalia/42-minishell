@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/
+CFLAGS = -Wall -Wextra -Werror -g -I includes/ -I libft/includes/
 
 READLINEFLAG = -lreadline
 
@@ -30,7 +30,7 @@ TOOLS = fd free token type expansions parsing
 # 	  $(addsuffix .c, $(addprefix srcs/tools/, $(TOOLS))) \
 
 SRC = main.c ./lexer/token.c ./lexer/lexer.c ./lexer/utils.c \
-	./parser/parse_tokens.c ./free/free.c
+	./parser/parse_tokens.c ./parser/parse_utils.c ./free/free.c
 
 OBJ = $(SRC:c=o)
 

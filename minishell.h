@@ -124,6 +124,10 @@ void	add_argument(t_ast *node, char *arg);
 t_ast	*create_ast_node(void);
 t_ast	*parse_tokens(t_tokens *tokens);
 
+// PARSE_UTILS.C
+void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
+void	handle_token(t_ast *current, t_tokens **tokens);
+
 // --FREE--
 
 // FREE.C
