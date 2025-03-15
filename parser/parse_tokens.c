@@ -79,28 +79,59 @@ t_ast	*create_ast_node(void)
 	return (node);
 }
 
+// t_ast	*parse_tokens(t_tokens *tokens)
+// {
+//     t_ast	*head;
+//     t_ast	*current;
+
+//     head = create_ast_node();
+//     if (!head)
+//         return (NULL);
+//     current = head;
+//     while (tokens)
+//     {
+//         if (tokens->token_type == PIPE)
+//         {
+//             tokens = tokens->next; // Move to the next token after the pipe
+//             if (!tokens) // If no tokens after the pipe, break
+//                 break;
+//             current->next = create_ast_node();
+//             if (!current->next)
+//             {
+//                 free_ast(head); // Free the partially built AST
+//                 return (NULL);
+//             }
+//             current = current->next; // Move to the new AST node
+//         }
+//         else if (tokens->token_type == REDIRIN || tokens->token_type == REDIROUT
+//             || tokens->token_type == HEREDOC || tokens->token_type == APPEND)
+//             handle_redirection(current, &tokens);
+//         else
+//         {
+//             add_argument(current, tokens->value);
+//             tokens = tokens->next;
+//         }
+//     }
+//     return (head);
+// }
+
 t_ast	*parse_tokens(t_tokens *tokens)
 {
-	t_ast	*head;
-	t_ast	*current;
+    t_ast	*head;
+    t_ast	*current;
 
-	head = create_ast_node();
-	current = head;
-	while (tokens)
-	{
-		if (tokens->token_type == PIPE)
-		{
-			current->next = create_ast_node();
-			if (!current->next)
-                return (head); // Return the partially built AST
-			current = current->next;
-		}
-		else if (tokens->token_type == REDIRIN || tokens->token_type == REDIROUT
-			|| tokens->token_type == HEREDOC || tokens->token_type == APPEND)
-			handle_redirection(current, &tokens);
-		else
-			add_argument(current, tokens->value);
-		tokens = tokens->next;
-	}
-	return (head);
+    head = create_ast_node();
+    if (!head)
+        return (NULL);
+    current = head;
+    while (tokens)
+    {
+        if (tokens->token_type == PIPE)
+            handle_pipe(&current, &head, &tokens);
+        else
+            handle_token(current, &tokens);
+        if (!head) // If head is NULL, pipe handling failed
+            return (NULL);
+    }
+    return (head);
 }
