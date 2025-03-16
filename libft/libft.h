@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:34:34 by tbayrakt          #+#    #+#             */
-/*   Updated: 2024/03/09 10:05:10 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/03/16 13:34:38 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,29 @@
 # include <strings.h>
 
 // Required headers
+# include <unistd.h>
 # include <limits.h>
 # include <stddef.h>
 # include <stdlib.h>
-# include <unistd.h>
+# include <stdarg.h>
+# include <stdbool.h>
 
+// Might not needed
+# define TRUE 1
+# define FALSE 0
+# define CORRECT TRUE
+# define WRONG FALSE
+# define SUCCESS 0
+# define ERROR 1
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+	struct s_list	*prev;
+}	t_list;
+
+// Standard libft
 size_t	ft_strlen(const char *str);
 int		ft_isprint(int c);
 int		ft_isascii(int c);
@@ -59,5 +77,18 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+// BONUS: struct list and extra functions
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int		ft_lstsize(t_list *lst);
+void	free_strarray(char **array, size_t n);
+char	*va_strjoin(int n, ...);
 
 #endif

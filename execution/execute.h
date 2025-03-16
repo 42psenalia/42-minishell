@@ -20,9 +20,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "../setup/setup.h"
-# include "../parser/parse_line.h"
-# include "../env_var/env_var.h"
+# include "../shellstart.h"
+# include "../minishell.h"
+# include "../env_var/envar.h"
 # include "../builtin/builtin.h"
 
 typedef struct s_execute

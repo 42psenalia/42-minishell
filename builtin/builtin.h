@@ -13,7 +13,7 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "../parser.h"
+# include "../minishell.h"
 # include "../shellstart.h"
 # include <stdbool.h>
 
