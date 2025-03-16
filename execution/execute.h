@@ -27,7 +27,7 @@
 
 typedef struct s_execute
 {
-	t_command	*command;
+	t_ast	*command;
 	int			pipe_fds[2];
 	int			fd_prev;
 	int			fd_in;

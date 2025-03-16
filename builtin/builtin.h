@@ -24,11 +24,11 @@ bool			builtin_check(char *name);
 bool			parent_builtin(char *name);
 
 // BASIC COMMANDS
-t_exit_status	parbuiltin_execute(t_command *cmd, t_shell_data *dat);
-t_exit_status	builtin_execute(t_command *cmd, t_shell_data *dat);
+t_exit_status	parbuiltin_execute(t_ast *cmd, t_shell_data *dat);
+t_exit_status	builtin_execute(t_ast *cmd, t_shell_data *dat);
 char			*ft_getcwd(void);
 t_exit_status	builtin_cd(int argc, char **argv, t_shell_data *data);
-t_exit_status	builtin_exit(t_command *cmd, t_shell_data *data);
+t_exit_status	builtin_exit(t_ast *cmd, t_shell_data *data);
 t_exit_status	builtin_export(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_unset(int argc, char *argv, t_shell_data *data);
 t_exit_status	builtin_echo(int argc, char **argv, t_shell_data *data);

@@ -13,7 +13,7 @@
 #include "../libft/libft.h"
 #include "builtin.h"
 
-t_exit_status	parbuiltin_execute(t_command *cmd, t_shell_data *dat)
+t_exit_status	parbuiltin_execute(t_ast *cmd, t_shell_data *dat)
 {
 	int		argc;
 	char	**argv;
@@ -36,7 +36,7 @@ t_exit_status	parbuiltin_execute(t_command *cmd, t_shell_data *dat)
 	return (data->exit_status);
 }
 
-t_exit_status	builtin_execute(t_command *cmd, t_shell_data *dat)
+t_exit_status	builtin_execute(t_ast *cmd, t_shell_data *dat)
 {
 	int		argc;
 	char	**argv;

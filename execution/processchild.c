@@ -30,7 +30,7 @@ static void	do_redirs(t_list *cmd_lst, t_execute *cmd, int *prev_fd)
 		handle_redir_input_output(cmd_lst);
 }
 
-static void	free_cmd_lst_if_exit(t_list **cmd_lst_first, t_command *command)
+static void	free_cmd_lst_if_exit(t_list **cmd_lst_first, t_ast *command)
 {
 	t_list		*next;
 	t_execute	*cmd;
@@ -80,7 +80,7 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 		int *prev_fd, t_shell_data *envp)
 {
 	t_execute	*cmd;
-	t_command	*command;
+	t_ast	*command;
 
 	cmd = cmd_lst->content;
 	command = cmd->command;

@@ -89,6 +89,8 @@ typedef struct s_pipseq
 	struct s_pipseq	*next;
 }					t_pipseq;
 
+typedef t_list	t_command;
+
 typedef struct s_ast
 {
 	char			**args;		// Command + arguments

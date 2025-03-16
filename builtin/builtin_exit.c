@@ -43,7 +43,7 @@ static int	numarg_error(char *str)
 	return (2);
 }
 
-static bool	get_exit_status(t_exit_status *status, t_command *cmd)
+static bool	get_exit_status(t_exit_status *status, t_ast *cmd)
 {
 	if (cmd->argc > 2)
 	{
@@ -66,7 +66,7 @@ static bool	get_exit_status(t_exit_status *status, t_command *cmd)
 	return (true);
 }
 
-t_exit_status	builtin_exit(t_command *cmd, t_shell_data *data)
+t_exit_status	builtin_exit(t_ast *cmd, t_shell_data *data)
 {
 	t_exit_status	exitstat;
 

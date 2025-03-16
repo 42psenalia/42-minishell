@@ -6,12 +6,34 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/16 14:05:38 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:26:06 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "shellstart.h"
+
+static void	detect_line(char *line, t_shell_data *data)
+{
+	t_command	*commands;
+	int			progress;
+
+	if (ft_strlen(line) == 0)
+	{
+		data->exit_status = SUCCESS;
+		return ;
+	}
+	commands = NULL;
+	progress = parser(line, data, &commands);
+	if (progress == EINVAL || commands == NULL)
+	{
+		data->exit_status = ENOENT;
+		return ;
+	}
+	else if (progress == ENOMEM)
+		builtin_exit(NULL, data);
+	data->exit_status = main_execute(&commands, data);
+}
 
 char	*read_line(void)
 {
@@ -72,15 +94,11 @@ void	print_ast(t_ast *node)
 	}
 }
 
-void	lsh_loop(void)
+int	parser(char *line, t_shell_data *data, t_command **commands)
 {
-	char		*line;
 	t_tokens	*tokens;
 	t_ast		*parsed_tokens;
 
-	// TODO: Read a line of input
-	line = read_line();
-	// TODO: Parse the line into arguments
 	tokens = lexer(line);
 	if (!tokens)
 	{
@@ -88,21 +106,39 @@ void	lsh_loop(void)
 		return ;
 	}
 	print_tokens(tokens);
-
-	parsed_tokens = parse_tokens(tokens);
-	if (!parsed_tokens)
+	while (tokens)
 	{
-		printf("Parser failed!\n");
-		return ;
+		parsed_tokens = parse_tokens(tokens);
+		if (!parsed_tokens)
+		{
+			printf("Parser failed!\n");
+			return ;
+		}
+		print_ast(parsed_tokens);
+		ft_lstadd_back(commands, parsed_tokens);
+		free_ast(parsed_tokens);
+		tokens = tokens->next;
 	}
-	print_ast(parsed_tokens);
-
-	// TODO: Execute the command
-	// status = lsh_execute(args);
-
-	// TODO: Free the line and arguments
 	free_tokens(tokens);
-	free_ast(parsed_tokens);
+}
+
+void	lsh_loop(t_shell_data *data)
+{
+	char		*line;
+
+	g_signal = READMODE;
+	line = read_line();
+	if (g_signal != READMODE)
+		data->exit_status = g_signal;
+	if (line == NULL)
+	{
+		if (errno == ENOMEM)
+			data->exit_status = ENOMEM;
+		else
+			printf("exit\n");
+		builtin_exit(NULL, data);
+	}
+	g_signal = EXECUTEMODE;
 	free(line);
 }
 
@@ -115,14 +151,16 @@ int	main(int ac, char **av, char **env)
 	if (data == NULL)
 		return (EXIT_FAILURE);
 	(void)av;
-	if (ac == 1)
-	{
+	if (ac >= 1)
 		printf(Y"Welcome to the 42bash!\n"RST);
-		while (1)
+	if (ac >= 2)
+	{
+		i = 1;
+		while (i < ac)
 		{
-			lsh_loop();
+			detect_line(av[i], data);
+			i++;
 		}
 	}
-	printf("\n");
-	return (0);
+	lsh_loop(data);
 }
