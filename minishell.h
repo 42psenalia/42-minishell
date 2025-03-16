@@ -29,6 +29,7 @@
 # include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 
 
 // ANSI Color codes for terminal output formatting:
@@ -132,6 +133,12 @@ t_ast	*parse_tokens(t_tokens *tokens);
 // PARSE_UTILS.C
 void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
 void	handle_token(t_ast *current, t_tokens **tokens);
+
+// --SIGNALS--
+
+// SIGNAL_BUTTON.C
+void	sigint_handler(int signo);
+void	setup_signals(void);
 
 // --FREE--
 

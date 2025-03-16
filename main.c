@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/16 14:05:38 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:00:02 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ void	lsh_loop(void)
 
 	// TODO: Read a line of input
 	line = read_line();
+	if (!line) // If ctrl-D pressed
+	{
+		prinf("exit\n");
+		exit(EXIT_SUCCESS);
+	}
 	// TODO: Parse the line into arguments
 	tokens = lexer(line);
 	if (!tokens)
@@ -117,6 +122,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac == 1)
 	{
+		setup_signals();
 		printf(Y"Welcome to the 42bash!\n"RST);
 		while (1)
 		{

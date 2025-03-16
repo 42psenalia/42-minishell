@@ -30,7 +30,8 @@ TOOLS = fd free token type expansions parsing
 # 	  $(addsuffix .c, $(addprefix srcs/tools/, $(TOOLS))) \
 
 SRC = main.c ./lexer/token.c ./lexer/lexer.c ./lexer/utils.c \
-	./parser/parse_tokens.c ./parser/parse_utils.c ./free/free.c
+	./parser/parse_tokens.c ./parser/parse_utils.c ./free/free.c \
+	./signals/signal_buttons.c
 
 OBJ = $(SRC:c=o)
 
