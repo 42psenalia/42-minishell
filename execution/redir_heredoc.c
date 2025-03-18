@@ -42,27 +42,25 @@ static int	get_inputs(char *delimiter)
 
 void	run_heredocs(t_list *cmd_lst)
 {
-	t_execute	*exe_cmd;
-	t_list		*redirs;
-	t_tokens	*file;
-	t_tokens	*operator;
+	t_execute		*exe_cmd;
+	t_ast			*comms;
+	char			*file;
 
 	while (cmd_lst)
 	{
 		exe_cmd = cmd_lst->content;
-		if (exe_cmd->command->redirs)
+		if (exe_cmd->command->token)
 		{
-			redirs = exe_cmd->command->redirs;
-			while (redirs)
+			comms = exe_cmd->command;
+			while (comms)
 			{
-				operator = redirs->content;
-				if (operator->type == HEREDOC)
+				if (comms->token == HEREDOC)
 				{
-					redirs = redirs->next;
-					file = redirs->content;
-					exe_cmd->fd_heredoc = get_inputs(file->str);
+					comms = comms->next;
+					file = comms->infile;
+					exe_cmd->fd_heredoc = get_inputs(file);
 				}
-				redirs = redirs->next;
+				comms = comms->next;
 			}
 		}
 		cmd_lst = cmd_lst->next;

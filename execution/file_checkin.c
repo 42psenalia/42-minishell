@@ -12,28 +12,28 @@
 
 #include "execute.h"
 
-int	check_infiles(t_list *file)
+int	check_infiles(t_ast *cmd)
 {
-	t_tokens	*redir;
+	t_token_type	type;
 
-	while (file)
+	while (cmd)
 	{
-		redir = (t_tokens *)file->content;
-		if (redir->type == REDIRIN)
+		type = cmd->token;
+		if (type == REDIRIN)
 		{
-			file = file->next;
-			redir = (t_token *)file->content;
-			if (redir->type == WORD)
+			cmd = cmd->next;
+			type = cmd->token;
+			if (type == WORD)
 			{
-				if (access(redir->str, R_OK) != SUCCESS
-					|| (access(redir->str, R_OK | W_OK) != SUCCESS))
+				if (access(cmd->infile, R_OK) != SUCCESS
+					|| (access(cmd->infile, R_OK | W_OK) != SUCCESS))
 				{
-					perror(redir->str);
+					perror(cmd->infile);
 					return (ERROR);
 				}
 			}
 		}
-		file = file->next;
+		cmd = cmd->next;
 	}
 	return (SUCCESS);
 }

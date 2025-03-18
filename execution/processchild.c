@@ -26,7 +26,7 @@ static void	do_redirs(t_list *cmd_lst, t_execute *cmd, int *prev_fd)
 		dup2(*prev_fd, STDIN_FILENO);
 		close(*prev_fd);
 	}
-	if (cmd->command->redirs)
+	if (cmd->command->token)
 		handle_redir_input_output(cmd_lst);
 }
 
@@ -80,11 +80,11 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 		int *prev_fd, t_shell_data *envp)
 {
 	t_execute	*cmd;
-	t_ast	*command;
+	t_ast		*command;
 
 	cmd = cmd_lst->content;
 	command = cmd->command;
-	if (check_infiles(command->redirs) == ERROR)
+	if (check_infiles(command) == ERROR)
 		return (ERROR);
 	do_redirs(cmd_lst, cmd, prev_fd);
 	if (builtin_check(command->argv[0]))
@@ -93,5 +93,5 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 			free_cmd_lst_if_exit(cmd_lst_first, command);
 		return (builtin_execute(command, envp));
 	}
-	return (execute(command->argv, envp->env_var_list));
+	return (execute(command->argv, envp->envar_list));
 }

@@ -50,7 +50,7 @@ void			free_execute_command_list(t_list **execute_command_list);
 void			free_execute_command(void *execute_command);
 
 char			*find_path(char *key, t_list *env_var_lst, char *cmd);
-int				check_infiles(t_list *token);
+int				check_infiles(t_ast *cmd);
 char			*join_path(char **full_path, char *cmd);
 
 void			run_heredocs(t_list *cmd_lst);

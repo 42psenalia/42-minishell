@@ -21,7 +21,7 @@ RM = rm -rf
 OBJS_DIR = .objs
 
 HEADERS = shellstart.h
-SRCS = main.c readline.c shellstart.c setsig.c
+SRCS = main.c shellstart.c setsig.c
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 MODULE_DIRS = parser execution builtin env_var
