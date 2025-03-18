@@ -11,40 +11,41 @@
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "../parser/parser.h"
 
-static void	redir_input_type_file(t_list *cmd_lst, t_token *file, int type)
+static void	redir_input_type_file(t_list *cmd_lst, t_tokens *file, int type)
 {
 	t_execute	*cmd;
 
 	if (file->type != WORD)
 		return ;
 	cmd = cmd_lst->content;
-	if (type == INFILE)
+	if (type == REDIRIN)
 	{
-		cmd->fd_in = open(file->str, O_RDONLY);
+		cmd->fd_in = open(file->value, O_RDONLY);
 	}
 	else if (type == HEREDOC)
 		cmd->fd_in = cmd->fd_heredoc;
 	if (cmd->fd_in == -1)
 	{
-		perror(file->str);
+		perror(file->value);
 		return ;
 	}
 }
 
-static void	redir_output_type_file( t_list *cmd_lst, t_token *file, int type)
+static void	redir_output_type_file( t_list *cmd_lst, t_tokens *file, int type)
 {
 	int			mode;
 	t_execute	*cmd;
 
-	if (file->type != WORD)
+	if (file->token_type != WORD)
 		return ;
 	if (type == APPEND)
 		mode = O_WRONLY | O_CREAT | O_APPEND;
 	else
 		mode = O_WRONLY | O_CREAT | O_TRUNC;
 	cmd = cmd_lst->content;
-	cmd->fd_out = open(file->str, mode, 0644);
+	cmd->fd_out = open(file->value, mode, 0644);
 	if (cmd->fd_out == -1)
 	{
 		perror("failed file descriptor");
@@ -56,21 +57,19 @@ static void	redir_output_type_file( t_list *cmd_lst, t_token *file, int type)
 
 void	handle_redir_input_output(t_list *cmd_lst)
 {
-	t_list		*redirs;
+	t_ast		*redirs;
 	t_execute	*exe_cmd;
-	t_token		*operator;
-	t_token		*filename;
 
 	exe_cmd = cmd_lst->content;
-	redirs = exe_cmd->command->redirs;
+	redirs = exe_cmd->command;
 	while (redirs)
 	{
-		operator = redirs->content;
 		redirs = redirs->next;
-		filename = redirs->content;
-		if (operator->type == INFILE || operator->type == HEREDOC)
-			redir_input_type_file(cmd_lst, filename, operator->type);
-		else if (operator->type == OUTFILE || operator->type == APPEND)
+		if (redirs->infile)
+			redir_input_type_file(cmd_lst, redirs->infile, REDIRIN);
+		else if (redirs->outfile == HEREDOC)
+			redir_input_type_file(cmd_lst, redirs->infile, HEREDOC);
+		else if (operator->type == REDIROUT || operator->type == APPEND)
 			redir_output_type_file(cmd_lst, filename, operator->type);
 		redirs = redirs->next;
 	}

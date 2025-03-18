@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:37 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:59:23 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "libft/libft.h"
-# include "builtin/builtin.h"
-# include "env_var/envar.h"
-# include "execution/execute.h"
-# include "shellstart.h"
+#ifndef PARSER_H
+# define PARSER_H
+# include "../libft/libft.h"
+# include "../builtin/builtin.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -44,25 +41,25 @@
 # define RED "\033[1;31m"
 # define RST "\033[0m"
 
-// typedef enum e_token_type
-// {
-// 	SQUOTE,
-// 	DQUOTE,
-// 	DOLLAR,
-// 	PIPE,
-// 	REDIRIN,
-// 	REDIROUT,
-// 	HEREDOC,
-// 	APPEND,
-// 	WORD
-// }	t_token_type;
+typedef enum e_token_type
+{
+	SQUOTE,
+	DQUOTE,
+	DOLLAR,
+	PIPE,
+	REDIRIN,
+	REDIROUT,
+	HEREDOC,
+	APPEND,
+	WORD
+}	t_token_type;
 
-// typedef struct s_tokens
-// {
-// 	t_token_type	token_type;
-// 	char			*value;
-// 	struct s_tokens	*next;
-// }					t_tokens;
+typedef struct s_tokens
+{
+	t_token_type	token_type;
+	char			*value;
+	struct s_tokens	*next;
+}					t_tokens;
 
 // typedef struct s_tokencount
 // {
@@ -78,31 +75,31 @@
 
 // typedef struct s_pipseq
 // {
-// 	char			*in_file;
-// 	char			*out_file;
-// 	char			*command;
+// 	// char			*in_file;
+// 	// char			*out_file;
+// 	// char			*command;
 // 	int				fd_in;
 // 	int				fd_out;
 // 	pid_t			pipid;
-// 	struct s_pipseq	*prev;
+// 	// struct s_pipseq	*prev;
 // 	struct s_pipseq	*next;
 // }					t_pipseq;
 
-// typedef t_list	t_command;
-// typedef struct s_ast
-// {
-// 	char			**args;		// Command + arguments
-// 	char			*infile;	// Input redirection file
-// 	char			*outfile;	// Output redirection file
-// 	int				append;		// 1 if ">>", 0 otherwise
-// 	struct s_ast	*next;		// Next command in a pipeline
-// }	t_ast;
+typedef t_list	t_command;
+
+typedef struct s_ast
+{
+	int				argc;		// Count of argv
+	char			**argv;		// Command + arguments
+	char			*infile;	// Input redirection file
+	char			*outfile;	// Output redirection file
+	int				append;		// 1 if ">>", 0 otherwise
+	struct s_ast	*next;		// Next command in a pipeline
+}	t_ast;
 
 
 // MAIN.C
 char	*read_line(void);
-void	lsh_loop(t_shell_data *data);
-
 
 // --LEXER--
 

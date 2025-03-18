@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "parser.h"
 
 void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens)
 {

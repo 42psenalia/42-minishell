@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../parser.h"
 
 char	*extract_word(char **input)
 {
@@ -66,9 +66,9 @@ char	*extract_operator(char **input)
 
 t_tokens	*lexer(char *input)
 {
-	t_tokens	*head;
-	t_token_type type;
-	char		*word;
+	t_tokens		*head;
+	t_token_type	type;
+	char			*word;
 
 	head = NULL;
 	while (*input)

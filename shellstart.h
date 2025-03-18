@@ -13,8 +13,8 @@
 #ifndef SHELLSTART_H
 # define SHELLSTART_H
 
-# include "envar.h"
-# include "libft.h"
+# include "env_var/envar.h"
+# include "libft/libft.h"
 
 # define READMODE 0
 # define EXECUTEMODE -1

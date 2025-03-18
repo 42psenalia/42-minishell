@@ -28,12 +28,12 @@
 typedef struct s_execute
 {
 	t_ast	*command;
-	int			pipe_fds[2];
-	int			fd_prev;
-	int			fd_in;
-	int			fd_out;
-	int			fd_heredoc;
-	pid_t		pid;
+	int		pipe_fds[2];
+	int		fd_prev;
+	int		fd_in;
+	int		fd_out;
+	int		fd_heredoc;
+	pid_t	pid;
 }	t_execute;
 
 t_exit_status	main_execute(t_list **command, t_shell_data *envp);
