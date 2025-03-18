@@ -23,6 +23,7 @@
 # include "../shellstart.h"
 # include "../minishell.h"
 # include "../env_var/envar.h"
+# include "../parser/parser.h"
 # include "../builtin/builtin.h"
 
 typedef struct s_execute

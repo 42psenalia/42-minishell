@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "execute.h"
-#include "../parser/parser.h"
 
 int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 {
@@ -26,7 +25,7 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 		return (ERROR);
 	else if (!is_p_builtin_name(cmd->argv[0]))
 		return (ERROR);
-	if (cmd->redirs)
+	if (cmd->token)
 		handle_redir_input_output(cmd_lst);
 	if (ft_strcmp(cmd->argv[0], "exit") == 0 && cmd->argc <= 2)
 	{

@@ -14,12 +14,12 @@
 
 int	check_infiles(t_list *file)
 {
-	t_token	*redir;
+	t_tokens	*redir;
 
 	while (file)
 	{
-		redir = (t_token *)file->content;
-		if (redir->type == INFILE)
+		redir = (t_tokens *)file->content;
+		if (redir->type == REDIRIN)
 		{
 			file = file->next;
 			redir = (t_token *)file->content;

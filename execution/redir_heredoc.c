@@ -44,8 +44,8 @@ void	run_heredocs(t_list *cmd_lst)
 {
 	t_execute	*exe_cmd;
 	t_list		*redirs;
-	t_token		*file;
-	t_token		*operator;
+	t_tokens	*file;
+	t_tokens	*operator;
 
 	while (cmd_lst)
 	{

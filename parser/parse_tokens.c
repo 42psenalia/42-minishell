@@ -10,18 +10,16 @@ void	handle_redirection(t_ast *node, t_tokens **tokens)
 	*tokens = (*tokens)->next; // Move to the filename token
 	if (!*tokens) // No filename after redirection
 		return ;
+	node->token = current->token_type;
 	if (current->token_type == REDIRIN)
 		node->infile = ft_strdup((*tokens)->value);
-	else if (current->token_type == REDIROUT)
+	else if (current->token_type == REDIROUT | APPEND)
 		node->outfile = ft_strdup((*tokens)->value);
-	else if (current->token_type == APPEND)
-	{
-		node->outfile = ft_strdup((*tokens)->value);
-		node->append = 1;
-	}
+	// else if (current->token_type == APPEND)
+	// 	node->outfile = ft_strdup((*tokens)->value);
 	else if (current->token_type == HEREDOC)
-		node->infile = ft_strdup((*tokens)->value); // Placeholder for now
-	*tokens = (*tokens)->next; // Move to the next token
+		node->infile = ft_strdup((*tokens)->value); // Keep the exit keyword
+	*tokens = (*tokens)->next;
 }
 
 void	add_argument(t_ast *node, char *arg)

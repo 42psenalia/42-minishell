@@ -30,7 +30,7 @@ char	*join_path(char **full_path, char *cmd)
 char	*find_path(char *key, t_list *env_var_lst, char *cmd)
 {
 	t_list		*path_node;
-	t_env_var	*env_var;
+	t_envar		*env_var;
 	char		*path;
 	char		**full_path;
 
@@ -39,7 +39,7 @@ char	*find_path(char *key, t_list *env_var_lst, char *cmd)
 	path_node = find_node(key, env_var_lst);
 	if (!path_node)
 		return (NULL);
-	env_var = (t_env_var *)path_node->content;
+	env_var = (t_envar *)path_node->content;
 	full_path = ft_split(env_var->value, ':');
 	path = join_path(full_path, cmd);
 	if (path != NULL)
