@@ -29,7 +29,7 @@ t_exit_status	parbuiltin_execute(t_ast *cmd, t_shell_data *data)
 		data->exit_status = builtin_exit(cmd, data);
 	else if (ft_strcmp(name, "export") == 0)
 		data->exit_status = builtin_export(argc, argv, data);
-	else if (ft_stramp(name, "unset") == 0)
+	else if (ft_strcmp(name, "unset") == 0)
 		data->exit_status = builtin_unset(argc, argv, data);
 	else
 		ft_putstr_fd("execute_builtin: builtin name not found " \

@@ -20,11 +20,12 @@ RM = rm -rf
 
 OBJS_DIR = .objs
 
-HEADERS = shellstart.h
+HEADERS = minishell.h shellstart.h parser/parser.h builtin/builtin.h \
+		execute/execute.h envar/envar.h
 SRCS = main.c shellstart.c setsig.c
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
-MODULE_DIRS = parser execution builtin env_var
+MODULE_DIRS = parser execute builtin envar
 MODULES = $(foreach dir, $(MODULE_DIRS),$(dir)/$(dir).a)
 
 LIBFT_DIR = libft

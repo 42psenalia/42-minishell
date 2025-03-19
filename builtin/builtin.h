@@ -15,6 +15,7 @@
 
 # include "../minishell.h"
 # include "../shellstart.h"
+# include "../parser/parser.h"
 # include <stdbool.h>
 
 extern int		g_signal;
@@ -30,7 +31,7 @@ char			*ft_getcwd(void);
 t_exit_status	builtin_cd(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_exit(t_ast *cmd, t_shell_data *data);
 t_exit_status	builtin_export(int argc, char **argv, t_shell_data *data);
-t_exit_status	builtin_unset(int argc, char *argv, t_shell_data *data);
+t_exit_status	builtin_unset(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_echo(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_env(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data);

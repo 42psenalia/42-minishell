@@ -17,7 +17,7 @@ static void	form_shlvl(char *head, char **body)
 	int		num;
 	char	*temp;
 
-	if (ft_strsmp(head, "SHLVL") == 0)
+	if (ft_strcmp(head, "SHLVL") == 0)
 	{
 		num = ft_atoi(*body);
 		free(*body);
@@ -65,7 +65,7 @@ static bool	getenvline(char *envline, t_list **list)
 	form_shlvl(key_var[0], &key_var[1]);
 	if (key_var[1] == NULL)
 		return (false);
-	node = setenvar(key_var[0], &key_var[1], list);
+	node = setenvar(key_var[0], key_var[1], list);
 	free_strarray(key_var, 2);
 	if (node == NULL)
 		return (false);

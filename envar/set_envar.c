@@ -20,12 +20,13 @@ static t_list	*appendnew(char *head, char *body, t_envar_list **list)
 	var = create_envar(head, body);
 	if (var == NULL)
 		return (NULL);
-	node = ft_lstnew_addback(list, var);
+	node = ft_lstnew(var);
 	if (node == NULL)
 	{
 		free_envar(var);
 		return (NULL);
 	}
+	ft_lstadd_back(list, node);
 	return (node);
 }
 

@@ -13,7 +13,8 @@
 #ifndef SHELLSTART_H
 # define SHELLSTART_H
 
-# include "env_var/envar.h"
+# include "minishell.h"
+# include "envar/envar.h"
 # include "libft/libft.h"
 
 # define READMODE 0

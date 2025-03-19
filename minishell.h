@@ -6,16 +6,17 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:37 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:47:34 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft/libft.h"
+# include "parser/parser.h"
 # include "builtin/builtin.h"
-# include "env_var/envar.h"
-# include "execution/execute.h"
+# include "envar/envar.h"
+# include "execute/execute.h"
 # include "shellstart.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -100,43 +101,42 @@
 
 
 // MAIN.C
-char	*read_line(void);
-void	lsh_loop(t_shell_data *data);
+int	main(int ac, char **av, char **env);
 
 
-// --LEXER--
-
-// UTILS.C
-char	*ft_getcwd(void);
-int		is_special(char c);
-int		is_space(char c);
-int		ft_strcmp(const char *s1, const char *s2);
-
-// TOKEN.C
-void	add_token(t_tokens **head, t_token_type type, char *value);
-t_token_type	get_token_type(char *str);
-
-// LEXER.C
-char	*extract_quoted(char **input, char quote_type);
-t_tokens	*lexer(char *input);
-char	*extract_operator(char **input);
-
-// --PARSER--
-
-// PARSE_TOKENS.C
-void	handle_redirection(t_ast *node, t_tokens **tokens);
-void	add_argument(t_ast *node, char *arg);
-t_ast	*create_ast_node(void);
-t_ast	*parse_tokens(t_tokens *tokens);
-
-// PARSE_UTILS.C
-void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
-void	handle_token(t_ast *current, t_tokens **tokens);
-
-// --FREE--
-
-// FREE.C
-void	free_ast(t_ast *node);
-void	free_tokens(t_tokens *tokens);
+// // --LEXER--
+//
+// // UTILS.C
+// char	*ft_getcwd(void);
+// int		is_special(char c);
+// int		is_space(char c);
+// int		ft_strcmp(const char *s1, const char *s2);
+//
+// // TOKEN.C
+// void	add_token(t_tokens **head, t_token_type type, char *value);
+// t_token_type	get_token_type(char *str);
+//
+// // LEXER.C
+// char	*extract_quoted(char **input, char quote_type);
+// t_tokens	*lexer(char *input);
+// char	*extract_operator(char **input);
+//
+// // --PARSER--
+//
+// // PARSE_TOKENS.C
+// void	handle_redirection(t_ast *node, t_tokens **tokens);
+// void	add_argument(t_ast *node, char *arg);
+// t_ast	*create_ast_node(void);
+// t_ast	*parse_tokens(t_tokens *tokens);
+//
+// // PARSE_UTILS.C
+// void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
+// void	handle_token(t_ast *current, t_tokens **tokens);
+//
+// // --FREE--
+//
+// // FREE.C
+// void	free_ast(t_ast *node);
+// void	free_tokens(t_tokens *tokens);
 
 #endif

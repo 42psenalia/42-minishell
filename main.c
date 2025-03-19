@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/18 15:59:28 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:08:43 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "shellstart.h"
 #include "parser/parser.h"
 #include "builtin/builtin.h"
-#include "execution/execute.h"
+#include "execute/execute.h"
 
 static void	detect_line(char *line, t_shell_data *data)
 {
@@ -122,7 +122,7 @@ static void	detect_line(char *line, t_shell_data *data)
 // 	free_tokens(tokens);
 // }
 
-void	lsh_loop(t_shell_data *data)
+static void	lsh_loop(t_shell_data *data)
 {
 	char		*line;
 

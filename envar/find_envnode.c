@@ -19,7 +19,7 @@ t_envar_list	*find_node(char *head, t_envar_list *list)
 	while (list)
 	{
 		envar = list->content;
-		if (ft_strncmp(envar->key, head) == 0)
+		if (ft_strcmp(envar->key, head) == 0)
 			return (list);
 		list = list->next;
 	}
