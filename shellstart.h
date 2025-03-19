@@ -43,7 +43,7 @@ t_shell_data	*initialize(int argc, char **argv, char **env);
 void			silent_cntl(void);
 void			restore_terminal_settings(void);
 void			setup_signal(void);
-t_shell_data	*makeshell(char **env);
+t_shell_data	*makeshell(int argc, char **argv, char **env);
 void			freeshell(t_shell_data *data);
 
 #endif

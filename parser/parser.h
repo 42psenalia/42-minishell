@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/19 16:04:35 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:09:09 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ t_tokens	*lexer(char *input);
 char	*extract_operator(char **input);
 
 // --PARSER--
+
+int		parser(char *line, t_command **commands);
 
 // PARSE_TOKENS.C
 void	handle_redirection(t_ast *node, t_tokens **tokens);

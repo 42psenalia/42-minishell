@@ -18,7 +18,10 @@
 # include "../parser/parser.h"
 # include <stdbool.h>
 
-extern int		g_signal;
+extern int					g_signal;
+typedef int					t_exit_status;
+typedef struct s_shell_data	t_shell_data;
+typedef struct s_ast		t_ast;
 
 // ID COMMS
 bool			builtin_check(char *name);
@@ -27,7 +30,6 @@ bool			parent_builtin(char *name);
 // BASIC COMMANDS
 t_exit_status	parbuiltin_execute(t_ast *cmd, t_shell_data *dat);
 t_exit_status	builtin_execute(t_ast *cmd, t_shell_data *dat);
-char			*ft_getcwd(void);
 t_exit_status	builtin_cd(int argc, char **argv, t_shell_data *data);
 t_exit_status	builtin_exit(t_ast *cmd, t_shell_data *data);
 t_exit_status	builtin_export(int argc, char **argv, t_shell_data *data);

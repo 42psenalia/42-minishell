@@ -6,15 +6,13 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/19 15:08:43 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:37:46 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "shellstart.h"
-#include "parser/parser.h"
-#include "builtin/builtin.h"
-#include "execute/execute.h"
+
+int		g_signal;
 
 static void	detect_line(char *line, t_shell_data *data)
 {
@@ -27,7 +25,7 @@ static void	detect_line(char *line, t_shell_data *data)
 		return ;
 	}
 	commands = NULL;
-	progress = parser(line, data, &commands);
+	progress = parser(line, &commands);
 	if (progress == EINVAL || commands == NULL)
 	{
 		data->exit_status = ENOENT;

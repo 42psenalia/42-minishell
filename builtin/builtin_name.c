@@ -17,7 +17,7 @@ bool	parent_builtin(char *name)
 {
 	if (!name)
 		return (false);
-	if (ft_strsmp(name, "cd") == 0 || ft_strcmp(name, "exit") == 0 || \
+	if (ft_strcmp(name, "cd") == 0 || ft_strcmp(name, "exit") == 0 || \
 		ft_strcmp(name, "export") == 0 || ft_strcmp(name, "unset") == 0)
 		return (true);
 	return (false);

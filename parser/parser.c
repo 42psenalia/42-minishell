@@ -79,7 +79,8 @@ static void	linkcommands(t_command *commands, t_ast *parsed)
 	}
 }
 
-int	parser(char *line, t_shell_data *data, t_command **commands)
+// Currently not needing for t_exit_status but might be later
+int	parser(char *line, t_command **commands)
 {
 	t_tokens	*tokens;
 	t_ast		*parsed_tokens;

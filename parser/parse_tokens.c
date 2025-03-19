@@ -13,7 +13,7 @@ void	handle_redirection(t_ast *node, t_tokens **tokens)
 	node->token = current->token_type;
 	if (current->token_type == REDIRIN)
 		node->infile = ft_strdup((*tokens)->value);
-	else if (current->token_type == REDIROUT | APPEND)
+	else if (current->token_type == REDIROUT || current->token_type == APPEND)
 		node->outfile = ft_strdup((*tokens)->value);
 	// else if (current->token_type == APPEND)
 	// 	node->outfile = ft_strdup((*tokens)->value);

@@ -35,7 +35,7 @@ void	free_execute_command(void *execute_command)
 	t_execute	*cmd;
 
 	cmd = execute_command;
-	free_command(cmd->command);
+	free_ast(cmd->command);
 	free(cmd);
 }
 

@@ -14,12 +14,12 @@
 #include "shellstart.h"
 #include <termios.h>
 
-t_shell_data	*makeshell(char **env)
+t_shell_data	*makeshell(int argc, char **argv, char **env)
 {
 	t_shell_data	*data;
 
-	// (void) argc;
-	// (void) argv;
+	(void) argc;
+	(void) argv;
 	data = malloc(sizeof(t_shell_data));
 	if (data == NULL)
 		return (NULL);
@@ -35,7 +35,7 @@ t_shell_data	*makeshell(char **env)
 
 void	freeshell(t_shell_data *data)
 {
-	free_envar_list(&data->envar_list);
+	free_envarlst(&data->envar_list);
 	free(data);
 }
 
@@ -45,7 +45,7 @@ void	silent_cntl(void)
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;
-	term.c_lflag != ~ECHOCTL;
+	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
@@ -64,8 +64,8 @@ t_shell_data	*initialize(int argc, char **argv, char **env)
 	t_shell_data	*data;
 
 	silent_cntl();
-	setupsignal();
-	data = makeshell(env);
+	setup_signal();
+	data = makeshell(argc, argv, env);
 	if (data == NULL)
 		return (NULL);
 	return (data);

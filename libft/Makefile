@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+         #
+#    By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 16:49:15 by tanselbayra       #+#    #+#              #
-#    Updated: 2024/03/07 14:42:15 by tbayrakt         ###   ########.fr        #
+#    Updated: 2025/03/19 18:06:23 by psenalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,10 @@ SRCS = ft_bzero.o ft_isalnum.o ft_isalpha.o ft_isascii.o \
 	ft_atoi.o ft_calloc.o ft_strdup.o ft_substr.o \
 	ft_strjoin.o ft_strtrim.o ft_split.o ft_itoa.o \
 	ft_strmapi.o ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o \
-	ft_putendl_fd.o ft_putnbr_fd.o
+	ft_putendl_fd.o ft_putnbr_fd.o \
+	ft_lstnew.c ft_lstsize.c ft_lstlast.c ft_lstclear.c ft_lstdelone.c \
+	ft_lstadd_front.c ft_lstadd_back.c ft_lstiter.c ft_lstmap.c \
+	ft_freestr.c va_strjoin.c
 
 OBJS = ${SRCS:.c=.o}
 

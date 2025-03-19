@@ -23,7 +23,7 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 		return (ERROR);
 	else if (cmd->argv[0] == NULL)
 		return (ERROR);
-	else if (!is_p_builtin_name(cmd->argv[0]))
+	else if (!builtin_check(cmd->argv[0]))
 		return (ERROR);
 	if (cmd->token)
 		handle_redir_input_output(cmd_lst);
@@ -32,6 +32,6 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 		free(cmd_lst);
 		free(cmd_with_fds);
 	}
-	envp->exit_status = p_execute_built(cmd, envp);
+	envp->exit_status = parbuiltin_execute(cmd, envp);
 	return (SUCCESS);
 }

@@ -19,7 +19,7 @@ t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data)
 
 	(void) argc;
 	(void) argv;
-	path = get_envalue("PWD", data->env_var_list);
+	path = get_envalue("PWD", data->envar_list);
 	if (path)
 	{
 		printf("%s\n", path);

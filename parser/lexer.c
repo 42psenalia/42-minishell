@@ -1,4 +1,4 @@
-#include "../parser.h"
+#include "parser.h"
 
 char	*extract_word(char **input)
 {

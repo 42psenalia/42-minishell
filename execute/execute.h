@@ -26,6 +26,8 @@
 # include "../parser/parser.h"
 # include "../builtin/builtin.h"
 
+typedef struct s_ast	t_ast;
+
 typedef struct s_execute
 {
 	struct s_ast	*command;

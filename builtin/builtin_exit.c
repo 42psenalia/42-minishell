@@ -19,7 +19,7 @@
 static bool	is_number(char *str)
 {
 	int		num;
-	char	temp;
+	char	*temp;
 	int		cmp;
 
 	if (*str == '+')
@@ -76,7 +76,7 @@ t_exit_status	builtin_exit(t_ast *cmd, t_shell_data *data)
 		printf("exit\n");
 		if (!get_exit_status(&exitstat, cmd))
 			return (ERROR);
-		free_command(cmd);
+		free_ast(cmd);
 	}
 	freeshell(data);
 	restore_terminal_settings();

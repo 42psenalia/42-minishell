@@ -23,7 +23,7 @@ static void	ft_sigint(int signal)
 {
 	if (signal != SIGINT)
 		return ;
-	if (g_signal == EXECUTE_MODE)
+	if (g_signal == EXECUTEMODE)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
@@ -43,7 +43,7 @@ static void	ft_sigquit(int signal)
 {
 	if (signal != SIGQUIT)
 		return ;
-	if (g_signal == EXECUTE_MODE)
+	if (g_signal == EXECUTEMODE)
 	{
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	}

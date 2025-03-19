@@ -11,7 +11,7 @@ HEADERS = builtin.h
 
 SRCS = builtin_cd.c builtin_echo.c builtin_env.c builtin_execute.c \
 	builtin_exit.c builtin_export.c builtin_name.c builtin_pwd.c \
-	builtin_unset.c ft_getcwd.c
+	builtin_unset.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
