@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/18 16:45:12 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:04:35 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSER_H
 # include "../libft/libft.h"
 # include "../builtin/builtin.h"
+// # include "../execute/execute.h"
+# include "../shellstart.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -107,7 +109,6 @@ char	*read_line(void);
 char	*ft_getcwd(void);
 int		is_special(char c);
 int		is_space(char c);
-int		ft_strcmp(const char *s1, const char *s2);
 
 // TOKEN.C
 void	add_token(t_tokens **head, t_token_type type, char *value);

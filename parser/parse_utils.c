@@ -19,7 +19,10 @@ void	handle_token(t_ast *current, t_tokens **tokens)
 {
 	if ((*tokens)->token_type == REDIRIN || (*tokens)->token_type == REDIROUT
 		|| (*tokens)->token_type == HEREDOC || (*tokens)->token_type == APPEND)
+	{
 		handle_redirection(current, tokens);
+		return ;
+	}
 	else
 	{
 		add_argument(current, (*tokens)->value);

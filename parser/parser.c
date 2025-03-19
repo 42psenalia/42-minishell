@@ -50,10 +50,32 @@ void	print_ast(t_ast *node)
 		if (node->infile)
 			printf("\n  Input Redirect: <%s>", node->infile);
 		if (node->outfile)
-			printf("\n  Output Redirect: >%s %s",
-				node->outfile, node->append ? "(Append)" : "");
+		{
+			printf("\n  Output Redirect: >%s", node->outfile);
+			if (node->token == APPEND)
+				printf(" (Append)");
+		}
 		printf("\n----------------\n");
 		node = node->next;
+	}
+}
+
+static void	linkcommands(t_command *commands, t_ast *parsed)
+{
+	t_command	*new;
+
+	new = malloc(sizeof(t_command));
+	if (!new)
+		return ;
+	ft_bzero(new, sizeof(t_command));
+	new->content = parsed;
+	if (!commands)
+		commands = new;
+	else
+	{
+		while (commands->next)
+			commands = commands->next;
+		commands->next = new;
 	}
 }
 
@@ -62,11 +84,13 @@ int	parser(char *line, t_shell_data *data, t_command **commands)
 	t_tokens	*tokens;
 	t_ast		*parsed_tokens;
 
+	if (ft_strlen(line) == 0)
+		return (SUCCESS);
 	tokens = lexer(line);
 	if (!tokens)
 	{
-		printf("Lexer failed!\n");
-		return ;
+		ft_putstr_fd("Lexer failed!\n", STDERR_FILENO);
+		return (EINVAL);
 	}
 	print_tokens(tokens);
 	while (tokens)
@@ -75,12 +99,12 @@ int	parser(char *line, t_shell_data *data, t_command **commands)
 		if (!parsed_tokens)
 		{
 			printf("Parser failed!\n");
-			return ;
+			return (ENOMEM);
 		}
 		print_ast(parsed_tokens);
-		ft_lstadd_back(commands, parsed_tokens);
-		// free_ast(parsed_tokens);
+		linkcommands(*commands, parsed_tokens);
 		tokens = tokens->next;
 	}
 	free_tokens(tokens);
+	return (SUCCESS);
 }

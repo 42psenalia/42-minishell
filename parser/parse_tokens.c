@@ -99,23 +99,32 @@ t_ast	*create_ast_node(void)
 //     return (head);
 // }
 
+static void	linksect(t_ast *main, t_ast *new)
+{
+	while (main->next)
+		main = main->next;
+	main->next = new;
+}
+
 t_ast	*parse_tokens(t_tokens *tokens)
 {
 	t_ast	*head;
-	t_ast	*current;
+	t_ast	*new;
 
-	head = create_ast_node();
-	if (!head)
-		return (NULL);
-	current = head;
+	head = NULL;
 	while (tokens)
 	{
-		if (tokens->token_type == PIPE)
-			handle_pipe(&current, &head, &tokens);
-		else
-			handle_token(current, &tokens);
-		if (!head) // If head is NULL, pipe handling failed
+		if (tokens->token_type != PIPE)
+			break ;
+		new = create_ast_node();
+		if (!new)
 			return (NULL);
+		handle_token(new, &tokens);
+		if (!head)
+			head = new;
+		else
+			linksect(head, new);
+		tokens = tokens->next;
 	}
 	return (head);
 }
