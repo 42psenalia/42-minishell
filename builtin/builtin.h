@@ -15,6 +15,7 @@
 
 # include "../minishell.h"
 # include "../shellstart.h"
+# include "../libft/libft.h"
 # include "../parser/parser.h"
 # include <stdbool.h>
 

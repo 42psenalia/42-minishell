@@ -24,7 +24,7 @@ void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Type: %d, Value: [%s]\n", tokens->token_type, tokens->value);
+		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type, tokens->value, tokens->next);
 		tokens = tokens->next;
 	}
 }
@@ -96,7 +96,7 @@ int	parser(char *line, t_command **commands)
 	print_tokens(tokens);
 	while (tokens)
 	{
-		parsed_tokens = parse_tokens(tokens);
+		parsed_tokens = parse_tokens(&tokens);
 		if (!parsed_tokens)
 		{
 			printf("Parser failed!\n");
@@ -104,8 +104,10 @@ int	parser(char *line, t_command **commands)
 		}
 		print_ast(parsed_tokens);
 		linkcommands(*commands, parsed_tokens);
-		tokens = tokens->next;
+		if (tokens)
+			tokens = tokens->next;
 	}
 	free_tokens(tokens);
+	printf("parser done, lexer tokens freed\n");
 	return (SUCCESS);
 }

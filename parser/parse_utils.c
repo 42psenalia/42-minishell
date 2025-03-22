@@ -25,7 +25,10 @@ void	handle_token(t_ast *current, t_tokens **tokens)
 	}
 	else
 	{
-		add_argument(current, (*tokens)->value);
-		*tokens = (*tokens)->next;
+		while (*tokens && (*tokens)->token_type == WORD)
+		{
+			add_argument(current, (*tokens)->value);
+			*tokens = (*tokens)->next;
+		}
 	}
 }

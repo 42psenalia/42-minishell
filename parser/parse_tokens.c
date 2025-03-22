@@ -29,6 +29,7 @@ void	add_argument(t_ast *node, char *arg)
 
 	if (!node || !arg)
 		return ;
+	node->token = WORD;
 	// Count existing arguments
 	i = 0;
 	while (node->argv && node->argv[i])
@@ -41,14 +42,21 @@ void	add_argument(t_ast *node, char *arg)
 	i = 0;
 	while (node->argv && node->argv[i])
 	{
-		new_args[i] = node->argv[i];
+		new_args[i] = ft_strdup(node->argv[i]);
 		i++;
 	}
 	// Add new argument and NULL-terminate
 	new_args[i] = ft_strdup(arg);
 	new_args[i + 1] = NULL;
+	int	t = 0;
+	while (new_args[t])
+	{
+		printf("newarg[%d] = %s\n", t, new_args[t]);
+		t++;
+	}
 	// Free old args list and update node
-	free(node->argv);
+	if (node->argv)
+		free_strarray(node->argv, i);
 	node->argv = new_args;
 }
 
@@ -60,6 +68,7 @@ t_ast	*create_ast_node(void)
 	if (!node)
 		return (NULL);
 	ft_bzero(node, sizeof(t_ast));
+	node->token = -1;
 	return (node);
 }
 
@@ -106,25 +115,26 @@ static void	linksect(t_ast *main, t_ast *new)
 	main->next = new;
 }
 
-t_ast	*parse_tokens(t_tokens *tokens)
+t_ast	*parse_tokens(t_tokens **tokens)
 {
 	t_ast	*head;
 	t_ast	*new;
 
 	head = NULL;
-	while (tokens)
+	while (*tokens)
 	{
-		if (tokens->token_type != PIPE)
+		if ((*tokens)->token_type == PIPE)
 			break ;
 		new = create_ast_node();
 		if (!new)
 			return (NULL);
-		handle_token(new, &tokens);
+		handle_token(new, tokens);
 		if (!head)
 			head = new;
 		else
 			linksect(head, new);
-		tokens = tokens->next;
+		if (*tokens)
+			*tokens = (*tokens)->next;
 	}
 	return (head);
 }

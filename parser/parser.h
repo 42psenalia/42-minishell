@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/19 18:09:09 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:03:13 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int		parser(char *line, t_command **commands);
 void	handle_redirection(t_ast *node, t_tokens **tokens);
 void	add_argument(t_ast *node, char *arg);
 t_ast	*create_ast_node(void);
-t_ast	*parse_tokens(t_tokens *tokens);
+t_ast	*parse_tokens(t_tokens **tokens);
 
 // PARSE_UTILS.C
 void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
