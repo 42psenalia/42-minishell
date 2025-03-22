@@ -23,10 +23,11 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 		return (ERROR);
 	else if (cmd->argv[0] == NULL)
 		return (ERROR);
-	else if (!builtin_check(cmd->argv[0]))
+	else if (!parent_builtin(cmd->argv[0]))
 		return (ERROR);
-	if (cmd->token)
+	if (cmd->token >= 4 && cmd->token <= 7)
 		handle_redir_input_output(cmd_lst);
+	printf("no redir\n");
 	if (ft_strcmp(cmd->argv[0], "exit") == 0 && cmd->argc <= 2)
 	{
 		free(cmd_lst);

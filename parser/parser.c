@@ -60,7 +60,7 @@ void	print_ast(t_ast *node)
 	}
 }
 
-static void	linkcommands(t_command *commands, t_ast *parsed)
+static void	linkcommands(t_command **commands, t_ast *parsed)
 {
 	t_command	*new;
 
@@ -69,21 +69,49 @@ static void	linkcommands(t_command *commands, t_ast *parsed)
 		return ;
 	ft_bzero(new, sizeof(t_command));
 	new->content = parsed;
-	if (!commands)
-		commands = new;
+	if (!(*commands))
+		*commands = new;
 	else
 	{
-		while (commands->next)
-			commands = commands->next;
-		commands->next = new;
+		while ((*commands)->next)
+			*commands = (*commands)->next;
+		(*commands)->next = new;
 	}
+}
+
+static t_command	*make_commlist(t_tokens *tokens)
+{
+	t_command	*commands;
+	t_ast		*parsed_tokens;
+
+	printf("making commlist\n");
+	commands = NULL;
+	while (tokens)
+	{
+		parsed_tokens = parse_tokens(&tokens);
+		if (!parsed_tokens)
+			return (NULL);
+		print_ast(parsed_tokens);
+		linkcommands(&commands, parsed_tokens);
+		printf("commands linked\n");
+		if (tokens)
+			tokens = tokens->next;
+	}
+	t_command	*temp;
+	temp = commands;
+	while (temp)
+	{
+		printf("Command: %p, next-> %p\n", commands->content, commands->next);
+		temp = temp->next;
+	}
+	return (commands);
 }
 
 // Currently not needing for t_exit_status but might be later
 int	parser(char *line, t_command **commands)
 {
 	t_tokens	*tokens;
-	t_ast		*parsed_tokens;
+	// t_ast		*parsed_tokens;
 
 	if (ft_strlen(line) == 0)
 		return (SUCCESS);
@@ -94,19 +122,23 @@ int	parser(char *line, t_command **commands)
 		return (EINVAL);
 	}
 	print_tokens(tokens);
-	while (tokens)
-	{
-		parsed_tokens = parse_tokens(&tokens);
-		if (!parsed_tokens)
-		{
-			printf("Parser failed!\n");
-			return (ENOMEM);
-		}
-		print_ast(parsed_tokens);
-		linkcommands(*commands, parsed_tokens);
-		if (tokens)
-			tokens = tokens->next;
-	}
+	*commands = make_commlist(tokens);
+	printf("got command %p\n", *commands);
+	if (commands == NULL)
+		return (ENOMEM);
+	// while (tokens)
+	// {
+	// 	parsed_tokens = parse_tokens(&tokens);
+	// 	if (!parsed_tokens)
+	// 	{
+	// 		printf("Parser failed!\n");
+	// 		return (ENOMEM);
+	// 	}
+	// 	print_ast(parsed_tokens);
+	// 	linkcommands(*commands, parsed_tokens);
+	// 	if (tokens)
+	// 		tokens = tokens->next;
+	// }
 	free_tokens(tokens);
 	printf("parser done, lexer tokens freed\n");
 	return (SUCCESS);

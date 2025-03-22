@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/22 16:19:03 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:08:26 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	detect_line(char *line, t_shell_data *data)
 	}
 	else if (progress == ENOMEM)
 		builtin_exit(NULL, data);
-	printf("entering execution\n");
+	printf("entering execution\n----------------\n");
 	data->exit_status = main_execute(&commands, data);
 }
 

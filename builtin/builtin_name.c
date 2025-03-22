@@ -19,8 +19,8 @@ bool	parent_builtin(char *name)
 		return (false);
 	if (ft_strcmp(name, "cd") == 0 || ft_strcmp(name, "exit") == 0 || \
 		ft_strcmp(name, "export") == 0 || ft_strcmp(name, "unset") == 0)
-		return (true);
-	return (false);
+		return (false);
+	return (true);
 }
 
 bool	builtin_check(char *name)
@@ -29,6 +29,6 @@ bool	builtin_check(char *name)
 		return (false);
 	if (parent_builtin(name) || ft_strcmp(name, "env") == 0 || \
 		ft_strcmp(name, "pwd") == 0 || ft_strcmp(name, "echo") == 0)
-		return (true);
-	return (false);
+		return (false);
+	return (true);
 }

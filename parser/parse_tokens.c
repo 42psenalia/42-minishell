@@ -29,7 +29,6 @@ void	add_argument(t_ast *node, char *arg)
 
 	if (!node || !arg)
 		return ;
-	node->token = WORD;
 	// Count existing arguments
 	i = 0;
 	while (node->argv && node->argv[i])

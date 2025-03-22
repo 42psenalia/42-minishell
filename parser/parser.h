@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/22 16:03:13 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:02:09 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@
 
 typedef enum e_token_type
 {
-	SQUOTE,
-	DQUOTE,
-	DOLLAR,
-	PIPE,
-	REDIRIN,
-	REDIROUT,
-	HEREDOC,
-	APPEND,
-	WORD
+	SQUOTE = 39,
+	DQUOTE = 34,
+	DOLLAR = 36,
+	PIPE = 124,
+	REDIRIN = 60,
+	REDIROUT = 62,
+	HEREDOC = 61,
+	APPEND = 63,
+	WORD = 69
 }	t_token_type;
 
 typedef struct s_tokens
