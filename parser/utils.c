@@ -6,7 +6,16 @@ char	*ft_getcwd(void)
 
 	path = getcwd(NULL, 0);
 	if (path == NULL)
-		return (NULL);
+	{
+		perror("getcwd failed");
+		// Provide a fallback value if getcwd fails
+		path = ft_strdup("(unknown)");
+		if (!path)
+		{
+			fprintf(stderr, "Error: Memory allocation failed in ft_getcwd\n");
+			exit(EXIT_FAILURE);
+		}
+	}
 	return (path);
 }
 
