@@ -56,7 +56,7 @@ void	run_heredocs(t_list *cmd_lst)
 			{
 				if (comms->token == HEREDOC)
 				{
-					comms = comms->next;
+					// comms = comms->next;
 					file = comms->infile;
 					exe_cmd->fd_heredoc = get_inputs(file);
 				}

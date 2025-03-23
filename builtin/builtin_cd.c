@@ -69,7 +69,7 @@ t_exit_status	builtin_cd(int argc, char **argv, t_shell_data *data)
 	char	*old_path;
 	char	*new_path;
 
-	if (argc >= 3)
+	if (argc > 2)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
 		return (ERROR);

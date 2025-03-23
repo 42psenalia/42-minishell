@@ -17,6 +17,7 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 	t_execute	*cmd_with_fds;
 	t_ast		*cmd;
 
+	printf("single builtin\n");
 	cmd_with_fds = cmd_lst->content;
 	cmd = cmd_with_fds->command;
 	if (ft_lstsize(cmd_lst) != 1)
