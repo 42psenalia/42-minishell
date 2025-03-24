@@ -12,5 +12,5 @@ void	sigint_handler(int signo)
 void	setup_signals(void)
 {
 	signal(SIGINT, sigint_handler);  // Handle Ctrl-C
-	signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl-\
+	signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl-backslash
 }

@@ -6,7 +6,7 @@
 /*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/24 14:24:58 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/24 14:35:35 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,10 @@
 
 // MAIN.C
 int	main(int ac, char **av, char **env);
+
+// --SIGNALS--
+// SIGNAL_BUTTONS.C
+void	setup_signals(void);
 
 
 // // --LEXER--
