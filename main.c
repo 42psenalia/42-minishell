@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/23 19:24:32 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:10:45 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int	main(int ac, char **av, char **env)
 	t_shell_data	*data;
 	int				i;
 
+	setup_signals();
 	data = initialize(ac, av, env);
 	if (data == NULL)
 		return (EXIT_FAILURE);

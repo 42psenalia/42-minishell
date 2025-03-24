@@ -46,7 +46,10 @@ PARSER_SRCS = $(PARSER_DIR)/free.c \
 	$(PARSER_DIR)/utils.c \
 	$(PARSER_DIR)/parse_tokens.c \
 	$(PARSER_DIR)/parse_utils.c \
-              $(PARSER_DIR)/parser.c
+    $(PARSER_DIR)/parser.c
+
+SIGNALS_DIR = ./signals
+SIGNALS_SRCS = $(SIGNALS_DIR)/signal_button.c
 
 SRCS = main.c \
 	shellstart.c \
@@ -54,7 +57,8 @@ SRCS = main.c \
 	$(BUILTIN_SRCS) \
 	$(ENVAR_SRCS) \
 	$(EXECUTE_SRCS) \
-	$(PARSER_SRCS)
+	$(PARSER_SRCS) \
+	$(SIGNALS_SRCS)
 
 OBJS = $(SRCS:.c=.o)
 

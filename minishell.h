@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/23 18:57:44 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:11:17 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 
 
 // ANSI Color codes for terminal output formatting:
@@ -102,6 +103,10 @@
 
 // MAIN.C
 int	main(int ac, char **av, char **env);
+
+// --SIGNALS--
+// SIGNAL_BUTTONS.C
+void	setup_signals(void);
 
 
 // // --LEXER--
