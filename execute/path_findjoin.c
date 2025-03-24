@@ -16,13 +16,11 @@ char	*join_path(char **full_path, char *cmd)
 {
 	char	*full_path_with_cmd;
 
-	printf("joining path\n");
 	while (*full_path)
 	{
 		full_path_with_cmd = va_strjoin(3, *full_path, "/", cmd);
 		if (access(full_path_with_cmd, X_OK) == SUCCESS)
 			return (full_path_with_cmd);
-		printf("not PATH: %s\n", full_path_with_cmd);
 		free(full_path_with_cmd);
 		full_path++;
 	}
@@ -49,9 +47,6 @@ char	*find_path(char *key, t_list *env_var_lst, char *cmd)
 	printf("found PATH: %s\n", path);
 	free_strarray(full_path, 0);
 	if (path != NULL)
-	// {
-	// 	free_strarray(full_path, 0);
 		return (path);
-	// }
 	return (NULL);
 }

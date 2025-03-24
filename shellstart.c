@@ -64,7 +64,7 @@ t_shell_data	*initialize(int argc, char **argv, char **env)
 	t_shell_data	*data;
 
 	silent_cntl();
-	setup_signal();
+	setup_signals();
 	data = makeshell(argc, argv, env);
 	if (data == NULL)
 		return (NULL);

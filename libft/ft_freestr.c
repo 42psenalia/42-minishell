@@ -16,7 +16,6 @@ static void	free_n_items(char **arr, size_t n)
 {
 	size_t	i;
 
-	printf("normal free\n");
 	i = 0;
 	while (i < n)
 	{
@@ -27,7 +26,6 @@ static void	free_n_items(char **arr, size_t n)
 
 static void	free_till_null(char **arr)
 {
-	printf("no size free\n");
 	while (*arr)
 	{
 		free(*arr);
@@ -37,12 +35,9 @@ static void	free_till_null(char **arr)
 
 void	free_strarray(char **array, size_t n)
 {
-	printf("array %p ", array);
 	if (n > 0)
 		free_n_items(array, n);
 	else
 		free_till_null(array);
-	printf("all array contents freed\n");
 	free(array);
-	printf("free strarray done\n");
 }
