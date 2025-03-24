@@ -58,6 +58,7 @@ static int	execute(char **cmd, t_list *env_var_list)
 		path = ft_strdup(cmd[0]);
 	else
 		path = find_path("PATH", env_var_list, cmd[0]);
+	printf("got path %s\n", path);
 	if (path == NULL)
 	{
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
@@ -67,6 +68,7 @@ static int	execute(char **cmd, t_list *env_var_list)
 	envp = get_envarray(env_var_list);
 	if (envp == NULL)
 		return (ERROR);
+	printf("got to execve\n");
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
@@ -97,5 +99,6 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 			free_cmd_lst_if_exit(cmd_lst_first, command);
 		return (builtin_execute(command, envp));
 	}
+	printf("not builtin command\n");
 	return (execute(command->argv, envp->envar_list));
 }

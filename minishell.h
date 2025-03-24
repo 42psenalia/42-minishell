@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/19 15:47:34 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/23 18:57:44 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int ac, char **av, char **env);
 // // --LEXER--
 //
 // // UTILS.C
-// char	*ft_getcwd(void);
+// char	*getcwd(void);
 // int		is_special(char c);
 // int		is_space(char c);
 // int		ft_strcmp(const char *s1, const char *s2);
