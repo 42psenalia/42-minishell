@@ -35,30 +35,9 @@ static void	free_till_null(char **arr)
 	}
 }
 
-
 void	free_strarray(char **array, size_t n)
 {
 	printf("array %p ", array);
-	// {
-	// 	printf("normal free\n");
-	// 	i = 0;
-	// 	while (i < n)
-	// 	{
-	// 		free(array[i]);
-	// 		i++;
-	// 	}
-	// }
-	// else
-	// {
-	// 	printf("no size free\n");
-	// 	while (*array)
-	// 	{
-	// 		printf("array %s", *array);
-	// 		free(*array);
-	// 		printf(" freed\n");
-	// 		array++;
-	// 	}
-	// }
 	if (n > 0)
 		free_n_items(array, n);
 	else
