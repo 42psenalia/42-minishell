@@ -3,10 +3,13 @@
 char	*read_line(void)
 {
 	char	*new_line;
+	char	*prompt;
 
-	printf(C"%s> "RST, ft_getcwd());
+	// printf(C"%s> "RST, ft_getcwd());
+	prompt = ft_strjoin(C, ft_getcwd());
+	new_line = ft_strjoin(prompt, "> " RST);
 
-	new_line = readline("");
+	new_line = readline(new_line);
 	if (!new_line)
 	{
 		fprintf(stderr, "lsh: allocation error\n");
@@ -17,6 +20,7 @@ char	*read_line(void)
 		add_history(new_line);
 	}
 	printf("You entered: %s\n", new_line);
+	free(prompt);
 	return (new_line);
 }
 
