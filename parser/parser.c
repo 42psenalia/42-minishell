@@ -19,7 +19,6 @@ char	*read_line(void)
 	{
 		add_history(new_line);
 	}
-	printf("You entered: %s\n", new_line);
 	free(prompt);
 	return (new_line);
 }
@@ -28,7 +27,8 @@ void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type, tokens->value, tokens->next);
+		printf("Type: %d, Value: [%s], Next-> %p\n", \
+			tokens->token_type, tokens->value, tokens->next);
 		tokens = tokens->next;
 	}
 }
@@ -52,13 +52,9 @@ void	print_ast(t_ast *node)
 		else
 			printf("(None)");
 		if (node->infile)
-			printf("\n  Input Redirect: <%s>", node->infile);
+			printf("\n  Input Redirect: <%s>", node->infile->value);
 		if (node->outfile)
-		{
-			printf("\n  Output Redirect: >%s", node->outfile);
-			if (node->token == APPEND)
-				printf(" (Append)");
-		}
+			printf("\n  Output Redirect: >%s", node->outfile->value);
 		printf("\n----------------\n");
 		node = node->next;
 	}
@@ -115,7 +111,6 @@ static t_command	*make_commlist(t_tokens *tokens)
 int	parser(char *line, t_command **commands)
 {
 	t_tokens	*tokens;
-	// t_ast		*parsed_tokens;
 
 	if (ft_strlen(line) == 0)
 		return (SUCCESS);
@@ -125,24 +120,10 @@ int	parser(char *line, t_command **commands)
 		ft_putstr_fd("Lexer failed!\n", STDERR_FILENO);
 		return (EINVAL);
 	}
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	*commands = make_commlist(tokens);
-	printf("got command %p\n", *commands);
 	if (commands == NULL)
 		return (ENOMEM);
-	// while (tokens)
-	// {
-	// 	parsed_tokens = parse_tokens(&tokens);
-	// 	if (!parsed_tokens)
-	// 	{
-	// 		printf("Parser failed!\n");
-	// 		return (ENOMEM);
-	// 	}
-	// 	print_ast(parsed_tokens);
-	// 	linkcommands(*commands, parsed_tokens);
-	// 	if (tokens)
-	// 		tokens = tokens->next;
-	// }
 	free_tokens(tokens);
 	printf("parser done, lexer tokens freed\n");
 	return (SUCCESS);

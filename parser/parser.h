@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/23 19:00:00 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:05:45 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ typedef struct s_ast
 {
 	int				argc;		// Count of argv
 	char			**argv;		// Command + arguments
-	t_token_type	token;		// Indicates the token type
-	char			*infile;	// Input redirection file
-	char			*outfile;	// Output redirection file
+	struct s_tokens	*infile;	// Input redirection file
+	struct s_tokens	*outfile;	// Output redirection file
 	struct s_ast	*next;		// Next command in a pipeline
 }	t_ast;
 

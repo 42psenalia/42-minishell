@@ -23,7 +23,6 @@ t_exit_status	parbuiltin_execute(t_ast *cmd, t_shell_data *data)
 	argc = cmd->argc;
 	argv = cmd->argv;
 	name = argv[0];
-	printf("parbuiltin execute with %s, %d argc\n", name, argc);
 	if (ft_strcmp(name, "cd") == 0)
 		data->exit_status = builtin_cd(argc, argv, data);
 	else if (ft_strcmp(name, "exit") == 0)
@@ -47,7 +46,6 @@ t_exit_status	builtin_execute(t_ast *cmd, t_shell_data *data)
 	argc = cmd->argc;
 	argv = cmd->argv;
 	name = argv[0];
-	printf("builtin execute with %s\n", name);
 	if (parent_builtin(name))
 		data->exit_status = parbuiltin_execute(cmd, data);
 	else if (ft_strcmp(name, "echo") == 0)

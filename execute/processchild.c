@@ -26,7 +26,7 @@ static void	do_redirs(t_list *cmd_lst, t_execute *cmd, int *prev_fd)
 		dup2(*prev_fd, STDIN_FILENO);
 		close(*prev_fd);
 	}
-	if (cmd->command->token)
+	if (cmd->command->infile || cmd->command->outfile)
 		handle_redir_input_output(cmd_lst);
 }
 
@@ -54,6 +54,7 @@ static int	execute(char **cmd, t_list *env_var_list)
 
 	if (!cmd || !cmd[0])
 		return (SUCCESS);
+	printf("executing\n");
 	if (ft_strchr(cmd[0], '/') && access(cmd[0], X_OK) == SUCCESS)
 		path = ft_strdup(cmd[0]);
 	else
@@ -91,7 +92,7 @@ int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
 	printf("checkfile passed\n");
 	do_redirs(cmd_lst, cmd, prev_fd);
 	printf("redirects done\n");
-	if (builtin_check(command->argv[0]))
+	if (command->argv && builtin_check(command->argv[0]))
 	{
 		printf("detect builtin command\n");
 		if (ft_strcmp(command->argv[0], "exit") == 0)

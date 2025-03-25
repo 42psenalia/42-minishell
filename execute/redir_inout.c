@@ -12,39 +12,39 @@
 
 #include "execute.h"
 
-static void	redir_input_type_file(t_list *cmd_lst, char *file, int type)
+static void	redir_input_type_file(t_list *cmd_lst, t_tokens *infile)
 {
 	t_execute	*cmd;
 
-	if (get_token_type(file) != WORD)
+	if (get_token_type(infile->value) != WORD)
 		return ;
 	cmd = cmd_lst->content;
-	if (type == REDIRIN)
+	if (infile->token_type == REDIRIN)
 	{
-		cmd->fd_in = open(file, O_RDONLY);
+		cmd->fd_in = open(infile->value, O_RDONLY);
 	}
-	else if (type == HEREDOC)
+	else if (infile->token_type == HEREDOC)
 		cmd->fd_in = cmd->fd_heredoc;
 	if (cmd->fd_in == -1)
 	{
-		perror(file);
+		perror(infile->value);
 		return ;
 	}
 }
 
-static void	redir_output_type_file( t_list *cmd_lst, char *file, int type)
+static void	redir_output_type_file( t_list *cmd_lst, t_tokens *outfile)
 {
 	int			mode;
 	t_execute	*cmd;
 
-	if (get_token_type(file) != WORD)
+	if (get_token_type(outfile->value) != WORD)
 		return ;
-	if (type == APPEND)
+	if (outfile->token_type == APPEND)
 		mode = O_WRONLY | O_CREAT | O_APPEND;
 	else
 		mode = O_WRONLY | O_CREAT | O_TRUNC;
 	cmd = cmd_lst->content;
-	cmd->fd_out = open(file, mode, 0644);
+	cmd->fd_out = open(outfile->value, mode, 0644);
 	if (cmd->fd_out == -1)
 	{
 		perror("failed file descriptor");
@@ -63,11 +63,10 @@ void	handle_redir_input_output(t_list *cmd_lst)
 	redirs = exe_cmd->command;
 	while (redirs)
 	{
-		redirs = redirs->next;
-		if (redirs->token == REDIRIN || redirs->token == HEREDOC)
-			redir_input_type_file(cmd_lst, redirs->infile, redirs->token);
-		else if (redirs->token == REDIROUT || redirs->token == APPEND)
-			redir_output_type_file(cmd_lst, redirs->outfile, redirs->token);
+		if (redirs->infile && redirs->infile->token_type)
+			redir_input_type_file(cmd_lst, redirs->infile);
+		if (redirs->outfile && redirs->outfile->token_type)
+			redir_output_type_file(cmd_lst, redirs->outfile);
 		redirs = redirs->next;
 	}
 	dup2(exe_cmd->fd_in, STDIN_FILENO);

@@ -15,22 +15,22 @@ void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens)
 	*current = (*current)->next; // Move to the new AST node
 }
 
-void	handle_token(t_ast *current, t_tokens **tokens)
+static t_tokens	*copy_token(t_token_type type, char *value)
 {
-	if ((*tokens)->token_type == REDIRIN || (*tokens)->token_type == REDIROUT
-		|| (*tokens)->token_type == HEREDOC || (*tokens)->token_type == APPEND)
+	t_tokens	*copy;
+
+	copy = malloc(sizeof(t_tokens));
+	if (!copy)
+		return (NULL);
+	ft_bzero(copy, sizeof(t_tokens));
+	copy->token_type = type;
+	copy->value = ft_strdup(value);
+	if (!copy->value)
 	{
-		handle_redirection(current, tokens);
-		return ;
+		free(copy);
+		return (NULL);
 	}
-	else
-	{
-		while (*tokens && (*tokens)->token_type == WORD)
-		{
-			add_argument(current, (*tokens)->value);
-			*tokens = (*tokens)->next;
-		}
-	}
+	return (copy);
 }
 
 void	handle_redirection(t_ast *node, t_tokens **tokens)
@@ -43,16 +43,23 @@ void	handle_redirection(t_ast *node, t_tokens **tokens)
 	*tokens = (*tokens)->next; // Move to the filename token
 	if (!*tokens) // No filename after redirection
 		return ;
-	node->token = current->token_type;
-	if (current->token_type == REDIRIN)
-		node->infile = ft_strdup((*tokens)->value);
+	if (current->token_type == REDIRIN || current->token_type == HEREDOC)
+	{
+		if (node->infile)
+			free(node->infile);
+		node->infile = copy_token(current->token_type, (*tokens)->value);
+		if (!node->infile)
+			return ;
+	}
 	else if (current->token_type == REDIROUT || current->token_type == APPEND)
-		node->outfile = ft_strdup((*tokens)->value);
-	// else if (current->token_type == APPEND)
-	// 	node->outfile = ft_strdup((*tokens)->value);
-	else if (current->token_type == HEREDOC)
-		node->infile = ft_strdup((*tokens)->value); // Keep the exit keyword
-	*tokens = (*tokens)->next;
+	{
+		if (node->outfile)
+			free(node->outfile);
+		node->outfile = copy_token(current->token_type, (*tokens)->value);
+		if (!node->outfile)
+			return ;
+	}
+	// *tokens = (*tokens)->next;
 }
 
 void	add_argument(t_ast *node, char *arg)
@@ -62,22 +69,18 @@ void	add_argument(t_ast *node, char *arg)
 
 	if (!node || !arg)
 		return ;
-	// Count existing arguments
 	i = 0;
 	while (node->argv && node->argv[i])
 		i++;
-	// Allocate space for new argument list (+1 for new arg, +1 for NULL)
 	new_args = malloc(sizeof(char *) * (i + 2));
 	if (!new_args)
 		return ;
-	// Copy existing arguments
 	i = 0;
 	while (node->argv && node->argv[i])
 	{
 		new_args[i] = ft_strdup(node->argv[i]);
 		i++;
 	}
-	// Add new argument and NULL-terminate
 	new_args[i] = ft_strdup(arg);
 	new_args[i + 1] = NULL;
 	int	t = 0;
@@ -86,8 +89,22 @@ void	add_argument(t_ast *node, char *arg)
 		printf("newarg[%d] = %s\n", t, new_args[t]);
 		t++;
 	}
-	// Free old args list and update node
 	if (node->argv)
 		free_strarray(node->argv, i);
 	node->argv = new_args;
+}
+void	handle_token(t_ast *current, t_tokens **tokens)
+{
+	while (*tokens && (*tokens)->token_type != PIPE)
+	{
+		if ((*tokens)->token_type == REDIRIN || \
+			(*tokens)->token_type == REDIROUT || \
+			(*tokens)->token_type == HEREDOC || \
+			(*tokens)->token_type == APPEND)
+			handle_redirection(current, tokens);
+		else if ((*tokens)->token_type == WORD || \
+			(*tokens)->token_type == DOLLAR)
+			add_argument(current, (*tokens)->value);
+		*tokens = (*tokens)->next;
+	}
 }

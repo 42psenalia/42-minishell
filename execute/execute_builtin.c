@@ -20,13 +20,14 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 	printf("single builtin\n");
 	cmd_with_fds = cmd_lst->content;
 	cmd = cmd_with_fds->command;
+	printf("check commands: %p, %d argc & argv %p\n", cmd, cmd->argc, cmd->argv);
 	if (ft_lstsize(cmd_lst) != 1)
 		return (ERROR);
-	else if (cmd->argv[0] == NULL)
+	else if (!cmd->argv || cmd->argv[0] == NULL)
 		return (ERROR);
 	else if (!parent_builtin(cmd->argv[0]))
 		return (ERROR);
-	if (cmd->token >= 4 && cmd->token <= 7)
+	if (cmd->infile || cmd->outfile)
 		handle_redir_input_output(cmd_lst);
 	printf("no redir\n");
 	if (ft_strcmp(cmd->argv[0], "exit") == 0 && cmd->argc <= 2)

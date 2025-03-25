@@ -19,26 +19,17 @@ int	check_infiles(t_ast *cmd)
 	printf("infile check\n");
 	while (cmd)
 	{
-		type = cmd->token;
+		if (!cmd->infile)
+			return (SUCCESS);
+		type = cmd->infile->token_type;
 		if (type == REDIRIN)
 		{
-			if (access(cmd->infile, R_OK) != SUCCESS \
-				|| (access(cmd->infile, R_OK | W_OK) != SUCCESS))
+			if (access(cmd->infile->value, R_OK) != SUCCESS \
+				|| (access(cmd->infile->value, R_OK | W_OK) != SUCCESS))
 			{
-				perror(cmd->infile);
+				perror(cmd->infile->value);
 				return (ERROR);
 			}
-			// cmd = cmd->next;
-			// type = cmd->token;
-			// if (type == WORD)
-			// {
-			// 	if (access(cmd->infile, R_OK) != SUCCESS
-			// 		|| (access(cmd->infile, R_OK | W_OK) != SUCCESS))
-			// 	{
-			// 		perror(cmd->infile);
-			// 		return (ERROR);
-			// 	}
-			// }
 		}
 		cmd = cmd->next;
 	}
