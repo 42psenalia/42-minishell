@@ -14,7 +14,7 @@
 
 void	ft_parentprocess(t_list *cmd_lst, int *prev_fd, t_execute *cmd)
 {
-	printf("parenting process\n");
+	// printf("parenting process\n");
 	if (cmd_lst->next)
 	{
 		close(cmd->pipe_fds[1]);
@@ -24,5 +24,5 @@ void	ft_parentprocess(t_list *cmd_lst, int *prev_fd, t_execute *cmd)
 	}
 	else if (*prev_fd != -1)
 		close(*prev_fd);
-	printf("parenting finished\n");
+	// printf("parenting finished\n");
 }

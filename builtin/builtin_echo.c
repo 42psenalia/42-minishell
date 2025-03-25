@@ -57,7 +57,6 @@ t_exit_status	builtin_echo(int argc, char **argv, t_shell_data *data)
 	bool	put_newline;
 	int		i;
 
-	printf("builtin_echo\n");
 	(void) data;
 	put_newline = true;
 	i = 1;

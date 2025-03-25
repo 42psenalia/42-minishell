@@ -37,7 +37,6 @@ static int	get_inputs(char *delimiter)
 		free(line);
 	}
 	close(pipe_fd[1]);
-	printf("getinputs done\n");
 	return (pipe_fd[0]);
 }
 
@@ -50,14 +49,14 @@ void	run_heredocs(t_list *cmd_lst)
 	while (cmd_lst)
 	{
 		exe_cmd = cmd_lst->content;
+		// printf("got exe_cmd %p\n", exe_cmd);
 		if (exe_cmd->command->infile)
 		{
 			comms = exe_cmd->command;
 			while (comms)
 			{
-				if (comms->infile->token_type == HEREDOC)
+				if (comms->infile && comms->infile->token_type == HEREDOC)
 				{
-					// comms = comms->next;
 					file = comms->infile->value;
 					exe_cmd->fd_heredoc = get_inputs(file);
 				}
@@ -66,5 +65,5 @@ void	run_heredocs(t_list *cmd_lst)
 		}
 		cmd_lst = cmd_lst->next;
 	}
-	printf("heredoc done\n");
+	// printf("heredoc done\n");
 }

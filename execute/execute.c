@@ -16,7 +16,6 @@ static void	issue_command_to_child(t_list **cmd_lst_first, t_list *cmd_lst,
 	int *prev_fd, t_shell_data *envp)
 {
 	restore_terminal_settings();
-	printf("terminal settings restored\n");
 	envp->exit_status = ft_childprocess(cmd_lst_first, cmd_lst, prev_fd, envp);
 	free_execute_command_list(cmd_lst_first);
 	builtin_exit(NULL, envp);
@@ -52,9 +51,9 @@ int	sub_execute(t_list **cmd_lst_first, t_shell_data *envp, int *prev_fd)
 	t_list		*node;
 	t_execute	*cmd;
 
-	printf("sub-execution\n");
+	// printf("sub-execution\n");
 	node = *cmd_lst_first;
-	printf("node->content %p\n", node->content);
+	// printf("node->content %p\n", node->content);
 	while (node)
 	{
 		cmd = node->content;
@@ -63,7 +62,7 @@ int	sub_execute(t_list **cmd_lst_first, t_shell_data *envp, int *prev_fd)
 			if (node->next && pipe(cmd->pipe_fds) == -1)
 				exit(EXIT_FAILURE);
 			cmd->pid = fork();
-			printf("forked pid\n");
+			// printf("forked pid\n");
 			if (cmd->pid < 0)
 				exit(EXIT_FAILURE);
 			if (cmd->pid == 0)

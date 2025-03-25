@@ -36,15 +36,15 @@ char	*find_path(char *key, t_list *env_var_lst, char *cmd)
 
 	if (!key || !env_var_lst)
 		return (NULL);
-	printf("not NULL input\n");
+	// printf("not NULL input\n");
 	path_node = find_node(key, env_var_lst);
 	if (!path_node)
 		return (NULL);
-	printf("PATH found in env\n");
+	// printf("env PATH found\n");
 	env_var = (t_envar *)path_node->content;
 	full_path = ft_split(env_var->value, ':');
 	path = join_path(full_path, cmd);
-	printf("found PATH: %s\n", path);
+	// printf("found command PATH: %s\n", path);
 	free_strarray(full_path, 0);
 	if (path != NULL)
 		return (path);

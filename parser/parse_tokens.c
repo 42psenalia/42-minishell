@@ -77,6 +77,7 @@ t_ast	*parse_tokens(t_tokens **tokens)
 	head = NULL;
 	while (*tokens)
 	{
+		// printf("current lexer %p, %d\n", *tokens, (*tokens)->token_type);
 		if ((*tokens)->token_type == PIPE)
 			break ;
 		new = create_ast_node();
@@ -88,8 +89,10 @@ t_ast	*parse_tokens(t_tokens **tokens)
 			head = new;
 		else
 			linksect(head, new);
-		if (*tokens)
-			*tokens = (*tokens)->next;
+		// if ((*tokens)->token_type == PIPE)
+		// 	break ;
+		// if (*tokens)
+		// 	*tokens = (*tokens)->next;
 	}
 	return (head);
 }

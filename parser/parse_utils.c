@@ -1,19 +1,19 @@
 #include "parser.h"
 
-void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens)
-{
-	*tokens = (*tokens)->next; // Move to the next token after the pipe
-	if (!*tokens) // If no tokens after the pipe, return
-		return ;
-	(*current)->next = create_ast_node();
-	if (!(*current)->next)
-	{
-		free_ast(*head); // Free the partially built AST
-		*head = NULL;
-		return ;
-	}
-	*current = (*current)->next; // Move to the new AST node
-}
+// void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens)
+// {
+// 	*tokens = (*tokens)->next; // Move to the next token after the pipe
+// 	if (!*tokens) // If no tokens after the pipe, return
+// 		return ;
+// 	(*current)->next = create_ast_node();
+// 	if (!(*current)->next)
+// 	{
+// 		free_ast(*head); // Free the partially built AST
+// 		*head = NULL;
+// 		return ;
+// 	}
+// 	*current = (*current)->next; // Move to the new AST node
+// }
 
 static t_tokens	*copy_token(t_token_type type, char *value)
 {
@@ -39,9 +39,9 @@ void	handle_redirection(t_ast *node, t_tokens **tokens)
 
 	if (!node || !tokens || !*tokens || !(*tokens)->next)
 		return ;
-	current = *tokens; // Save the redirection operator
-	*tokens = (*tokens)->next; // Move to the filename token
-	if (!*tokens) // No filename after redirection
+	current = *tokens;
+	*tokens = (*tokens)->next;
+	if (!*tokens)
 		return ;
 	if (current->token_type == REDIRIN || current->token_type == HEREDOC)
 	{
@@ -59,7 +59,6 @@ void	handle_redirection(t_ast *node, t_tokens **tokens)
 		if (!node->outfile)
 			return ;
 	}
-	// *tokens = (*tokens)->next;
 }
 
 void	add_argument(t_ast *node, char *arg)
@@ -83,16 +82,17 @@ void	add_argument(t_ast *node, char *arg)
 	}
 	new_args[i] = ft_strdup(arg);
 	new_args[i + 1] = NULL;
-	int	t = 0;
-	while (new_args[t])
-	{
-		printf("newarg[%d] = %s\n", t, new_args[t]);
-		t++;
-	}
-	if (node->argv)
-		free_strarray(node->argv, i);
+	// int	t = 0;
+	// while (new_args[t])
+	// {
+	// 	printf("newarg[%d] = %s\n", t, new_args[t]);
+	// 	t++;
+	// }
+	// if (node->argv)
+	// 	free_strarray(node->argv, i);
 	node->argv = new_args;
 }
+
 void	handle_token(t_ast *current, t_tokens **tokens)
 {
 	while (*tokens && (*tokens)->token_type != PIPE)

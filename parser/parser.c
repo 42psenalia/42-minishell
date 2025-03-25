@@ -72,11 +72,7 @@ static void	linkcommands(t_command **commands, t_ast *parsed)
 	if (!(*commands))
 		*commands = new;
 	else
-	{
-		while ((*commands)->next)
-			*commands = (*commands)->next;
-		(*commands)->next = new;
-	}
+		ft_lstadd_back(commands, new);
 }
 
 static t_command	*make_commlist(t_tokens *tokens)
@@ -84,7 +80,7 @@ static t_command	*make_commlist(t_tokens *tokens)
 	t_command	*commands;
 	t_ast		*parsed_tokens;
 
-	printf("making commlist\n");
+	// printf("making commlist\n");
 	commands = NULL;
 	while (tokens)
 	{
@@ -93,7 +89,7 @@ static t_command	*make_commlist(t_tokens *tokens)
 			return (NULL);
 		print_ast(parsed_tokens);
 		linkcommands(&commands, parsed_tokens);
-		printf("commands linked\n");
+		// printf("commands linked\n");
 		if (tokens)
 			tokens = tokens->next;
 	}
@@ -101,13 +97,13 @@ static t_command	*make_commlist(t_tokens *tokens)
 	temp = commands;
 	while (temp)
 	{
-		printf("Command: %p, next-> %p\n", commands->content, commands->next);
+		printf("Command: %p, next-> %p\n", temp->content, temp->next);
 		temp = temp->next;
 	}
 	return (commands);
 }
 
-// Currently not needing for t_exit_status but might be later
+// Currently not needing t_shell_data for t_exit_status but might be later
 int	parser(char *line, t_command **commands)
 {
 	t_tokens	*tokens;

@@ -38,7 +38,6 @@ typedef struct s_shell_data
 	t_envar_list	*envar_list;
 }	t_shell_data;
 
-
 t_shell_data	*initialize(int argc, char **argv, char **env);
 void			silent_cntl(void);
 void			restore_terminal_settings(void);

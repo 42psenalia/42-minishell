@@ -17,10 +17,9 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 	t_execute	*cmd_with_fds;
 	t_ast		*cmd;
 
-	printf("single builtin\n");
+	// printf("single builtin\n");
 	cmd_with_fds = cmd_lst->content;
 	cmd = cmd_with_fds->command;
-	printf("check commands: %p, %d argc & argv %p\n", cmd, cmd->argc, cmd->argv);
 	if (ft_lstsize(cmd_lst) != 1)
 		return (ERROR);
 	else if (!cmd->argv || cmd->argv[0] == NULL)
@@ -29,7 +28,6 @@ int	single_builtin(t_list *cmd_lst, t_shell_data *envp)
 		return (ERROR);
 	if (cmd->infile || cmd->outfile)
 		handle_redir_input_output(cmd_lst);
-	printf("no redir\n");
 	if (ft_strcmp(cmd->argv[0], "exit") == 0 && cmd->argc <= 2)
 	{
 		free(cmd_lst);
