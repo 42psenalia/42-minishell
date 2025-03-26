@@ -21,20 +21,48 @@ static void	issue_command_to_child(t_list **cmd_lst_first, t_list *cmd_lst,
 	builtin_exit(NULL, envp);
 }
 
+static bool	argchk(t_list *execlist)
+{
+	t_execute	*temp;
+	t_ast		*intron;
+	bool		inout;
+
+	while (execlist)
+	{
+		temp = execlist->content;
+		intron = temp->command;
+		while (intron)
+		{
+			if (intron->argv)
+				return (true);
+			if (intron->infile && intron->outfile)
+				inout = true;
+			intron = intron->next;
+		}
+		execlist = execlist->next;
+	}
+	if (inout)
+		return (true);
+	return (false);
+}
+
 int	sub_execute(t_list **cmd_lst_first, t_shell_data *envp, int *prev_fd)
 {
 	t_list		*node;
 	t_execute	*cmd;
 
+	// printf("sub-execution\n");
 	node = *cmd_lst_first;
+	// printf("node->content %p\n", node->content);
 	while (node)
 	{
 		cmd = node->content;
-		if (cmd->command->argv)
+		if (argchk(node))
 		{
 			if (node->next && pipe(cmd->pipe_fds) == -1)
 				exit(EXIT_FAILURE);
 			cmd->pid = fork();
+			// printf("forked pid\n");
 			if (cmd->pid < 0)
 				exit(EXIT_FAILURE);
 			if (cmd->pid == 0)

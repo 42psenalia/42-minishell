@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_checkin.c                                     :+:      :+:    :+:   */
+/*   processparent.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:00:38 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:38 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 13:00:56 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:00:56 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	check_infiles(t_ast *cmd)
+void	ft_parentprocess(t_list *cmd_lst, int *prev_fd, t_execute *cmd)
 {
-	t_token_type	type;
-
-	while (cmd)
+	// printf("parenting process\n");
+	if (cmd_lst->next)
 	{
-		type = cmd->token;
-		if (type == REDIRIN)
-		{
-			cmd = cmd->next;
-			type = cmd->token;
-			if (type == WORD)
-			{
-				if (access(cmd->infile, R_OK) != SUCCESS
-					|| (access(cmd->infile, R_OK | W_OK) != SUCCESS))
-				{
-					perror(cmd->infile);
-					return (ERROR);
-				}
-			}
-		}
-		cmd = cmd->next;
+		close(cmd->pipe_fds[1]);
+		if (*prev_fd != -1)
+			close(*prev_fd);
+		*prev_fd = cmd->pipe_fds[0];
 	}
-	return (SUCCESS);
+	else if (*prev_fd != -1)
+		close(*prev_fd);
+	// printf("parenting finished\n");
 }

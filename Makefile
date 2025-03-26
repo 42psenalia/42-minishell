@@ -1,75 +1,87 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/11 15:41:01 by psenalia          #+#    #+#              #
-#    Updated: 2025/03/11 15:41:01 by psenalia         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
-MAKEFLAGS += --no-print-directory
-
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror -g -O0
 
-OBJS_DIR = .objs
-
-HEADERS = shellstart.h
-SRCS = main.c shellstart.c setsig.c
-OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
-
-MODULE_DIRS = parser execution builtin env_var
-MODULES = $(foreach dir, $(MODULE_DIRS),$(dir)/$(dir).a)
-
-LIBFT_DIR = libft
+LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-LFLAGS = -L/usr/include -lreadline -lhistory
+BUILTIN_DIR = ./builtin
+BUILTIN_SRCS = $(BUILTIN_DIR)/builtin_cd.c \
+	$(BUILTIN_DIR)/builtin_echo.c \
+	$(BUILTIN_DIR)/builtin_env.c \
+	$(BUILTIN_DIR)/builtin_execute.c \
+	$(BUILTIN_DIR)/builtin_exit.c \
+	$(BUILTIN_DIR)/builtin_export.c \
+	$(BUILTIN_DIR)/builtin_name.c \
+	$(BUILTIN_DIR)/builtin_pwd.c \
+	$(BUILTIN_DIR)/builtin_unset.c
 
-.PHONY: all clean fclean re $(LIBFT_DIR) $(MODULE_DIRS)
+ENVAR_DIR = ./envar
+ENVAR_SRCS = $(ENVAR_DIR)/chkey_envar.c \
+	$(ENVAR_DIR)/create_envar.c \
+	$(ENVAR_DIR)/find_envnode.c \
+	$(ENVAR_DIR)/form_envar.c \
+	$(ENVAR_DIR)/free_envar.c \
+	$(ENVAR_DIR)/get_envar.c \
+	$(ENVAR_DIR)/print_del_envar.c \
+	$(ENVAR_DIR)/set_envar.c
 
-all: $(LIBFT_DIR) $(MODULE_DIRS) $(NAME)
+EXECUTE_DIR = ./execute
+EXECUTE_SRCS = $(EXECUTE_DIR)/execute.c \
+	$(EXECUTE_DIR)/execute_builtin.c \
+	$(EXECUTE_DIR)/file_checkin.c \
+	$(EXECUTE_DIR)/path_findjoin.c \
+	$(EXECUTE_DIR)/processchild.c \
+	$(EXECUTE_DIR)/processparent.c \
+	$(EXECUTE_DIR)/processwait.c \
+	$(EXECUTE_DIR)/redir_heredoc.c \
+	$(EXECUTE_DIR)/redir_inout.c \
+	$(EXECUTE_DIR)/setup_cmdlist.c
+
+PARSER_DIR = ./parser
+PARSER_SRCS = $(PARSER_DIR)/free.c \
+	$(PARSER_DIR)/lexer.c \
+	$(PARSER_DIR)/token.c \
+	$(PARSER_DIR)/utils.c \
+	$(PARSER_DIR)/parse_tokens.c \
+	$(PARSER_DIR)/parse_utils.c \
+    $(PARSER_DIR)/parser.c
+
+# SIGNALS_DIR = ./signals
+# SIGNALS_SRCS = $(SIGNALS_DIR)/signal_button.c
+
+SRCS = main.c \
+	shellstart.c \
+	setsig.c \
+	$(BUILTIN_SRCS) \
+	$(ENVAR_SRCS) \
+	$(EXECUTE_SRCS) \
+	$(PARSER_SRCS)
+
+OBJS = $(SRCS:.c=.o)
+
+INCLUDES = -I ./ -I $(LIBFT_DIR) -I $(BUILTIN_DIR) -I $(ENVAR_DIR) -I $(EXECUTE_DIR) -I $(PARSER_DIR)
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@$(MAKE) clean -C $(LIBFT_DIR)
-	@for dir in $(MODULE_DIRS); do \
-		echo "clean $$dir"; \
-		$(MAKE) clean -C $$dir; \
-	done
-	@echo "clean root directory";
-	$(RM) $(OBJS_DIR)
+	make clean -C $(LIBFT_DIR)
+	rm -f $(OBJS)
 
-fclean:
-	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@for dir in $(MODULE_DIRS); do \
-		echo "fclean $$dir"; \
-		$(MAKE) fclean -C $$dir; \
-	done
-	@echo "fclean root directory";
-	$(RM) $(OBJS_DIR)
-	$(RM) $(NAME)
+fclean: clean
+	make fclean -C $(LIBFT_DIR)
+	rm -f $(NAME)
 
 re: fclean all
 
-$(LIBFT_DIR) $(MODULE_DIRS):
-	@echo "build $@"
-	@$(MAKE) -C $@
-
-$(LIBFT): $(LIBFT_DIR)
-$(MODULES): $(MODULE_DIRS)
-
-$(NAME): $(LIBFT) $(MODULES) $(OBJS)
-	@echo "link minishell"
-	$(CC) $(CFLAGS) $(OBJS) $(MODULES) $(LIBFT) $(LFLAGS) -o $(NAME)
-
-$(OBJS_DIR)/%.o: %.c $(HEADERS) | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJS_DIR):
-	mkdir -p $@
+.PHONY: all clean fclean re

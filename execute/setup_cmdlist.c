@@ -35,18 +35,26 @@ void	free_execute_command(void *execute_command)
 	t_execute	*cmd;
 
 	cmd = execute_command;
-	free_command(cmd->command);
+	free_ast(cmd->command);
 	free(cmd);
 }
 
 t_list	*init_execute_command_list(t_list *commands)
 {
 	t_list	*execute_command_list;
+	t_list	*temp;
 
 	execute_command_list = ft_lstmap(commands, \
 		make_execute_command, free_execute_command);
 	if (execute_command_list == NULL)
 		return (NULL);
+	while (commands)
+	{
+		temp = commands;
+		commands = commands->next;
+		temp->content = NULL;
+		free(temp);
+	}
 	return (execute_command_list);
 }
 

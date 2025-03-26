@@ -13,7 +13,8 @@
 #ifndef SHELLSTART_H
 # define SHELLSTART_H
 
-# include "env_var/envar.h"
+# include "minishell.h"
+# include "envar/envar.h"
 # include "libft/libft.h"
 
 # define READMODE 0
@@ -37,12 +38,11 @@ typedef struct s_shell_data
 	t_envar_list	*envar_list;
 }	t_shell_data;
 
-
 t_shell_data	*initialize(int argc, char **argv, char **env);
 void			silent_cntl(void);
 void			restore_terminal_settings(void);
 void			setup_signal(void);
-t_shell_data	*makeshell(char **env);
+t_shell_data	*makeshell(int argc, char **argv, char **env);
 void			freeshell(t_shell_data *data);
 
 #endif

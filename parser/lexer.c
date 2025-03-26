@@ -1,4 +1,4 @@
-#include "../parser.h"
+#include "parser.h"
 
 char	*extract_word(char **input)
 {
@@ -75,7 +75,7 @@ t_tokens	*lexer(char *input)
 	{
 		word = NULL;
 		if (*input == ' ' || *input == '\t')
-			input++; // Skip whitespace
+			input++;
 		else if (*input == '\'' || *input == '"')
 			word = extract_quoted(&input, *input);
 		else if (*input == '|' || *input == '<' || *input == '>')

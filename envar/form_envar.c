@@ -17,7 +17,7 @@ static void	form_shlvl(char *head, char **body)
 	int		num;
 	char	*temp;
 
-	if (ft_strsmp(head, "SHLVL") == 0)
+	if (ft_strcmp(head, "SHLVL") == 0)
 	{
 		num = ft_atoi(*body);
 		free(*body);
@@ -40,12 +40,15 @@ char	**formkeyvar(char *envline)
 	keyvar = malloc(2 * sizeof(char *));
 	if (keyvar == NULL)
 		return (NULL);
-	headlen = (ft_strlen(ft_strchr(envline, '=')) - ft_strlen(envline));
-	bodylen = (ft_strlen(ft_strchr(envline, '=')) + 1);
+	headlen = (ft_strchr(envline, '=') - envline);
+	bodylen = (ft_strlen(ft_strchr(envline, '=') + 1));
+	// printf("headlen = %zu | bodylen = %zu\n", headlen, bodylen);
 	keyvar[0] = ft_substr(envline, 0, headlen);
 	keyvar[1] = ft_substr(envline, headlen + 1, bodylen);
+	// printf("keyvar: %s & %s\n", keyvar[0], keyvar[1]);
 	if (keyvar[0] == NULL || keyvar[1] == NULL)
 	{
+		printf("keyvar failed\n");
 		free(keyvar[0]);
 		free(keyvar[1]);
 		free(keyvar);
@@ -65,7 +68,7 @@ static bool	getenvline(char *envline, t_list **list)
 	form_shlvl(key_var[0], &key_var[1]);
 	if (key_var[1] == NULL)
 		return (false);
-	node = setenvar(key_var[0], &key_var[1], list);
+	node = setenvar(key_var[0], key_var[1], list);
 	free_strarray(key_var, 2);
 	if (node == NULL)
 		return (false);

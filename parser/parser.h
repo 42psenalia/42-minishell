@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/18 16:45:12 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:43:30 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSER_H
 # include "../libft/libft.h"
 # include "../builtin/builtin.h"
+// # include "../execute/execute.h"
+# include "../shellstart.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -43,15 +45,15 @@
 
 typedef enum e_token_type
 {
-	SQUOTE,
-	DQUOTE,
-	DOLLAR,
-	PIPE,
-	REDIRIN,
-	REDIROUT,
-	HEREDOC,
-	APPEND,
-	WORD
+	SQUOTE = 39,
+	DQUOTE = 34,
+	DOLLAR = 36,
+	PIPE = 124,
+	REDIRIN = 60,
+	REDIROUT = 62,
+	HEREDOC = 61,
+	APPEND = 63,
+	WORD = 69
 }	t_token_type;
 
 typedef struct s_tokens
@@ -91,9 +93,8 @@ typedef struct s_ast
 {
 	int				argc;		// Count of argv
 	char			**argv;		// Command + arguments
-	t_token_type	token;		// Indicates the token type
-	char			*infile;	// Input redirection file
-	char			*outfile;	// Output redirection file
+	struct s_tokens	*infile;	// Input redirection file
+	struct s_tokens	*outfile;	// Output redirection file
 	struct s_ast	*next;		// Next command in a pipeline
 }	t_ast;
 
@@ -107,7 +108,6 @@ char	*read_line(void);
 char	*ft_getcwd(void);
 int		is_special(char c);
 int		is_space(char c);
-int		ft_strcmp(const char *s1, const char *s2);
 
 // TOKEN.C
 void	add_token(t_tokens **head, t_token_type type, char *value);
@@ -119,16 +119,17 @@ t_tokens	*lexer(char *input);
 char	*extract_operator(char **input);
 
 // --PARSER--
+int		parser(char *line, t_command **commands);
 
 // PARSE_TOKENS.C
-void	handle_redirection(t_ast *node, t_tokens **tokens);
-void	add_argument(t_ast *node, char *arg);
 t_ast	*create_ast_node(void);
-t_ast	*parse_tokens(t_tokens *tokens);
+t_ast	*parse_tokens(t_tokens **tokens);
 
 // PARSE_UTILS.C
-void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
+// void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
 void	handle_token(t_ast *current, t_tokens **tokens);
+void	handle_redirection(t_ast *node, t_tokens **tokens);
+void	add_argument(t_ast *node, char *arg);
 
 // --FREE--
 

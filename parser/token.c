@@ -1,4 +1,4 @@
-#include "../parser.h"
+#include "parser.h"
 
 void	add_token(t_tokens **head, t_token_type type, char *value)
 {

@@ -30,13 +30,13 @@ static bool	is_n_flag(char *str)
 	return (true);
 }
 
-static void	apply_options(int argc, char **argv, int *i, int *put_newline)
+static void	apply_options(int argc, char **argv, int *i, bool *put_newline)
 {
 	while (*i < argc)
 	{
 		if (!is_n_flag(argv[*i]))
 			break ;
-		*put_newline = FALSE;
+		*put_newline = false;
 		(*i)++;
 	}
 }
@@ -54,11 +54,11 @@ static void	print_arguments(int argc, char **argv, int *i)
 
 t_exit_status	builtin_echo(int argc, char **argv, t_shell_data *data)
 {
-	int		put_newline;
+	bool	put_newline;
 	int		i;
 
 	(void) data;
-	put_newline = TRUE;
+	put_newline = true;
 	i = 1;
 	if (i < argc)
 	{

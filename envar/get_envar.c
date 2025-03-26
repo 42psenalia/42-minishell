@@ -43,7 +43,7 @@ char	**get_envarray(t_envar_list *list)
 			array[i] = va_strjoin(3, envar->key, "=", "");
 		if (array[i] == NULL)
 		{
-			free_strarray(array[i]);
+			free_strarray(array, i);
 			return (NULL);
 		}
 		i++;

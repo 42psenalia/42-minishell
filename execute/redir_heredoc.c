@@ -49,15 +49,15 @@ void	run_heredocs(t_list *cmd_lst)
 	while (cmd_lst)
 	{
 		exe_cmd = cmd_lst->content;
-		if (exe_cmd->command->token)
+		// printf("got exe_cmd %p\n", exe_cmd);
+		if (exe_cmd->command->infile)
 		{
 			comms = exe_cmd->command;
 			while (comms)
 			{
-				if (comms->token == HEREDOC)
+				if (comms->infile && comms->infile->token_type == HEREDOC)
 				{
-					comms = comms->next;
-					file = comms->infile;
+					file = comms->infile->value;
 					exe_cmd->fd_heredoc = get_inputs(file);
 				}
 				comms = comms->next;
@@ -65,4 +65,5 @@ void	run_heredocs(t_list *cmd_lst)
 		}
 		cmd_lst = cmd_lst->next;
 	}
+	// printf("heredoc done\n");
 }

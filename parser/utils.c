@@ -1,14 +1,4 @@
-#include "../parser.h"
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
+#include "parser.h"
 
 char	*ft_getcwd(void)
 {
@@ -16,7 +6,16 @@ char	*ft_getcwd(void)
 
 	path = getcwd(NULL, 0);
 	if (path == NULL)
-		return (NULL);
+	{
+		perror("getcwd failed");
+		// Provide a fallback value if getcwd fails
+		path = ft_strdup("(unknown)");
+		if (!path)
+		{
+			fprintf(stderr, "Error: Memory allocation failed in ft_getcwd\n");
+			exit(EXIT_FAILURE);
+		}
+	}
 	return (path);
 }
 
