@@ -37,7 +37,7 @@ t_token_type	get_token_type(char *str)
 		return (HEREDOC);
 	if (!ft_strcmp(str, ">>"))
 		return (APPEND);
-	if (!ft_strcmp(str, "$"))
+	if (ft_strchr(str, '$'))
 		return (DOLLAR);
 	if (!ft_strcmp(str, "'"))
 		return (SQUOTE);

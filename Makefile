@@ -37,7 +37,8 @@ EXECUTE_SRCS = $(EXECUTE_DIR)/execute.c \
 	$(EXECUTE_DIR)/processwait.c \
 	$(EXECUTE_DIR)/redir_heredoc.c \
 	$(EXECUTE_DIR)/redir_inout.c \
-	$(EXECUTE_DIR)/setup_cmdlist.c
+	$(EXECUTE_DIR)/setup_cmdlist.c \
+	$(EXECUTE_DIR)/handle_dollar.c
 
 PARSER_DIR = ./parser
 PARSER_SRCS = $(PARSER_DIR)/free.c \

@@ -41,11 +41,14 @@ static void	apply_options(int argc, char **argv, int *i, bool *put_newline)
 	}
 }
 
-static void	print_arguments(int argc, char **argv, int *i)
+static void	print_arguments(int argc, char **argv, int *i, t_shell_data *data)
 {
 	while (*i < argc)
 	{
-		printf("%s", argv[*i]);
+		if (get_token_type(argv[*i]) == DOLLAR)
+			handle_dollar(argv[*i], data);
+		else
+			printf("%s", argv[*i]);
 		if (*i < argc - 1)
 			printf(" ");
 		(*i)++;
@@ -63,7 +66,7 @@ t_exit_status	builtin_echo(int argc, char **argv, t_shell_data *data)
 	if (i < argc)
 	{
 		apply_options(argc, argv, &i, &put_newline);
-		print_arguments(argc, argv, &i);
+		print_arguments(argc, argv, &i, data);
 	}
 	if (put_newline)
 		printf("\n");
