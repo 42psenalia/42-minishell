@@ -103,7 +103,9 @@ void	handle_token(t_ast *current, t_tokens **tokens)
 			(*tokens)->token_type == APPEND)
 			handle_redirection(current, tokens);
 		else if ((*tokens)->token_type == WORD || \
-			(*tokens)->token_type == DOLLAR)
+			(*tokens)->token_type == DOLLAR || \
+			(*tokens)->token_type == SQUOTE || \
+			(*tokens)->token_type == DQUOTE)
 			add_argument(current, (*tokens)->value);
 		*tokens = (*tokens)->next;
 	}

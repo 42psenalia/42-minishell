@@ -45,7 +45,10 @@ static void	print_arguments(int argc, char **argv, int *i)
 {
 	while (*i < argc)
 	{
-		printf("%s", argv[*i]);
+		if (get_token_type(argv[*i]) == DOLLAR)
+			argv[*i] = handle_dollar(argv[*i], data);
+		else
+			printf("%s", argv[*i]);
 		if (*i < argc - 1)
 			printf(" ");
 		(*i)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/25 17:43:30 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:39:05 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	add_token(t_tokens **head, t_token_type type, char *value);
 t_token_type	get_token_type(char *str);
 
 // LEXER.C
-char	*extract_quoted(char **input, char quote_type);
+char	*extract_quoted(char **input, char quote_type, t_token_type *type);
 t_tokens	*lexer(char *input);
 char	*extract_operator(char **input);
 

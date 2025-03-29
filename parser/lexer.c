@@ -18,10 +18,11 @@ char	*extract_word(char **input)
 }
 
 
-char	*extract_quoted(char **input, char quote_type)
+char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 {
 	char	*start;
 	char	*result;
+	char	c;
 	int		len;
 
 	(*input)++; // Move past opening quote
@@ -35,6 +36,8 @@ char	*extract_quoted(char **input, char quote_type)
 	if (**input != quote_type) // Missing closing quote
 		return (NULL);
 	result = ft_substr(start, 0, len); // Extract quoted string
+	c = **input;
+	*type = c;
 	(*input)++; // Move past closing quote
 	return (result);
 }
@@ -73,18 +76,20 @@ t_tokens	*lexer(char *input)
 	head = NULL;
 	while (*input)
 	{
+		type = 0;
 		word = NULL;
 		if (*input == ' ' || *input == '\t')
 			input++;
 		else if (*input == '\'' || *input == '"')
-			word = extract_quoted(&input, *input);
+			word = extract_quoted(&input, *input, &type);
 		else if (*input == '|' || *input == '<' || *input == '>')
 			word = extract_operator(&input);
 		else
 			word = extract_word(&input);
 		if (word)
 		{
-			type = get_token_type(word);
+			if (!type || !(type == SQUOTE || type == DQUOTE))
+				type = get_token_type(word);
 			add_token(&head, type, word);
 		}
 	}

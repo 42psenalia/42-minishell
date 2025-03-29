@@ -26,6 +26,8 @@ static size_t	countlen(int n, va_list inhargs)
 	while (i < n)
 	{
 		str = va_arg(args, char *);
+		if (!str)
+			return (0);
 		len += ft_strlen(str);
 		i++;
 	}
@@ -61,13 +63,16 @@ char	*va_strjoin(int n, ...)
 	char	*joined;
 
 	va_start(args, n);
+	printf("started\n");
 	len = countlen(n, args);
+	printf("counted\n");
 	joined = malloc((len + 1) * sizeof(char));
 	if (joined == NULL)
 	{
 		va_end(args);
 		return (NULL);
 	}
+	printf("malloc'd success\n");
 	addup(n, args, joined);
 	return (joined);
 }

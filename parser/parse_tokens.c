@@ -60,7 +60,8 @@ static void	get_argc(t_ast *command, t_tokens *tokens)
 	{
 		if (tokens->token_type == PIPE)
 			break ;
-		else if (tokens->token_type == WORD)
+		else if (tokens->token_type == WORD || tokens->token_type == DOLLAR \
+			|| tokens->token_type == SQUOTE || tokens->token_type == DQUOTE)
 			command->argc++;
 		else if (tokens->token_type == REDIRIN || tokens->token_type == HEREDOC \
 			|| tokens->token_type == REDIROUT || tokens->token_type == APPEND)

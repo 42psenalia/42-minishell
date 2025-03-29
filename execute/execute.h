@@ -58,5 +58,6 @@ char			*join_path(char **full_path, char *cmd);
 void			run_heredocs(t_list *cmd_lst);
 
 int				single_builtin(t_list *cmd_lst, t_shell_data *envp);
+char			*handle_dollar(char *darg, t_shell_data *data);
 
 #endif

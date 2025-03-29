@@ -116,7 +116,7 @@ int	parser(char *line, t_command **commands)
 		ft_putstr_fd("Lexer failed!\n", STDERR_FILENO);
 		return (EINVAL);
 	}
-	// print_tokens(tokens);
+	print_tokens(tokens);
 	*commands = make_commlist(tokens);
 	if (commands == NULL)
 		return (ENOMEM);
