@@ -62,7 +62,6 @@ char	*extract_operator(char **input)
 		result = ft_strdup("<");
 	else
 		result = ft_strdup(">");
-
 	(*input)++; // Move past the operator
 	return (result);
 }

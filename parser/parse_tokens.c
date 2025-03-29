@@ -11,42 +11,6 @@ t_ast	*create_ast_node(void)
 	return (node);
 }
 
-// t_ast	*parse_tokens(t_tokens *tokens)
-// {
-//     t_ast	*head;
-//     t_ast	*current;
-//
-//     head = create_ast_node();
-//     if (!head)
-//         return (NULL);
-//     current = head;
-//     while (tokens)
-//     {
-//         if (tokens->token_type == PIPE)
-//         {
-//             tokens = tokens->next; // Move to the next token after the pipe
-//             if (!tokens) // If no tokens after the pipe, break
-//                 break;
-//             current->next = create_ast_node();
-//             if (!current->next)
-//             {
-//                 free_ast(head); // Free the partially built AST
-//                 return (NULL);
-//             }
-//             current = current->next; // Move to the new AST node
-//         }
-//         else if (tokens->token_type == REDIRIN || tokens->token_type == REDIROUT
-//             || tokens->token_type == HEREDOC || tokens->token_type == APPEND)
-//             handle_redirection(current, &tokens);
-//         else
-//         {
-//             add_argument(current, tokens->value);
-//             tokens = tokens->next;
-//         }
-//     }
-//     return (head);
-// }
-
 static void	linksect(t_ast *main, t_ast *new)
 {
 	while (main->next)
@@ -70,7 +34,7 @@ static void	get_argc(t_ast *command, t_tokens *tokens)
 	}
 }
 
-t_ast	*parse_tokens(t_tokens **tokens)
+t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data)
 {
 	t_ast	*head;
 	t_ast	*new;
@@ -85,15 +49,11 @@ t_ast	*parse_tokens(t_tokens **tokens)
 		if (!new)
 			return (NULL);
 		get_argc(new, *tokens);
-		handle_token(new, tokens);
+		handle_token(new, tokens, data);
 		if (!head)
 			head = new;
 		else
 			linksect(head, new);
-		// if ((*tokens)->token_type == PIPE)
-		// 	break ;
-		// if (*tokens)
-		// 	*tokens = (*tokens)->next;
 	}
 	return (head);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/27 16:39:05 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/29 16:45:21 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,25 @@ void	add_token(t_tokens **head, t_token_type type, char *value);
 t_token_type	get_token_type(char *str);
 
 // LEXER.C
-char	*extract_quoted(char **input, char quote_type, t_token_type *type);
 t_tokens	*lexer(char *input);
+char	*extract_word(char **input);
+char	*extract_quoted(char **input, char quote_type, t_token_type *type);
 char	*extract_operator(char **input);
 
 // --PARSER--
-int		parser(char *line, t_command **commands);
+int		parser(char *line, t_command **commands, t_shell_data *data);
 
 // PARSE_TOKENS.C
 t_ast	*create_ast_node(void);
-t_ast	*parse_tokens(t_tokens **tokens);
+t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data);
 
 // PARSE_UTILS.C
 // void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
-void	handle_token(t_ast *current, t_tokens **tokens);
+void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data);
 void	handle_redirection(t_ast *node, t_tokens **tokens);
 void	add_argument(t_ast *node, char *arg);
+
+void	handle_dollar(t_tokens *token, t_shell_data *data);
 
 // --FREE--
 

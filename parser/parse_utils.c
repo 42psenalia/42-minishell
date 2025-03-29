@@ -1,6 +1,4 @@
 #include "parser.h"
-
-// void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens)
 // {
 // 	*tokens = (*tokens)->next; // Move to the next token after the pipe
 // 	if (!*tokens) // If no tokens after the pipe, return
@@ -82,18 +80,10 @@ void	add_argument(t_ast *node, char *arg)
 	}
 	new_args[i] = ft_strdup(arg);
 	new_args[i + 1] = NULL;
-	// int	t = 0;
-	// while (new_args[t])
-	// {
-	// 	printf("newarg[%d] = %s\n", t, new_args[t]);
-	// 	t++;
-	// }
-	// if (node->argv)
-	// 	free_strarray(node->argv, i);
 	node->argv = new_args;
 }
 
-void	handle_token(t_ast *current, t_tokens **tokens)
+void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data)
 {
 	while (*tokens && (*tokens)->token_type != PIPE)
 	{
@@ -102,8 +92,14 @@ void	handle_token(t_ast *current, t_tokens **tokens)
 			(*tokens)->token_type == HEREDOC || \
 			(*tokens)->token_type == APPEND)
 			handle_redirection(current, tokens);
+		else if ((*tokens)->token_type == DOLLAR || \
+			((*tokens)->token_type == DQUOTE && \
+			get_token_type((*tokens)->value) == DOLLAR))
+		{
+			handle_dollar(*tokens, data);
+			add_argument(current, (*tokens)->value);
+		}
 		else if ((*tokens)->token_type == WORD || \
-			(*tokens)->token_type == DOLLAR || \
 			(*tokens)->token_type == SQUOTE || \
 			(*tokens)->token_type == DQUOTE)
 			add_argument(current, (*tokens)->value);

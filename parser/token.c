@@ -27,7 +27,7 @@ t_token_type	get_token_type(char *str)
 {
 	if (!str)
 		return (-1);
-	printf("get_token %s\n", str);
+	// printf("get_token %s\n", str);
 	if (!ft_strcmp(str, "|"))
 		return (PIPE);
 	if (!ft_strcmp(str, "<"))
@@ -38,9 +38,6 @@ t_token_type	get_token_type(char *str)
 		return (HEREDOC);
 	if (!ft_strcmp(str, ">>"))
 		return (APPEND);
-<<<<<<< Updated upstream
-	if (!ft_strcmp(str, "$"))
-=======
 	if (str[0] == '$')
 		return (DOLLAR);
 	if (str[0] == '\'')
@@ -48,7 +45,6 @@ t_token_type	get_token_type(char *str)
 	if (str[0] == '"')
 		return (DQUOTE);
 	if (ft_strchr(str, '$'))
->>>>>>> Stashed changes
 		return (DOLLAR);
 	return (WORD);
 }

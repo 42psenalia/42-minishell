@@ -63,16 +63,13 @@ char	*va_strjoin(int n, ...)
 	char	*joined;
 
 	va_start(args, n);
-	printf("started\n");
 	len = countlen(n, args);
-	printf("counted\n");
 	joined = malloc((len + 1) * sizeof(char));
 	if (joined == NULL)
 	{
 		va_end(args);
 		return (NULL);
 	}
-	printf("malloc'd success\n");
 	addup(n, args, joined);
 	return (joined);
 }

@@ -46,7 +46,8 @@ PARSER_SRCS = $(PARSER_DIR)/free.c \
 	$(PARSER_DIR)/utils.c \
 	$(PARSER_DIR)/parse_tokens.c \
 	$(PARSER_DIR)/parse_utils.c \
-    $(PARSER_DIR)/parser.c
+    $(PARSER_DIR)/parser.c \
+	$(PARSER_DIR)/handle_dollar.c
 
 # SIGNALS_DIR = ./signals
 # SIGNALS_SRCS = $(SIGNALS_DIR)/signal_button.c

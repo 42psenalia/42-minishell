@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/25 16:59:59 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:34:15 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	detect_line(char *line, t_shell_data *data)
 		return ;
 	}
 	commands = NULL;
-	progress = parser(line, &commands);
+	progress = parser(line, &commands, data);
 	if (progress == EINVAL || commands == NULL)
 	{
 		printf("error: no entry found\n");

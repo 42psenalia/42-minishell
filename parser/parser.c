@@ -75,7 +75,7 @@ static void	linkcommands(t_command **commands, t_ast *parsed)
 		ft_lstadd_back(commands, new);
 }
 
-static t_command	*make_commlist(t_tokens *tokens)
+static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 {
 	t_command	*commands;
 	t_ast		*parsed_tokens;
@@ -84,7 +84,7 @@ static t_command	*make_commlist(t_tokens *tokens)
 	commands = NULL;
 	while (tokens)
 	{
-		parsed_tokens = parse_tokens(&tokens);
+		parsed_tokens = parse_tokens(&tokens, data);
 		if (!parsed_tokens)
 			return (NULL);
 		print_ast(parsed_tokens);
@@ -104,7 +104,7 @@ static t_command	*make_commlist(t_tokens *tokens)
 }
 
 // Currently not needing t_shell_data for t_exit_status but might be later
-int	parser(char *line, t_command **commands)
+int	parser(char *line, t_command **commands, t_shell_data *data)
 {
 	t_tokens	*tokens;
 
@@ -117,7 +117,7 @@ int	parser(char *line, t_command **commands)
 		return (EINVAL);
 	}
 	print_tokens(tokens);
-	*commands = make_commlist(tokens);
+	*commands = make_commlist(tokens, data);
 	if (commands == NULL)
 		return (ENOMEM);
 	free_tokens(tokens);

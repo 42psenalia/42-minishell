@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "../libft/libft.h"
+#include "../execute/execute.h"
 #include "builtin.h"
 
 static bool	is_n_flag(char *str)
@@ -45,10 +46,7 @@ static void	print_arguments(int argc, char **argv, int *i)
 {
 	while (*i < argc)
 	{
-		if (get_token_type(argv[*i]) == DOLLAR)
-			argv[*i] = handle_dollar(argv[*i], data);
-		else
-			printf("%s", argv[*i]);
+		printf("%s", argv[*i]);
 		if (*i < argc - 1)
 			printf(" ");
 		(*i)++;
