@@ -28,10 +28,24 @@ void	print_envar_list(t_envar_list *list)
 
 void	delete_envar(char *key, t_envar_list **list)
 {
-	t_list	*node;
+    t_envar_list	*node;
+    t_envar_list	*prev;
 
-	node = find_node(key, *list);
-	if (node == NULL)
-		return ;
-	ft_lstdelone(node, free_envar);
+    node = *list;
+    prev = NULL;
+    while (node)
+    {
+        t_envar *envar = node->content;
+        if (envar && ft_strcmp(envar->key, key) == 0)
+        {
+            if (prev)
+                prev->next = node->next;
+            else
+                *list = node->next;
+            ft_lstdelone(node, free_envar);
+            return;
+        }
+        prev = node;
+        node = node->next;
+    }
 }

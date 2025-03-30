@@ -18,10 +18,10 @@ static t_list	*appendnew(char *head, char *body, t_envar_list **list)
 	t_list	*node;
 
 	var = create_envar(head, body);
-	if (var == NULL)
+	if (!var)
 		return (NULL);
 	node = ft_lstnew(var);
-	if (node == NULL)
+	if (!node)
 	{
 		free_envar(var);
 		return (NULL);

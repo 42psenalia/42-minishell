@@ -2,14 +2,14 @@
 
 void	free_tokens(t_tokens *tokens)
 {
-	t_tokens	*tmp;
+	t_tokens	*temp;
 
 	while (tokens)
 	{
-		tmp = tokens;
-		tokens = tokens->next;
-		free(tmp->value);
-		free(tmp);
+		temp = tokens->next;
+		free(tokens->value); // Ensure value is dynamically allocated
+		free(tokens);
+		tokens = temp;
 	}
 }
 

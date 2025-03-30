@@ -15,7 +15,7 @@ static char	*find_value(char *dollar, t_shell_data *data)
 			return (ft_strdup(env->value));
 		list = list->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 static void	print_tokens(t_tokens *tokens)

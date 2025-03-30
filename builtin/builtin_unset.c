@@ -15,13 +15,18 @@
 
 t_exit_status	builtin_unset(int argc, char **argv, t_shell_data *data)
 {
-	int		i;
+    int		i;
 
-	i = 1;
-	while (i < argc)
-	{
-		delete_envar(argv[i], &data->envar_list);
-		i++;
-	}
-	return (SUCCESS);
+    if (!data || !data->envar_list)
+    {
+        fprintf(stderr, "Error: Environment list is NULL\n");
+        return (ERROR);
+    }
+    i = 1;
+    while (i < argc)
+    {
+        delete_envar(argv[i], &data->envar_list);
+        i++;
+    }
+    return (SUCCESS);
 }

@@ -14,14 +14,19 @@
 
 t_envar_list	*find_node(char *head, t_envar_list *list)
 {
-	t_envar	*envar;
+    t_envar	*envar;
 
-	while (list)
-	{
-		envar = list->content;
-		if (ft_strcmp(envar->key, head) == 0)
-			return (list);
-		list = list->next;
-	}
-	return (NULL);
+    while (list)
+    {
+        if (!list->content)
+        {
+            fprintf(stderr, "Error: list->content is NULL\n");
+            return (NULL);
+        }
+        envar = list->content;
+        if (envar->key && ft_strcmp(envar->key, head) == 0)
+            return (list);
+        list = list->next;
+    }
+    return (NULL);
 }
