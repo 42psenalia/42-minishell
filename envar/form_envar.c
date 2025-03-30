@@ -35,20 +35,25 @@ char	**formkeyvar(char *envline)
 {
 	char	**keyvar;
 	size_t	headlen;
-	size_t	bodylen;
+	// size_t	bodylen;
 
 	keyvar = malloc(2 * sizeof(char *));
 	if (keyvar == NULL)
 		return (NULL);
 	headlen = (ft_strchr(envline, '=') - envline);
-	bodylen = (ft_strlen(ft_strchr(envline, '=') + 1));
+	// bodylen = (ft_strlen(ft_strchr(envline, '=') + 1));
 	// printf("headlen = %zu | bodylen = %zu\n", headlen, bodylen);
 	keyvar[0] = ft_substr(envline, 0, headlen);
-	keyvar[1] = ft_substr(envline, headlen + 1, bodylen);
+	if (envline[headlen + 1] == '\'' && envline[ft_strlen(envline) - 1] == '\'')
+		keyvar[1] = ft_strdup(ft_strtrim(envline + headlen + 1, "'"));
+	if (envline[headlen + 1] == '"' && envline[ft_strlen(envline) - 1] == '"')
+		keyvar[1] = ft_strdup(ft_strtrim(envline + headlen + 1, "\""));
+	else
+		keyvar[1] = ft_strdup(envline + headlen + 1);
 	// printf("keyvar: %s & %s\n", keyvar[0], keyvar[1]);
 	if (keyvar[0] == NULL || keyvar[1] == NULL)
 	{
-		printf("keyvar failed\n");
+		ft_putstr_fd("keyvar failed\n", 2);
 		free(keyvar[0]);
 		free(keyvar[1]);
 		free(keyvar);

@@ -11,7 +11,6 @@ void	add_token(t_tokens **head, t_token_type type, char *value)
 	new->token_type = type;
 	new->value = value;
 	new->next = NULL;
-
 	if (!*head)
 	{
 		*head = new;

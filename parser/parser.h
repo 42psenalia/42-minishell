@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/29 16:45:21 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:18:13 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,10 @@ typedef enum e_token_type
 typedef struct s_tokens
 {
 	t_token_type	token_type;
+	int				backspace;
 	char			*value;
 	struct s_tokens	*next;
 }					t_tokens;
-
-// typedef struct s_tokencount
-// {
-// 	int				squote;
-// 	int				dquote;
-// 	int				dollar;
-// 	int				pipe;
-// 	int				redirin;
-// 	int				redirout;
-// 	int				heredoc;
-// 	int				append;
-// }	t_tokencount;
-
-// typedef struct s_pipseq
-// {
-// 	// char			*in_file;
-// 	// char			*out_file;
-// 	// char			*command;
-// 	int				fd_in;
-// 	int				fd_out;
-// 	pid_t			pipid;
-// 	// struct s_pipseq	*prev;
-// 	struct s_pipseq	*next;
-// }					t_pipseq;
 
 typedef t_list	t_command;
 

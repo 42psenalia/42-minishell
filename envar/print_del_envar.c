@@ -21,7 +21,7 @@ void	print_envar_list(t_envar_list *list)
 	{
 		var = list->content;
 		if (var->value)
-			printf("%s=%s\n", var->key, var->value);
+			printf("%s=\"%s\"\n", var->key, var->value);
 		list = list->next;
 	}
 }

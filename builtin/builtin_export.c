@@ -56,7 +56,7 @@ static int	print_declared_variables(t_envar_list *list)
 		key_value = formkeyvar(arr[i]);
 		if (ft_strlen(key_value[1]) == 0)
 			arr[i][ft_strlen(arr[i]) - 1] = '\0';
-		printf("declare -x %s\n", arr[i]);
+		printf("declare -x %s=\"%s\"\n", key_value[0], key_value[1]);
 		free_strarray(key_value, 2);
 		i++;
 	}
