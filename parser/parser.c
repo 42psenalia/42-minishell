@@ -2,25 +2,27 @@
 
 char	*read_line(void)
 {
-	char	*new_line;
-	char	*prompt;
+    char	*new_line;
+    char	*prompt;
+    char	*cwd;
 
-	// printf(C"%s> "RST, ft_getcwd());
-	prompt = ft_strjoin(C, ft_getcwd());
-	new_line = ft_strjoin(prompt, "> " RST);
+    cwd = ft_getcwd(); // Get the current working directory
+    prompt = ft_strjoin(C, cwd); // Use cwd for the prompt
+    free(cwd); // Free the memory allocated by ft_getcwd
+    new_line = ft_strjoin(prompt, "> " RST);
+    free(prompt); // Free the memory allocated by ft_strjoin
 
-	new_line = readline(new_line);
-	if (!new_line)
-	{
-		fprintf(stderr, "lsh: allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-	if (*new_line != '\0')
-	{
-		add_history(new_line);
-	}
-	free(prompt);
-	return (new_line);
+    new_line = readline(new_line);
+    if (!new_line)
+    {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+    if (*new_line != '\0')
+    {
+        add_history(new_line);
+    }
+    return (new_line);
 }
 
 void	print_tokens(t_tokens *tokens)

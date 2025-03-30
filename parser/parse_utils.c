@@ -75,11 +75,12 @@ void	add_argument(t_ast *node, char *arg)
 	i = 0;
 	while (node->argv && node->argv[i])
 	{
-		new_args[i] = ft_strdup(node->argv[i]);
+		new_args[i] = node->argv[i];
 		i++;
 	}
 	new_args[i] = ft_strdup(arg);
 	new_args[i + 1] = NULL;
+	free(node->argv);
 	node->argv = new_args;
 }
 
