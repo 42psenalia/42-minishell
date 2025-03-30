@@ -42,7 +42,7 @@ static t_tokens	*lexermini(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] != '$')
+		while (input[i] != '$' && input[i] != '\0')
 			i++;
 		if (i > init)
 			word = ft_substr(input, init, i - init);
@@ -55,7 +55,10 @@ static t_tokens	*lexermini(char *input)
 		}
 		if (word)
 		{
-			type = get_token_type(word);
+			if (ft_strchr(word, '$'))
+				type = DOLLAR;
+			else
+				type = WORD;
 			add_token(&head, type, word);
 		}
 		init = i;

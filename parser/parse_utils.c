@@ -95,7 +95,7 @@ void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data)
 			handle_redirection(current, tokens);
 		else if ((*tokens)->token_type == DOLLAR || \
 			((*tokens)->token_type == DQUOTE && \
-			get_token_type((*tokens)->value) == DOLLAR))
+			ft_strchr((*tokens)->value, '$')))
 		{
 			handle_dollar(*tokens, data);
 			add_argument(current, (*tokens)->value);

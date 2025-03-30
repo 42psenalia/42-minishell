@@ -44,7 +44,5 @@ t_token_type	get_token_type(char *str)
 		return (SQUOTE);
 	if (str[0] == '"')
 		return (DQUOTE);
-	if (ft_strchr(str, '$'))
-		return (DOLLAR);
 	return (WORD);
 }
