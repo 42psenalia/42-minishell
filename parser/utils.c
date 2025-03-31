@@ -6,7 +6,7 @@
 /*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:58:08 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:31:24 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:03:04 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,34 @@ char	*ft_getcwd(void)
 		}
 	}
 	return (path);
+}
+
+char	*get_dollar(char *input, int *i)
+{
+	char	*token;
+	int		init;
+
+	if (input[*i] != '$')
+		return (NULL);
+	(*i)++;
+	init = *i;
+	while (ft_isalnum(input[*i]))
+		(*i)++;
+	token = ft_substr(input, init, *i - init);
+	if (!token)
+		return (NULL);
+	return (token);
+}
+
+int	maketokenlst(t_tokens *head, char *word)
+{
+	if (ft_strchr(word, '$'))
+		add_token(&head, DOLLAR, word);
+	else
+		add_token(&head, WORD, word);
+	if (!head)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 int	is_special(char c)

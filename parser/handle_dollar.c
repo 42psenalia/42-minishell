@@ -6,7 +6,7 @@
 /*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:08 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:31:41 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:03:06 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	print_tokens(t_tokens *tokens)
 static t_tokens	*lexermini(char *input)
 {
 	t_tokens		*head;
-	t_token_type	type;
 	char			*word;
 	int				init;
 	int				i;
@@ -59,20 +58,9 @@ static t_tokens	*lexermini(char *input)
 		if (i > init)
 			word = ft_substr(input, init, i - init);
 		else
-		{
-			i++;
-			while (ft_isalnum(input[i]))
-				i++;
-			word = ft_substr(input, init, i - init);
-		}
+			word = get_dollar(input, &i);
 		if (word)
-		{
-			if (ft_strchr(word, '$'))
-				type = DOLLAR;
-			else
-				type = WORD;
-			add_token(&head, type, word);
-		}
+			maketokenlst(head, word);
 		init = i;
 	}
 	return (head);
