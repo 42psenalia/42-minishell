@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_del_envar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:00:22 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:22 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/31 12:17:42 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 12:17:42 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,25 @@ void	print_envar_list(t_envar_list *list)
 
 void	delete_envar(char *key, t_envar_list **list)
 {
-    t_envar_list	*node;
-    t_envar_list	*prev;
+	t_envar_list	*node;
+	t_envar_list	*prev;
+	t_envar			*envar;
 
-    node = *list;
-    prev = NULL;
-    while (node)
-    {
-        t_envar *envar = node->content;
-        if (envar && ft_strcmp(envar->key, key) == 0)
-        {
-            if (prev)
-                prev->next = node->next;
-            else
-                *list = node->next;
-            ft_lstdelone(node, free_envar);
-            return;
-        }
-        prev = node;
-        node = node->next;
-    }
+	node = *list;
+	prev = NULL;
+	while (node)
+	{
+		envar = node->content;
+		if (envar && ft_strcmp(envar->key, key) == 0)
+		{
+			if (prev)
+				prev->next = node->next;
+			else
+				*list = node->next;
+			ft_lstdelone(node, free_envar);
+			return ;
+		}
+		prev = node;
+		node = node->next;
+	}
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:00:33 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:33 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/31 12:15:46 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 12:15:46 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
 static void	issue_command_to_child(t_list **cmd_lst_first, t_list *cmd_lst,
-	int *prev_fd, t_shell_data *envp)
+		int *prev_fd, t_shell_data *envp)
 {
 	restore_terminal_settings();
 	envp->exit_status = ft_childprocess(cmd_lst_first, cmd_lst, prev_fd, envp);
@@ -51,9 +51,7 @@ int	sub_execute(t_list **cmd_lst_first, t_shell_data *envp, int *prev_fd)
 	t_list		*node;
 	t_execute	*cmd;
 
-	// printf("sub-execution\n");
 	node = *cmd_lst_first;
-	// printf("node->content %p\n", node->content);
 	while (node)
 	{
 		cmd = node->content;
@@ -62,7 +60,6 @@ int	sub_execute(t_list **cmd_lst_first, t_shell_data *envp, int *prev_fd)
 			if (node->next && pipe(cmd->pipe_fds) == -1)
 				exit(EXIT_FAILURE);
 			cmd->pid = fork();
-			// printf("forked pid\n");
 			if (cmd->pid < 0)
 				exit(EXIT_FAILURE);
 			if (cmd->pid == 0)

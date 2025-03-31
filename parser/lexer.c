@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 11:59:28 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:32:43 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	*extract_word(char **input)
@@ -17,7 +29,6 @@ char	*extract_word(char **input)
 	return (result);
 }
 
-
 char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 {
 	char	*start;
@@ -25,7 +36,7 @@ char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 	char	c;
 	int		len;
 
-	(*input)++; // Move past opening quote
+	(*input)++;
 	start = *input;
 	len = 0;
 	while (**input && **input != quote_type)
@@ -33,12 +44,12 @@ char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 		len++;
 		(*input)++;
 	}
-	if (**input != quote_type) // Missing closing quote
+	if (**input != quote_type)
 		return (NULL);
-	result = ft_substr(start, 0, len); // Extract quoted string
+	result = ft_substr(start, 0, len);
 	c = **input;
 	*type = c;
-	(*input)++; // Move past closing quote
+	(*input)++;
 	return (result);
 }
 
@@ -51,18 +62,18 @@ char	*extract_operator(char **input)
 	else if (**input == '<' && *(*input + 1) == '<')
 	{
 		result = ft_strdup("<<");
-		(*input)++; // Skip the second '<'
+		(*input)++;
 	}
 	else if (**input == '>' && *(*input + 1) == '>')
 	{
 		result = ft_strdup(">>");
-		(*input)++; // Skip the second '>'
+		(*input)++;
 	}
 	else if (**input == '<')
 		result = ft_strdup("<");
 	else
 		result = ft_strdup(">");
-	(*input)++; // Move past the operator
+	(*input)++;
 	return (result);
 }
 

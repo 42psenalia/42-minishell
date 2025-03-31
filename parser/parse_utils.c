@@ -1,17 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 12:00:36 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:34:02 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
-// {
-// 	*tokens = (*tokens)->next; // Move to the next token after the pipe
-// 	if (!*tokens) // If no tokens after the pipe, return
-// 		return ;
-// 	(*current)->next = create_ast_node();
-// 	if (!(*current)->next)
-// 	{
-// 		free_ast(*head); // Free the partially built AST
-// 		*head = NULL;
-// 		return ;
-// 	}
-// 	*current = (*current)->next; // Move to the new AST node
-// }
 
 static t_tokens	*copy_token(t_token_type type, char *value)
 {
@@ -88,21 +87,22 @@ void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data)
 {
 	while (*tokens && (*tokens)->token_type != PIPE)
 	{
-		if ((*tokens)->token_type == REDIRIN || \
-			(*tokens)->token_type == REDIROUT || \
-			(*tokens)->token_type == HEREDOC || \
-			(*tokens)->token_type == APPEND)
+		if ((*tokens)->token_type == REDIRIN \
+			|| (*tokens)->token_type == REDIROUT \
+			|| (*tokens)->token_type == HEREDOC \
+			|| (*tokens)->token_type == APPEND)
 			handle_redirection(current, tokens);
-		else if ((*tokens)->token_type == DOLLAR || \
-			((*tokens)->token_type == DQUOTE && \
-			ft_strchr((*tokens)->value, '$')))
+		else if ((*tokens)->token_type == DOLLAR \
+			|| (((*tokens)->token_type == WORD \
+			|| (*tokens)->token_type == DQUOTE) \
+			&& ft_strchr((*tokens)->value, '$')))
 		{
 			handle_dollar(*tokens, data);
 			add_argument(current, (*tokens)->value);
 		}
-		else if ((*tokens)->token_type == WORD || \
-			(*tokens)->token_type == SQUOTE || \
-			(*tokens)->token_type == DQUOTE)
+		else if ((*tokens)->token_type == WORD \
+			|| (*tokens)->token_type == SQUOTE \
+			|| (*tokens)->token_type == DQUOTE)
 			add_argument(current, (*tokens)->value);
 		*tokens = (*tokens)->next;
 	}

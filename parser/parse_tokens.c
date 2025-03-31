@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 12:28:20 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:30:02 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 t_ast	*create_ast_node(void)
@@ -24,10 +36,10 @@ static void	get_argc(t_ast *command, t_tokens *tokens)
 	{
 		if (tokens->token_type == PIPE)
 			break ;
-		else if (tokens->token_type == WORD || tokens->token_type == DOLLAR \
+		else if (tokens->token_type == WORD || tokens->token_type == DOLLAR
 			|| tokens->token_type == SQUOTE || tokens->token_type == DQUOTE)
 			command->argc++;
-		else if (tokens->token_type == REDIRIN || tokens->token_type == HEREDOC \
+		else if (tokens->token_type == REDIRIN || tokens->token_type == HEREDOC
 			|| tokens->token_type == REDIROUT || tokens->token_type == APPEND)
 			tokens = tokens->next;
 		tokens = tokens->next;
@@ -42,7 +54,6 @@ t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data)
 	head = NULL;
 	while (*tokens)
 	{
-		// printf("current lexer %p, %d\n", *tokens, (*tokens)->token_type);
 		if ((*tokens)->token_type == PIPE)
 			break ;
 		new = create_ast_node();

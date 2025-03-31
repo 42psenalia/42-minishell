@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_dollar.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 11:59:08 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:31:41 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static char	*find_value(char *dollar, t_shell_data *data)
@@ -22,8 +34,8 @@ static void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Type: %d, Value: [%s], Next-> %p\n", \
-			tokens->token_type, tokens->value, tokens->next);
+		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type,
+			tokens->value, tokens->next);
 		tokens = tokens->next;
 	}
 }
@@ -108,10 +120,9 @@ static char	*arglue(t_tokens *lexer)
 
 void	handle_dollar(t_tokens *token, t_shell_data *data)
 {
-	char			*value;
-	t_tokens		*lex2;
+	char		*value;
+	t_tokens	*lex2;
 
-	printf("$var found\n");
 	value = NULL;
 	if (token->token_type == DOLLAR)
 		value = find_value(token->value, data);

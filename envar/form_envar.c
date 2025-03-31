@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   form_envar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:00:09 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:09 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/31 12:22:23 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 12:22:23 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,18 @@ char	**formkeyvar(char *envline)
 {
 	char	**keyvar;
 	size_t	headlen;
-	// size_t	bodylen;
 
 	keyvar = malloc(2 * sizeof(char *));
 	if (keyvar == NULL)
 		return (NULL);
 	headlen = (ft_strchr(envline, '=') - envline);
-	// bodylen = (ft_strlen(ft_strchr(envline, '=') + 1));
-	// printf("headlen = %zu | bodylen = %zu\n", headlen, bodylen);
 	keyvar[0] = ft_substr(envline, 0, headlen);
-	if (envline[headlen + 1] == '\'' && envline[ft_strlen(envline) - 1] == '\'')
+	if (envline[headlen + 1] == '\'' && envline[ft_strlen(envline)- 1] == '\'')
 		keyvar[1] = ft_strdup(ft_strtrim(envline + headlen + 1, "'"));
 	if (envline[headlen + 1] == '"' && envline[ft_strlen(envline) - 1] == '"')
 		keyvar[1] = ft_strdup(ft_strtrim(envline + headlen + 1, "\""));
 	else
 		keyvar[1] = ft_strdup(envline + headlen + 1);
-	// printf("keyvar: %s & %s\n", keyvar[0], keyvar[1]);
 	if (keyvar[0] == NULL || keyvar[1] == NULL)
 	{
 		ft_putstr_fd("keyvar failed\n", 2);

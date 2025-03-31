@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:01:03 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:01:03 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/31 12:13:28 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 12:13:28 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,13 @@ static int	get_inputs(char *delimiter)
 
 void	run_heredocs(t_list *cmd_lst)
 {
-	t_execute		*exe_cmd;
-	t_ast			*comms;
-	char			*file;
+	t_execute	*exe_cmd;
+	t_ast		*comms;
+	char		*file;
 
 	while (cmd_lst)
 	{
 		exe_cmd = cmd_lst->content;
-		// printf("got exe_cmd %p\n", exe_cmd);
 		if (exe_cmd->command->infile)
 		{
 			comms = exe_cmd->command;
@@ -65,5 +64,4 @@ void	run_heredocs(t_list *cmd_lst)
 		}
 		cmd_lst = cmd_lst->next;
 	}
-	// printf("heredoc done\n");
 }

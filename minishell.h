@@ -3,34 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/25 17:09:58 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:57:13 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "libft/libft.h"
-# include "parser/parser.h"
 # include "builtin/builtin.h"
 # include "envar/envar.h"
 # include "execute/execute.h"
+# include "libft/libft.h"
+# include "parser/parser.h"
 # include "shellstart.h"
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdint.h>
-# include <stddef.h>
-# include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
+# include <stddef.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 // ANSI Color codes for terminal output formatting:
 // Y - Yellow

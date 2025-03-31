@@ -16,7 +16,6 @@ int	check_infiles(t_ast *cmd)
 {
 	t_token_type	type;
 
-	// printf("infile check\n");
 	while (cmd)
 	{
 		if (!cmd->infile)

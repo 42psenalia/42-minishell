@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 11:58:37 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 11:58:48 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	free_tokens(t_tokens *tokens)
@@ -7,7 +19,7 @@ void	free_tokens(t_tokens *tokens)
 	while (tokens)
 	{
 		temp = tokens->next;
-		free(tokens->value); // Ensure value is dynamically allocated
+		free(tokens->value);
 		free(tokens);
 		tokens = temp;
 	}

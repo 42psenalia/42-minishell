@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 12:28:48 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:33:12 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	add_token(t_tokens **head, t_token_type type, char *value)
@@ -26,7 +38,6 @@ t_token_type	get_token_type(char *str)
 {
 	if (!str)
 		return (-1);
-	// printf("get_token %s\n", str);
 	if (!ft_strcmp(str, "|"))
 		return (PIPE);
 	if (!ft_strcmp(str, "<"))

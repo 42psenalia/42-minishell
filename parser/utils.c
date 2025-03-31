@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 11:58:08 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:31:24 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	*ft_getcwd(void)
@@ -8,7 +20,6 @@ char	*ft_getcwd(void)
 	if (path == NULL)
 	{
 		perror("getcwd failed");
-		// Provide a fallback value if getcwd fails
 		path = ft_strdup("(unknown)");
 		if (!path)
 		{
@@ -26,6 +37,6 @@ int	is_special(char c)
 
 int	is_space(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' \
-		|| c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
 }

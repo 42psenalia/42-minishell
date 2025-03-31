@@ -3,32 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/30 18:18:13 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/03/31 16:29:29 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-# include "../libft/libft.h"
 # include "../builtin/builtin.h"
-// # include "../execute/execute.h"
+# include "../libft/libft.h"
 # include "../shellstart.h"
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdint.h>
-# include <stddef.h>
-# include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-
+# include <stdbool.h>
+# include <stddef.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 // ANSI Color codes for terminal output formatting:
 // Y - Yellow
@@ -54,67 +52,70 @@ typedef enum e_token_type
 	HEREDOC = 61,
 	APPEND = 63,
 	WORD = 69
-}	t_token_type;
+}							t_token_type;
 
 typedef struct s_tokens
 {
 	t_token_type	token_type;
-	int				backspace;
 	char			*value;
 	struct s_tokens	*next;
-}					t_tokens;
+}							t_tokens;
 
-typedef t_list	t_command;
+typedef t_list				t_command;
 
 typedef struct s_ast
 {
-	int				argc;		// Count of argv
-	char			**argv;		// Command + arguments
-	struct s_tokens	*infile;	// Input redirection file
-	struct s_tokens	*outfile;	// Output redirection file
-	struct s_ast	*next;		// Next command in a pipeline
-}	t_ast;
+	int				argc;
+	char			**argv;
+	struct s_tokens	*infile;
+	struct s_tokens	*outfile;
+	struct s_ast	*next;
+}							t_ast;
 
+typedef struct s_shell_data	t_shell_data;
 
 // MAIN.C
-char	*read_line(void);
+char				*read_line(void);
 
 // --LEXER--
 
 // UTILS.C
-char	*ft_getcwd(void);
-int		is_special(char c);
-int		is_space(char c);
+char				*ft_getcwd(void);
+int					is_special(char c);
+int					is_space(char c);
 
 // TOKEN.C
-void	add_token(t_tokens **head, t_token_type type, char *value);
-t_token_type	get_token_type(char *str);
+void				add_token(t_tokens **head, t_token_type type, char *value);
+t_token_type		get_token_type(char *str);
 
 // LEXER.C
-t_tokens	*lexer(char *input);
-char	*extract_word(char **input);
-char	*extract_quoted(char **input, char quote_type, t_token_type *type);
-char	*extract_operator(char **input);
+t_tokens			*lexer(char *input);
+char				*extract_word(char **input);
+char				*extract_quoted(char **input, char quote_type,
+						t_token_type *type);
+char				*extract_operator(char **input);
 
 // --PARSER--
-int		parser(char *line, t_command **commands, t_shell_data *data);
+int					parser(char *line, t_command **commands,
+						t_shell_data *data);
 
 // PARSE_TOKENS.C
-t_ast	*create_ast_node(void);
-t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data);
+t_ast				*create_ast_node(void);
+t_ast				*parse_tokens(t_tokens **tokens, t_shell_data *data);
 
 // PARSE_UTILS.C
 // void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
-void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data);
-void	handle_redirection(t_ast *node, t_tokens **tokens);
-void	add_argument(t_ast *node, char *arg);
+void				handle_token(t_ast *current, t_tokens **tokens,
+						t_shell_data *data);
+void				handle_redirection(t_ast *node, t_tokens **tokens);
+void				add_argument(t_ast *node, char *arg);
 
-void	handle_dollar(t_tokens *token, t_shell_data *data);
+void				handle_dollar(t_tokens *token, t_shell_data *data);
 
 // --FREE--
 
 // FREE.C
-void	free_ast(t_ast *node);
-void	free_tokens(t_tokens *tokens);
+void				free_ast(t_ast *node);
+void				free_tokens(t_tokens *tokens);
 
 #endif

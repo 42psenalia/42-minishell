@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 11:55:16 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 16:29:34 by tbayrakt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	*read_line(void)
@@ -6,11 +18,11 @@ char	*read_line(void)
 	char	*prompt;
 	char	*cwd;
 
-	cwd = ft_getcwd(); // Get the current working directory
-	prompt = ft_strjoin(C, cwd); // Use cwd for the prompt
-	free(cwd); // Free the memory allocated by ft_getcwd
+	cwd = ft_getcwd();
+	prompt = ft_strjoin(C, cwd);
+	free(cwd);
 	new_line = ft_strjoin(prompt, "> " RST);
-	free(prompt); // Free the memory allocated by ft_strjoin
+	free(prompt);
 	new_line = readline(new_line);
 	if (!new_line)
 	{
@@ -28,8 +40,8 @@ void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Type: %d, Value: [%s], Next-> %p\n", \
-			tokens->token_type, tokens->value, tokens->next);
+		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type,
+			tokens->value, tokens->next);
 		tokens = tokens->next;
 	}
 }
@@ -80,8 +92,8 @@ static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 {
 	t_command	*commands;
 	t_ast		*parsed_tokens;
+	t_command	*temp;
 
-	// printf("making commlist\n");
 	commands = NULL;
 	while (tokens)
 	{
@@ -90,11 +102,9 @@ static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 			return (NULL);
 		print_ast(parsed_tokens);
 		linkcommands(&commands, parsed_tokens);
-		// printf("commands linked\n");
 		if (tokens)
 			tokens = tokens->next;
 	}
-	t_command	*temp;
 	temp = commands;
 	while (temp)
 	{
@@ -104,7 +114,6 @@ static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 	return (commands);
 }
 
-// Currently not needing t_shell_data for t_exit_status but might be later
 int	parser(char *line, t_command **commands, t_shell_data *data)
 {
 	t_tokens	*tokens;

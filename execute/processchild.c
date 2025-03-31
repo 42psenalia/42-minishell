@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processchild.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 13:00:48 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:48 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/31 12:11:56 by tbayrakt          #+#    #+#             */
+/*   Updated: 2025/03/31 12:11:56 by tbayrakt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	execute(char **cmd, t_list *env_var_list)
 
 	if (!cmd || !cmd[0])
 		return (SUCCESS);
-	// printf("executing\n");
 	if (ft_strchr(cmd[0], '/') && access(cmd[0], X_OK) == SUCCESS)
 		path = ft_strdup(cmd[0]);
 	else
@@ -68,7 +67,6 @@ static int	execute(char **cmd, t_list *env_var_list)
 	envp = get_envarray(env_var_list);
 	if (envp == NULL)
 		return (ERROR);
-	// printf("go to execve\n");
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
@@ -78,27 +76,22 @@ static int	execute(char **cmd, t_list *env_var_list)
 	return (SUCCESS);
 }
 
-int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst,
-		int *prev_fd, t_shell_data *envp)
+int	ft_childprocess(t_list **cmd_lst_first, t_list *cmd_lst, int *prev_fd,
+		t_shell_data *envp)
 {
 	t_execute	*cmd;
 	t_ast		*command;
 
-	// printf("children process\n");
 	cmd = cmd_lst->content;
 	command = cmd->command;
 	if (check_infiles(command) == ERROR)
 		return (ERROR);
-	// printf("checkfile passed\n");
 	do_redirs(cmd_lst, cmd, prev_fd);
-	// printf("redirects done\n");
 	if (command->argv && builtin_check(command->argv[0]))
 	{
-		// printf("detect builtin command\n");
 		if (ft_strcmp(command->argv[0], "exit") == 0)
 			free_cmd_lst_if_exit(cmd_lst_first, command);
 		return (builtin_execute(command, envp));
 	}
-	// printf("not builtin command\n");
 	return (execute(command->argv, envp->envar_list));
 }
