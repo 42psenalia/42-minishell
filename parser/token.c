@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:28:48 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:33:12 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:55:12 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,34 @@ void	add_token(t_tokens **head, t_token_type type, char *value)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
+}
+
+int	maketokenlst(t_tokens **head, char *word)
+{
+	if (ft_strchr(word, '$'))
+		add_token(head, DOLLAR, word);
+	else
+		add_token(head, WORD, word);
+	if (!*head)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+char	*get_dollar(char *input, int *i)
+{
+	char	*token;
+	int		init;
+
+	if (input[*i] != '$')
+		return (NULL);
+	init = *i;
+	(*i)++;
+	while (ft_isalnum(input[*i]))
+		(*i)++;
+	token = ft_substr(input, init, *i - init);
+	if (!token)
+		return (NULL);
+	return (token);
 }
 
 t_token_type	get_token_type(char *str)

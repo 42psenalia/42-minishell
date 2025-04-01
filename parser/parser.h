@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/31 17:02:59 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:21:15 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ char				*read_line(void);
 char				*ft_getcwd(void);
 int					is_special(char c);
 int					is_space(char c);
-char				*get_dollar(char *input, int *i);
-int					maketokenlst(t_tokens *head, char *word);
 
 // TOKEN.C
 void				add_token(t_tokens **head, t_token_type type, char *value);
+int					maketokenlst(t_tokens **head, char *word);
+char				*get_dollar(char *input, int *i);
 t_token_type		get_token_type(char *str);
 
 // LEXER.C

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:08 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 17:03:06 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:55:51 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_tokens	*lexermini(char *input)
 		else
 			word = get_dollar(input, &i);
 		if (word)
-			maketokenlst(head, word);
+			maketokenlst(&head, word);
 		init = i;
 	}
 	return (head);
@@ -111,6 +111,7 @@ void	handle_dollar(t_tokens *token, t_shell_data *data)
 	char		*value;
 	t_tokens	*lex2;
 
+	printf("$var found\n");
 	value = NULL;
 	if (token->token_type == DOLLAR)
 		value = find_value(token->value, data);
