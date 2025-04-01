@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:55:16 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:29:34 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:26:04 by tanselbay1       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 char	*read_line(void)
 {
-	char	*new_line;
-	char	*prompt;
-	char	*cwd;
+    char	*new_line;
+    char	*prompt;
+    char	*cwd;
+	char 	*temp;
 
-	cwd = ft_getcwd();
-	prompt = ft_strjoin(C, cwd);
-	free(cwd);
-	new_line = ft_strjoin(prompt, "> " RST);
-	free(prompt);
-	new_line = readline(new_line);
-	if (!new_line)
-	{
-		fprintf(stderr, "lsh: allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-	if (*new_line != '\0')
-	{
-		add_history(new_line);
-	}
-	return (new_line);
+    cwd = ft_getcwd();
+    prompt = ft_strjoin(C, cwd);
+    free(cwd);
+    new_line = ft_strjoin(prompt, "> " RST);
+    free(prompt);
+    if (!new_line)
+    {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+    temp = new_line;
+    new_line = readline(new_line);
+    free(temp);
+    if (*new_line != '\0')
+        add_history(new_line);
+    return (new_line);
 }
 
 void	print_tokens(t_tokens *tokens)
