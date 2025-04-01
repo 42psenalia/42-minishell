@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:55:16 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 18:04:29 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:39:02 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,10 @@ t_tokens	*reprisetokens(t_tokens *tokens)
 			if (!merged)
 				return (NULL);
 		}
-		add_token(&new, SQUOTE, merged);
+		else
+			merged = ft_strdup(tokens->value);
+		add_token(&new, get_token_type(merged), merged);
+		merged = NULL;
 		tokens = tokens->next;
 	}
 	if (!new)
@@ -217,6 +220,7 @@ int	parser(char *line, t_command **commands, t_shell_data *data)
 	temp = reprisetokens(tokens);
 	free_tokens(tokens);
 	tokens = temp;
+	print_tokens(tokens);
 	*commands = make_commlist(tokens);
 	if (commands == NULL)
 		return (ENOMEM);

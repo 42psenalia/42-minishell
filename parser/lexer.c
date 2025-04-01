@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:28 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 16:12:55 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:28:31 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,17 @@ char	*extract_operator(char **input)
 	return (result);
 }
 
-static void	idspaces(t_tokens **token, char *input)
+static void	idspaces(t_tokens *token, char *input)
 {
 	t_token_type	type;
 
-	type = (*token)->token_type;
+	while (token->next)
+		token = token->next;
+	type = token->token_type;
 	if (type == WORD || type == DOLLAR || type == SQUOTE || type == DQUOTE)
 	{
 		if (*input == ' ' || *input == '\t')
-			(*token)->spaces += 1;
+			token->spaces += 1;
 	}
 }
 
@@ -111,7 +113,7 @@ t_tokens	*lexer(char *input)
 		if (!type || !(type == SQUOTE || type == DQUOTE))
 			type = get_token_type(word);
 		add_token(&head, type, word);
-		idspaces(&head, input);
+		idspaces(head, input);
 	}
 	return (head);
 }
