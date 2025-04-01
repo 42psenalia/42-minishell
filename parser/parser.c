@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:55:16 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 15:38:31 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:04:29 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type,
-			tokens->value, tokens->next);
+		printf("Type: %d, Value: [%s], Space: %d Next-> %p\n", \
+			tokens->token_type, tokens->value, tokens->spaces, tokens->next);
 		tokens = tokens->next;
 	}
 }
@@ -140,25 +140,68 @@ static int	convertdollar(t_tokens *tokens, t_shell_data *data)
 	return (SUCCESS);
 }
 
-// int	reprisetokens(t_tokens *tokens)
-// {
-// 	t_tokens		*new;
-// 	t_token_type	type;
+static void	checknext(t_tokens **tokens, t_token_type *type)
+{
+	*type = (*tokens)->next->token_type;
+	if (*type == WORD || *type == DOLLAR || *type == SQUOTE || *type == DQUOTE)
+		*tokens = (*tokens)->next;
+}
 
-// 	new = NULL;
-// 	while (tokens)
-// 	{
-// 		type = tokens->token_type;
-// 		if ((type == WORD || type == DOLLAR || type == SQUOTE || \
-// 			type = DQUOTE) && tokens->spaces > 1)
-// 		else if ()
-// 		tokens = tokens->next;
-// 	}
-// }
+char	*mergeargs(t_tokens **tokens)
+{
+	t_token_type	type;
+	char			*merged;
+	char			*temp;
+
+	type = (*tokens)->token_type;
+	merged = NULL;
+	while (type == WORD || type == DOLLAR || type == SQUOTE || type == DQUOTE)
+	{
+		if (!merged)
+			merged = ft_strdup((*tokens)->value);
+		else
+		{
+			temp = ft_strjoin(merged, (*tokens)->value);
+			free(merged);
+			merged = temp;
+		}
+		if (!(*tokens)->spaces && (*tokens)->next)
+			checknext(tokens, &type);
+		else
+			break ;
+	}
+	return (merged);
+}
+
+t_tokens	*reprisetokens(t_tokens *tokens)
+{
+	t_tokens		*new;
+	t_token_type	type;
+	char			*merged;
+
+	new = NULL;
+	merged = NULL;
+	while (tokens)
+	{
+		type = tokens->token_type;
+		if (type == WORD || type == DOLLAR || type == SQUOTE || type == DQUOTE)
+		{
+			merged = mergeargs(&tokens);
+			if (!merged)
+				return (NULL);
+		}
+		add_token(&new, SQUOTE, merged);
+		tokens = tokens->next;
+	}
+	if (!new)
+		return (NULL);
+	return (new);
+}
 
 int	parser(char *line, t_command **commands, t_shell_data *data)
 {
 	t_tokens	*tokens;
+	t_tokens	*temp;
 
 	if (ft_strlen(line) == 0)
 		return (SUCCESS);
@@ -169,8 +212,11 @@ int	parser(char *line, t_command **commands, t_shell_data *data)
 		return (EINVAL);
 	}
 	print_tokens(tokens);
-	if (convertdollar(tokens, data) == ERROR /*|| reprisetokens(tokens) == ERROR*/)
+	if (convertdollar(tokens, data) == ERROR)
 		return (ENOMEM);
+	temp = reprisetokens(tokens);
+	free_tokens(tokens);
+	tokens = temp;
 	*commands = make_commlist(tokens);
 	if (commands == NULL)
 		return (ENOMEM);
