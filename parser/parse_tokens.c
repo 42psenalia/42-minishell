@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:28:20 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:30:02 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:20:02 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	get_argc(t_ast *command, t_tokens *tokens)
 	}
 }
 
-t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data)
+t_ast	*parse_tokens(t_tokens **tokens)
 {
 	t_ast	*head;
 	t_ast	*new;
@@ -60,7 +60,7 @@ t_ast	*parse_tokens(t_tokens **tokens, t_shell_data *data)
 		if (!new)
 			return (NULL);
 		get_argc(new, *tokens);
-		handle_token(new, tokens, data);
+		handle_token(new, tokens);
 		if (!head)
 			head = new;
 		else

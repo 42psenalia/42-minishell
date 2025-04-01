@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/04/01 13:21:15 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:53:02 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_tokens
 {
 	t_token_type	token_type;
 	char			*value;
+	int				spaces;
 	struct s_tokens	*next;
 }							t_tokens;
 
@@ -103,12 +104,11 @@ int					parser(char *line, t_command **commands,
 
 // PARSE_TOKENS.C
 t_ast				*create_ast_node(void);
-t_ast				*parse_tokens(t_tokens **tokens, t_shell_data *data);
+t_ast				*parse_tokens(t_tokens **tokens);
 
 // PARSE_UTILS.C
 // void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
-void				handle_token(t_ast *current, t_tokens **tokens,
-						t_shell_data *data);
+void				handle_token(t_ast *current, t_tokens **tokens);
 void				handle_redirection(t_ast *node, t_tokens **tokens);
 void				add_argument(t_ast *node, char *arg);
 

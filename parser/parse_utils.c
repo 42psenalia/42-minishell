@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:00:36 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:02 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:19:48 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_argument(t_ast *node, char *arg)
 	node->argv = new_args;
 }
 
-void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data)
+void	handle_token(t_ast *current, t_tokens **tokens)
 {
 	while (*tokens && (*tokens)->token_type != PIPE)
 	{
@@ -92,17 +92,7 @@ void	handle_token(t_ast *current, t_tokens **tokens, t_shell_data *data)
 			|| (*tokens)->token_type == HEREDOC \
 			|| (*tokens)->token_type == APPEND)
 			handle_redirection(current, tokens);
-		else if ((*tokens)->token_type == DOLLAR \
-			|| (((*tokens)->token_type == WORD \
-			|| (*tokens)->token_type == DQUOTE) \
-			&& ft_strchr((*tokens)->value, '$')))
-		{
-			handle_dollar(*tokens, data);
-			add_argument(current, (*tokens)->value);
-		}
-		else if ((*tokens)->token_type == WORD \
-			|| (*tokens)->token_type == SQUOTE \
-			|| (*tokens)->token_type == DQUOTE)
+		else
 			add_argument(current, (*tokens)->value);
 		*tokens = (*tokens)->next;
 	}

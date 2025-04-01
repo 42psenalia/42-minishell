@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:28:48 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 13:55:12 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:38:46 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ void	add_token(t_tokens **head, t_token_type type, char *value)
 	t_tokens	*new;
 	t_tokens	*temp;
 
+	if (!value)
+		return ;
 	new = malloc(sizeof(t_tokens));
 	if (!new)
 		return ;
 	new->token_type = type;
 	new->value = value;
+	new->spaces = 0;
 	new->next = NULL;
 	if (!*head)
 	{

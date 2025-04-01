@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:28 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/03/31 16:32:43 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:31:57 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,21 @@ char	*extract_operator(char **input)
 	return (result);
 }
 
+void	idspaces(t_tokens **token, char **input)
+{
+	t_token_type	type;
+
+	type = (*token)->token_type;
+	if (type == WORD || type == DOLLAR || type == SQUOTE || type = DQUOTE)
+	{
+		if (*input + 1 == ' ' || *input + 1 == '\t')
+		{
+			(*token)->spaces += 2;
+			(*token)->next->spaces += 1;
+		}
+	}
+}
+
 t_tokens	*lexer(char *input)
 {
 	t_tokens		*head;
@@ -96,12 +111,10 @@ t_tokens	*lexer(char *input)
 			word = extract_operator(&input);
 		else
 			word = extract_word(&input);
-		if (word)
-		{
-			if (!type || !(type == SQUOTE || type == DQUOTE))
-				type = get_token_type(word);
-			add_token(&head, type, word);
-		}
+		if (!type || !(type == SQUOTE || type == DQUOTE))
+			type = get_token_type(word);
+		add_token(&head, type, word);
+		idspaces(&head, &input);
 	}
 	return (head);
 }

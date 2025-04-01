@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tanselbay1 <tanselbay1@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:55:16 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 14:26:04 by tanselbay1       ###   ########.fr       */
+/*   Updated: 2025/04/01 15:38:31 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 char	*read_line(void)
 {
-    char	*new_line;
-    char	*prompt;
-    char	*cwd;
-	char 	*temp;
+	char	*new_line;
+	char	*prompt;
+	char	*cwd;
+	char	*temp;
 
-    cwd = ft_getcwd();
-    prompt = ft_strjoin(C, cwd);
-    free(cwd);
-    new_line = ft_strjoin(prompt, "> " RST);
-    free(prompt);
-    if (!new_line)
-    {
-        fprintf(stderr, "lsh: allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-    temp = new_line;
-    new_line = readline(new_line);
-    free(temp);
-    if (*new_line != '\0')
-        add_history(new_line);
-    return (new_line);
+	cwd = ft_getcwd();
+	prompt = ft_strjoin(C, cwd);
+	free(cwd);
+	new_line = ft_strjoin(prompt, "> " RST);
+	free(prompt);
+	if (!new_line)
+	{
+		fprintf(stderr, "lsh: allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	temp = new_line;
+	new_line = readline(new_line);
+	free(temp);
+	if (!new_line)
+		return (NULL);
+	if (*new_line != '\0')
+		add_history(new_line);
+	return (new_line);
 }
 
 void	print_tokens(t_tokens *tokens)
@@ -89,7 +91,7 @@ static void	linkcommands(t_command **commands, t_ast *parsed)
 		ft_lstadd_back(commands, new);
 }
 
-static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
+static t_command	*make_commlist(t_tokens *tokens)
 {
 	t_command	*commands;
 	t_ast		*parsed_tokens;
@@ -98,7 +100,7 @@ static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 	commands = NULL;
 	while (tokens)
 	{
-		parsed_tokens = parse_tokens(&tokens, data);
+		parsed_tokens = parse_tokens(&tokens);
 		if (!parsed_tokens)
 			return (NULL);
 		print_ast(parsed_tokens);
@@ -115,6 +117,45 @@ static t_command	*make_commlist(t_tokens *tokens, t_shell_data *data)
 	return (commands);
 }
 
+static int	convertdollar(t_tokens *tokens, t_shell_data *data)
+{
+	t_tokens	*temp;
+
+	temp = tokens;
+	while (tokens)
+	{
+		if (tokens->token_type == DOLLAR \
+			|| ((tokens->token_type == WORD \
+			|| tokens->token_type == DQUOTE) \
+			&& ft_strchr(tokens->value, '$')))
+			handle_dollar(tokens, data);
+		tokens = tokens->next;
+	}
+	while (temp)
+	{
+		if (!temp->value)
+			return (ERROR);
+		temp = temp->next;
+	}
+	return (SUCCESS);
+}
+
+// int	reprisetokens(t_tokens *tokens)
+// {
+// 	t_tokens		*new;
+// 	t_token_type	type;
+
+// 	new = NULL;
+// 	while (tokens)
+// 	{
+// 		type = tokens->token_type;
+// 		if ((type == WORD || type == DOLLAR || type == SQUOTE || \
+// 			type = DQUOTE) && tokens->spaces > 1)
+// 		else if ()
+// 		tokens = tokens->next;
+// 	}
+// }
+
 int	parser(char *line, t_command **commands, t_shell_data *data)
 {
 	t_tokens	*tokens;
@@ -128,7 +169,9 @@ int	parser(char *line, t_command **commands, t_shell_data *data)
 		return (EINVAL);
 	}
 	print_tokens(tokens);
-	*commands = make_commlist(tokens, data);
+	if (convertdollar(tokens, data) == ERROR /*|| reprisetokens(tokens) == ERROR*/)
+		return (ENOMEM);
+	*commands = make_commlist(tokens);
 	if (commands == NULL)
 		return (ENOMEM);
 	free_tokens(tokens);
