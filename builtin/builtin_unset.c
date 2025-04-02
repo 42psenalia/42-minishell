@@ -22,7 +22,7 @@ t_exit_status	builtin_unset(int argc, char **argv, t_shell_data *data)
 
 	if (!data || !data->envar_list)
 	{
-		fprintf(stderr, "Error: Environment list is NULL\n");
+		ft_putstr_fd("Error: Environment list is NULL\n", STDERR_FILENO);
 		return (ERROR);
 	}
 	i = 1;

@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:58:08 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 13:29:38 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:42:54 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_getcwd(void)
 		path = ft_strdup("(unknown)");
 		if (!path)
 		{
-			fprintf(stderr, "Error: Memory allocation failed in ft_getcwd\n");
+			ft_putstr_fd("Error: getcwd failed to allocate\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 	}

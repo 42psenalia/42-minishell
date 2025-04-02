@@ -20,11 +20,11 @@ t_envar_list	*find_node(char *head, t_envar_list *list)
 	{
 		if (!list->content)
 		{
-			fprintf(stderr, "Error: list->content is NULL\n");
+			ft_putstr_fd("Error: env var is NULL\n", STDERR_FILENO);
 			return (NULL);
 		}
 		envar = list->content;
-		if (envar->key && ft_strcmp(envar->key, head) == 0)
+		if (envar->key && ft_strcmp(envar->key, head) == 0 && envar->value)
 			return (list);
 		list = list->next;
 	}
