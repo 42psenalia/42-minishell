@@ -6,13 +6,13 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:28 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 18:28:31 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:19:09 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*extract_word(char **input)
+static char	*extract_word(char **input, t_token_type *type)
 {
 	char	*start;
 	char	*result;
@@ -26,10 +26,11 @@ char	*extract_word(char **input)
 		(*input)++;
 	}
 	result = ft_substr(start, 0, len);
+	*type = get_token_type(result);
 	return (result);
 }
 
-char	*extract_quoted(char **input, char quote_type, t_token_type *type)
+static char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 {
 	char	*start;
 	char	*result;
@@ -45,7 +46,10 @@ char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 		(*input)++;
 	}
 	if (**input != quote_type)
+	{
+		ft_putstr_fd("minishell: quote error\n", STDERR_FILENO);
 		return (NULL);
+	}
 	result = ft_substr(start, 0, len);
 	c = **input;
 	*type = c;
@@ -53,7 +57,7 @@ char	*extract_quoted(char **input, char quote_type, t_token_type *type)
 	return (result);
 }
 
-char	*extract_operator(char **input)
+static char	*extract_operator(char **input, t_token_type *type)
 {
 	char	*result;
 
@@ -74,6 +78,7 @@ char	*extract_operator(char **input)
 	else
 		result = ft_strdup(">");
 	(*input)++;
+	*type = get_token_type(result);
 	return (result);
 }
 
@@ -91,29 +96,28 @@ static void	idspaces(t_tokens *token, char *input)
 	}
 }
 
-t_tokens	*lexer(char *input)
+int	lexer(char *input, t_tokens **head)
 {
-	t_tokens		*head;
 	t_token_type	type;
 	char			*word;
 
-	head = NULL;
 	while (*input)
 	{
-		type = 0;
 		word = NULL;
 		if (*input == ' ' || *input == '\t')
 			input++;
 		else if (*input == '\'' || *input == '"')
+		{
 			word = extract_quoted(&input, *input, &type);
+			if (!word)
+				return (EINVAL);
+		}
 		else if (*input == '|' || *input == '<' || *input == '>')
-			word = extract_operator(&input);
+			word = extract_operator(&input, &type);
 		else
-			word = extract_word(&input);
-		if (!type || !(type == SQUOTE || type == DQUOTE))
-			type = get_token_type(word);
-		add_token(&head, type, word);
-		idspaces(head, input);
+			word = extract_word(&input, &type);
+		add_token(head, type, word);
+		idspaces(*head, input);
 	}
-	return (head);
+	return (SUCCESS);
 }

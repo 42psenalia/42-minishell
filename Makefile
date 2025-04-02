@@ -45,6 +45,7 @@ PARSER_SRCS = $(PARSER_DIR)/free.c \
 	$(PARSER_DIR)/token.c \
 	$(PARSER_DIR)/utils.c \
 	$(PARSER_DIR)/parse_tokens.c \
+	$(PARSER_DIR)/parse_reprise.c \
 	$(PARSER_DIR)/parse_utils.c \
     $(PARSER_DIR)/parser.c \
 	$(PARSER_DIR)/handle_dollar.c

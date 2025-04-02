@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbayrakt <tbayrakt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:52:19 by tanselbay1        #+#    #+#             */
-/*   Updated: 2025/03/31 12:54:28 by tbayrakt         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:07:21 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ static void	detect_line(char *line, t_shell_data *data)
 	progress = parser(line, &commands, data);
 	if (progress == EINVAL || commands == NULL)
 	{
-		printf("error: no entry found\n");
+		if (commands == NULL)
+			printf("error: no entry found\n");
 		data->exit_status = ENOENT;
 		return ;
 	}
 	else if (progress == ENOMEM)
 		builtin_exit(NULL, data);
-	printf("entering execution\n----------------\n");
+	// printf("entering execution\n----------------\n");
 	data->exit_status = main_execute(&commands, data);
 }
 

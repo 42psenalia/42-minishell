@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:25 by psenalia          #+#    #+#             */
-/*   Updated: 2025/04/01 14:53:02 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:19:13 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,7 @@ char				*get_dollar(char *input, int *i);
 t_token_type		get_token_type(char *str);
 
 // LEXER.C
-t_tokens			*lexer(char *input);
-char				*extract_word(char **input);
-char				*extract_quoted(char **input, char quote_type,
-						t_token_type *type);
-char				*extract_operator(char **input);
+int					lexer(char *input, t_tokens **head);
 
 // --PARSER--
 int					parser(char *line, t_command **commands,
@@ -106,12 +102,15 @@ int					parser(char *line, t_command **commands,
 t_ast				*create_ast_node(void);
 t_ast				*parse_tokens(t_tokens **tokens);
 
+// PARSE_REPRISE.C
+t_tokens			*reprisetokens(t_tokens *tokens);
+
 // PARSE_UTILS.C
-// void	handle_pipe(t_ast **current, t_ast **head, t_tokens **tokens);
 void				handle_token(t_ast *current, t_tokens **tokens);
 void				handle_redirection(t_ast *node, t_tokens **tokens);
 void				add_argument(t_ast *node, char *arg);
 
+// HANDLE_DOLLAR.C
 void				handle_dollar(t_tokens *token, t_shell_data *data);
 
 // --FREE--

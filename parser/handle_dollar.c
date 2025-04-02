@@ -6,7 +6,7 @@
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:59:08 by tbayrakt          #+#    #+#             */
-/*   Updated: 2025/04/01 13:55:51 by psenalia         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:30:07 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ static char	*find_value(char *dollar, t_shell_data *data)
 	return (ft_strdup(""));
 }
 
-static void	print_tokens(t_tokens *tokens)
-{
-	while (tokens)
-	{
-		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type,
-			tokens->value, tokens->next);
-		tokens = tokens->next;
-	}
-}
+// static void	print_tokens(t_tokens *tokens)
+// {
+// 	while (tokens)
+// 	{
+// 		printf("Type: %d, Value: [%s], Next-> %p\n", tokens->token_type,
+// 			tokens->value, tokens->next);
+// 		tokens = tokens->next;
+// 	}
+// }
 
 static t_tokens	*lexermini(char *input)
 {
@@ -111,7 +111,7 @@ void	handle_dollar(t_tokens *token, t_shell_data *data)
 	char		*value;
 	t_tokens	*lex2;
 
-	printf("$var found\n");
+	// printf("$var found\n");
 	value = NULL;
 	if (token->token_type == DOLLAR)
 		value = find_value(token->value, data);
@@ -120,7 +120,7 @@ void	handle_dollar(t_tokens *token, t_shell_data *data)
 		lex2 = lexermini(token->value);
 		if (!lex2)
 			return ;
-		print_tokens(lex2);
+		// print_tokens(lex2);
 		searchnreplace(lex2, data);
 		value = arglue(lex2);
 		free_tokens(lex2);
