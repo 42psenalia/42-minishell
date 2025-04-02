@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   file_checkin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:59:15 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 12:59:15 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 13:00:38 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:00:38 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "builtin.h"
+#include "execute.h"
 
-t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data)
+int	check_infiles(t_ast *cmd)
 {
-	char	*path;
+	t_token_type	type;
 
-	(void) argc;
-	(void) argv;
-	path = get_envalue("PWD", data->envar_list);
-	if (path)
+	while (cmd)
 	{
-		printf("%s\n", path);
-		return (SUCCESS);
+		if (!cmd->infile)
+			return (SUCCESS);
+		type = cmd->infile->token_type;
+		if (type == REDIRIN)
+		{
+			if (access(cmd->infile->value, R_OK) != SUCCESS \
+				|| (access(cmd->infile->value, R_OK | W_OK) != SUCCESS))
+			{
+				perror(cmd->infile->value);
+				return (ERROR);
+			}
+		}
+		cmd = cmd->next;
 	}
-	path = ft_getcwd();
-	if (path)
-	{
-		printf("%s\n", path);
-		free(path);
-		return (SUCCESS);
-	}
-	path = ".";
-	printf("%s\n", path);
 	return (SUCCESS);
 }

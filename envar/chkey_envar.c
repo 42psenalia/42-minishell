@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   chkey_envar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:59:15 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 12:59:15 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 12:59:56 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 12:59:56 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "builtin.h"
+#include "envar.h"
 
-t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data)
+bool	envar_keychk(char *key)
 {
-	char	*path;
-
-	(void) argc;
-	(void) argv;
-	path = get_envalue("PWD", data->envar_list);
-	if (path)
+	if (!(ft_isalpha(*key) || *key == '_'))
+		return (false);
+	key++;
+	while (*key)
 	{
-		printf("%s\n", path);
-		return (SUCCESS);
+		if (!(ft_isalnum(*key) || *key == '_'))
+			return (false);
+		key++;
 	}
-	path = ft_getcwd();
-	if (path)
-	{
-		printf("%s\n", path);
-		free(path);
-		return (SUCCESS);
-	}
-	path = ".";
-	printf("%s\n", path);
-	return (SUCCESS);
+	return (true);
 }

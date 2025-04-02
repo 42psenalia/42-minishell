@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/03/16 12:59:18 by psenalia          #+#    #+#             */
 /*   Updated: 2025/03/16 12:59:18 by psenalia         ###   ########.fr       */
 /*                                                                            */
@@ -13,10 +16,15 @@
 #include "../libft/libft.h"
 #include "builtin.h"
 
-t_exit_status	builtin_unset(int argc, char *argv, t_shell_data *data)
+t_exit_status	builtin_unset(int argc, char **argv, t_shell_data *data)
 {
-	int		i;
+	int	i;
 
+	if (!data || !data->envar_list)
+	{
+		ft_putstr_fd("Error: Environment list is NULL\n", STDERR_FILENO);
+		return (ERROR);
+	}
 	i = 1;
 	while (i < argc)
 	{

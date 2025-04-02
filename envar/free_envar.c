@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   free_envar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:58:45 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 12:58:45 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 13:00:12 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:00:12 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "builtin.h"
+#include "envar.h"
 
-t_exit_status	builtin_env(int argc, char **argv, t_shell_data *data)
+void	free_envar(void *var)
 {
-	(void) argc;
-	(void) argv;
-	print_envar_list(data->envar_list);
-	return (SUCCESS);
+	t_envar	*env;
+
+	env = var;
+	free(env->key);
+	free(env->value);
+	free(env);
+}
+
+void	free_envarlst(t_envar_list **list)
+{
+	ft_lstclear(list, free_envar);
 }

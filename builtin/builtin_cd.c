@@ -36,13 +36,13 @@ static bool	update_shell_variable(char *old_path, t_shell_data *data)
 	char			*current_path;
 	t_envar_list	*set_node;
 
-	set_node = set_envar("OLDPWD", old_path, &data->envar_list);
+	set_node = setenvar("OLDPWD", old_path, &data->envar_list);
 	if (set_node == NULL)
 		return (false);
 	current_path = ft_getcwd();
 	if (current_path == NULL)
 		return (false);
-	set_node = set_envar("PWD", current_path, &data->envar_list);
+	set_node = setenvar("PWD", current_path, &data->envar_list);
 	free(current_path);
 	if (set_node == NULL)
 		return (false);
@@ -69,13 +69,13 @@ t_exit_status	builtin_cd(int argc, char **argv, t_shell_data *data)
 	char	*old_path;
 	char	*new_path;
 
-	if (argc >= 3)
+	if (argc > 2)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
 		return (ERROR);
 	}
-	old_path = get_envalue("PWD", data->env_var_list);
-	new_path = get_path(argc, argv, data->env_var_list);
+	old_path = get_envalue("PWD", data->envar_list);
+	new_path = get_path(argc, argv, data->envar_list);
 	if (new_path == NULL)
 		return (ERROR);
 	if (!change_directory(old_path, new_path, data))

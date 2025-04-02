@@ -1,74 +1,86 @@
 NAME = minishell
 
-CC = clang
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g -O0
 
-CFLAGS = -Wall -Wextra -Werror -g -I includes/ -I libft/includes/
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-READLINEFLAG = -lreadline
+BUILTIN_DIR = ./builtin
+BUILTIN_SRCS = $(BUILTIN_DIR)/builtin_cd.c \
+	$(BUILTIN_DIR)/builtin_echo.c \
+	$(BUILTIN_DIR)/builtin_env.c \
+	$(BUILTIN_DIR)/builtin_execute.c \
+	$(BUILTIN_DIR)/builtin_exit.c \
+	$(BUILTIN_DIR)/builtin_export.c \
+	$(BUILTIN_DIR)/builtin_name.c \
+	$(BUILTIN_DIR)/builtin_pwd.c \
+	$(BUILTIN_DIR)/builtin_unset.c
 
-LIBFT = -L libft -lft
+ENVAR_DIR = ./envar
+ENVAR_SRCS = $(ENVAR_DIR)/chkey_envar.c \
+	$(ENVAR_DIR)/create_envar.c \
+	$(ENVAR_DIR)/find_envnode.c \
+	$(ENVAR_DIR)/form_envar.c \
+	$(ENVAR_DIR)/free_envar.c \
+	$(ENVAR_DIR)/get_envar.c \
+	$(ENVAR_DIR)/print_del_envar.c \
+	$(ENVAR_DIR)/set_envar.c
 
-HEADER = minishell.h
+EXECUTE_DIR = ./execute
+EXECUTE_SRCS = $(EXECUTE_DIR)/execute.c \
+	$(EXECUTE_DIR)/execute_builtin.c \
+	$(EXECUTE_DIR)/file_checkin.c \
+	$(EXECUTE_DIR)/path_findjoin.c \
+	$(EXECUTE_DIR)/processchild.c \
+	$(EXECUTE_DIR)/processparent.c \
+	$(EXECUTE_DIR)/processwait.c \
+	$(EXECUTE_DIR)/redir_heredoc.c \
+	$(EXECUTE_DIR)/redir_inout.c \
+	$(EXECUTE_DIR)/setup_cmdlist.c
 
-BUILTINS = cd echo env exit export pwd unset
+PARSER_DIR = ./parser
+PARSER_SRCS = $(PARSER_DIR)/free.c \
+	$(PARSER_DIR)/lexer.c \
+	$(PARSER_DIR)/token.c \
+	$(PARSER_DIR)/utils.c \
+	$(PARSER_DIR)/parse_tokens.c \
+	$(PARSER_DIR)/parse_reprise.c \
+	$(PARSER_DIR)/parse_utils.c \
+    $(PARSER_DIR)/parser.c \
+	$(PARSER_DIR)/handle_dollar.c
 
-ENV = env get_env sort_env shlvl
+SRCS = main.c \
+	shellstart.c \
+	setsig.c \
+	$(BUILTIN_SRCS) \
+	$(ENVAR_SRCS) \
+	$(EXECUTE_SRCS) \
+	$(PARSER_SRCS)
 
-EXEC = bin builtin exec
+OBJS = $(SRCS:.c=.o)
 
-MAIN = minishell redir signal
-
-PARSING = line tokens expansions
-
-TOOLS = fd free token type expansions parsing
-
-# SRC = $(addsuffix .c, $(addprefix srcs/builtins/, $(BUILTINS))) \
-# 	  $(addsuffix .c, $(addprefix srcs/env/, $(ENV))) \
-# 	  $(addsuffix .c, $(addprefix srcs/exec/, $(EXEC))) \
-# 	  $(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
-# 	  $(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
-# 	  $(addsuffix .c, $(addprefix srcs/tools/, $(TOOLS))) \
-
-SRC = main.c ./lexer/token.c ./lexer/lexer.c ./lexer/utils.c \
-	./parser/parse_tokens.c ./parser/parse_utils.c ./free/free.c
-
-OBJ = $(SRC:c=o)
+INCLUDES = -I ./ -I $(LIBFT_DIR) -I $(BUILTIN_DIR) -I $(ENVAR_DIR) -I $(EXECUTE_DIR) -I $(PARSER_DIR)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@echo "\n"
-	@make -C libft/
-	@echo "\033[0;32mCompiling minishell..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINEFLAG) $(LIBFT)
-	@echo "\n\033[0mDone !"
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 %.o: %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	@${CC} ${CFLAGS} -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@echo "\033[0;31mCleaning libft..."
-	@make clean -C libft/
-	@echo "\nRemoving binaries..."
-	@rm -f $(OBJ)
-	@echo "\033[0m"
+	make clean -C $(LIBFT_DIR)
+	rm -f $(OBJS)
 
-fclean:
-	@echo "\033[0;31mCleaning libft..."
-	@make fclean -C libft/
-	@echo "\nDeleting objects..."
-	@rm -f $(OBJ)
-	@echo "\nDeleting executable..."
-	@rm -f $(NAME)
-	@echo "\033[0m"
+fclean: clean
+	make fclean -C $(LIBFT_DIR)
+	rm -f $(NAME)
 
 re: fclean all
 
-test: all
-	./minishell
-
-norm:
-	norminette $(SRC) includes/$(HEADER)
-
-.PHONY: clean fclean re test norm
+.PHONY: all clean fclean re

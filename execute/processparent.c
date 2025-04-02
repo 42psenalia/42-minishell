@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   processparent.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:59:15 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 12:59:15 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 13:00:56 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:00:56 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "builtin.h"
+#include "execute.h"
 
-t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data)
+void	ft_parentprocess(t_list *cmd_lst, int *prev_fd, t_execute *cmd)
 {
-	char	*path;
-
-	(void) argc;
-	(void) argv;
-	path = get_envalue("PWD", data->envar_list);
-	if (path)
+	if (cmd_lst->next)
 	{
-		printf("%s\n", path);
-		return (SUCCESS);
+		close(cmd->pipe_fds[1]);
+		if (*prev_fd != -1)
+			close(*prev_fd);
+		*prev_fd = cmd->pipe_fds[0];
 	}
-	path = ft_getcwd();
-	if (path)
-	{
-		printf("%s\n", path);
-		free(path);
-		return (SUCCESS);
-	}
-	path = ".";
-	printf("%s\n", path);
-	return (SUCCESS);
+	else if (*prev_fd != -1)
+		close(*prev_fd);
 }

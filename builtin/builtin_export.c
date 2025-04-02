@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/16 13:50:09 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:50:09 by psenalia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <errno.h>
 #include <stdio.h>
 #include "builtin.h"
 #include "../libft/libft.h"
-#include "../env_var/envar.h"
+#include "../envar/envar.h"
 
 static void	sort_envp_arr(char **arr)
 {
@@ -28,7 +40,7 @@ static void	sort_envp_arr(char **arr)
 	}
 }
 
-static int	print_declared_variables(t_env_var_list *list)
+static int	print_declared_variables(t_envar_list *list)
 {
 	char	**arr;
 	int		i;
@@ -44,7 +56,7 @@ static int	print_declared_variables(t_env_var_list *list)
 		key_value = formkeyvar(arr[i]);
 		if (ft_strlen(key_value[1]) == 0)
 			arr[i][ft_strlen(arr[i]) - 1] = '\0';
-		printf("declare -x %s\n", arr[i]);
+		printf("declare -x %s=\"%s\"\n", key_value[0], key_value[1]);
 		free_strarray(key_value, 2);
 		i++;
 	}
@@ -60,13 +72,13 @@ static int	export_single_var(char *key_value_str, t_shell_data *data)
 
 	if (ft_strchr(key_value_str, '='))
 	{
-		key_value_pair = split_env_var_line(key_value_str);
+		key_value_pair = formkeyvar(key_value_str);
 		if (key_value_pair == NULL)
 			return (ENOMEM);
 		if (!envar_keychk(key_value_pair[0]))
 			return (ERROR);
 		node = setenvar(key_value_pair[0], key_value_pair[1],
-				&data->env_var_list);
+				&data->envar_list);
 		free_strarray(key_value_pair, 2);
 		if (node == NULL)
 			return (ENOMEM);
@@ -76,7 +88,7 @@ static int	export_single_var(char *key_value_str, t_shell_data *data)
 		key_str = key_value_str;
 		if (!envar_keychk(key_str))
 			return (ERROR);
-		setenvar(key_str, NULL, &data->env_var_list);
+		setenvar(key_str, NULL, &data->envar_list);
 	}
 	return (SUCCESS);
 }
@@ -88,7 +100,7 @@ t_exit_status	builtin_export(int argc, char **argv, t_shell_data *data)
 	int				i;
 
 	if (argc == 1)
-		return (print_declared_variables(data->env_var_list));
+		return (print_declared_variables(data->envar_list));
 	ret = SUCCESS;
 	i = 1;
 	while (i < argc)

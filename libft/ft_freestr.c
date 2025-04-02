@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   ft_freestr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenalia <psenalia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:59:15 by psenalia          #+#    #+#             */
-/*   Updated: 2025/03/16 12:59:15 by psenalia         ###   ########.fr       */
+/*   Created: 2025/03/16 13:01:18 by psenalia          #+#    #+#             */
+/*   Updated: 2025/03/16 13:01:18 by psenalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "builtin.h"
+#include "libft.h"
 
-t_exit_status	builtin_pwd(int argc, char **argv, t_shell_data *data)
+static void	free_n_items(char **arr, size_t n)
 {
-	char	*path;
+	size_t	i;
 
-	(void) argc;
-	(void) argv;
-	path = get_envalue("PWD", data->envar_list);
-	if (path)
+	i = 0;
+	while (i < n)
 	{
-		printf("%s\n", path);
-		return (SUCCESS);
+		free(arr[i]);
+		i++;
 	}
-	path = ft_getcwd();
-	if (path)
+}
+
+static void	free_till_null(char **arr)
+{
+	while (*arr)
 	{
-		printf("%s\n", path);
-		free(path);
-		return (SUCCESS);
+		free(*arr);
+		arr++;
 	}
-	path = ".";
-	printf("%s\n", path);
-	return (SUCCESS);
+}
+
+void	free_strarray(char **array, size_t n)
+{
+	if (n > 0)
+		free_n_items(array, n);
+	else
+		free_till_null(array);
+	free(array);
 }
